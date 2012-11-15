@@ -7,6 +7,8 @@ module.exports = {
     run: function (d, v, namedArgs, appName) {
       // Now, get the submodules!
       if (v.exists('.git')) {
+        console.log('git', 'submodule', 'add', 'https://github.com/mozilla/addon-sdk.git', '.addon-sdk')
+        v.spawn('git', ['submodule', 'add', 'https://github.com/mozilla/addon-sdk.git', '.addon-sdk']);
         console.log('git', 'submodule', 'init');
         v.spawn('git', ['submodule', 'init']);
         console.log('git', 'submodule', 'update');
