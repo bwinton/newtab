@@ -1,17 +1,18 @@
 {
-  "name": "addon",
-  "fullName": "addon",
-  "description": "a basic add-on",
-  "author": "",
-  "license": "MPL 2.0",
-  "version": "0.1",
-  "contributors": [],
-  "repository": {},
-  "bugs": {},
-  "preferences": [],
-  "amd": {},
-  "volo": {
-    "baseUrl": "data/js/lib",
-    "dependencies": {}
-  }
+    "preferences": [], 
+    "name": "addon", 
+    "license": "MPL 2.0", 
+    "author": "", 
+    "volo": {
+        "dependencies": {}, 
+        "baseUrl": "data/js/lib"
+    }, 
+    "bugs": {}, 
+    "amd": {}, 
+    "repository": {}, 
+    "version": "0.1", 
+    "contributors": [], 
+    "fullName": "addon", 
+    "id": "jid1-npryZKSevuJf5w", 
+    "description": "a basic add-on"
 }
