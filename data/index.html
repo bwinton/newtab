@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <title>Blake’s Mozilla Project Pages</title>
     <style>
+
+body {
+  font: 15px/16px Segoe UI, Verdana, sans-serif;
+  background-color: rgb(229, 229, 229);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Top stuff */
+
+#top > .button {
+  background-repeat: no-repeat;
+  background-position: left top;
+  margin: 10px;
+  padding-left: 20px;
+}
 
 #top > .separator {
     width: 3px;
     min-width: 3px;
-    margin: 0px 3px 0px 1px;
+    margin: 0px 10px;
     background-image: linear-gradient(rgba(255, 255, 255, 0),
                                       rgba(255, 255, 255, 0.3) 30%,
                                       rgba(255, 255, 255, 0.3) 70%,
@@ -29,21 +46,42 @@
 #top > img {
   width: 16px;
   height: 16px;
-  vertical-align: middle;
+  vertical-align: top;
+  margin: 0px 3px;
 }
+
+
+/* Top Buttons */
+
+#home {
+  background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 120, 20, 100);
+}
+
+#apps {
+  background-image: -moz-image-rect(url(chrome://browser/skin/webapps-16.png), 0, 20, 20, 0);
+}
+
+#whatsnew {
+  background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 320, 20, 300);
+}
+
+
 
     </style>
   </head>
   <body>
 
-    <div id="top">
-      <span class="separator">&nbsp;</span>
-      <img src="chrome://browser/content/abouthome/downloads.png" alt="Downloads">
-      <img src="chrome://browser/content/abouthome/bookmarks.png" alt="Bookmarks">
-      <img src="chrome://browser/content/abouthome/addons.png" alt="Add-ons">
-      <img src="chrome://browser/content/abouthome/settings.png" alt="Settings">
+    <div id='top'>
+      <span id='home' class='button'>Home</span>
+      <span id='apps' class='button'>Apps</span>
+      <span id='whatsnew' class='button'>What’s New!</span>
+      <span class='separator'>&nbsp;</span>
+      <img src='chrome://browser/content/abouthome/downloads.png' alt='Downloads'>
+      <img src='chrome://browser/content/abouthome/bookmarks.png' alt='Bookmarks'>
+      <img src='chrome://browser/content/abouthome/addons.png' alt='Add-ons'>
+      <img src='chrome://browser/content/abouthome/settings.png' alt='Settings'>
     </div>
 
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src='http://code.jquery.com/jquery-latest.js'></script>
   </body>
 </html>
