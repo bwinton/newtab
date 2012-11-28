@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blake’s Mozilla Project Pages</title>
+    <style>
+
+#top > .separator {
+    width: 3px;
+    min-width: 3px;
+    margin: 0px 3px 0px 1px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0),
+                                      rgba(255, 255, 255, 0.3) 30%,
+                                      rgba(255, 255, 255, 0.3) 70%,
+                                      rgba(255, 255, 255, 0)),
+                      linear-gradient(rgba(23, 51, 78, 0),
+                                      rgba(23, 51, 78, 0.3) 30%,
+                                      rgba(23, 51, 78, 0.3) 70%,
+                                      rgba(23, 51, 78, 0)),
+                      linear-gradient(rgba(255, 255, 255, 0),
+                                      rgba(255, 255, 255, 0.3) 30%,
+                                      rgba(255, 255, 255, 0.3) 70%,
+                                      rgba(255, 255, 255, 0));
+    background-size: 1px auto, 1px auto, 1px auto;
+    background-position: left top, center top, right top;
+    background-repeat: no-repeat;
+}
+
+#top > img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+    </style>
+  </head>
+  <body>
+
+    <div id="top">
+      <span class="separator">&nbsp;</span>
+      <img src="chrome://browser/content/abouthome/downloads.png" alt="Downloads">
+      <img src="chrome://browser/content/abouthome/bookmarks.png" alt="Bookmarks">
+      <img src="chrome://browser/content/abouthome/addons.png" alt="Add-ons">
+      <img src="chrome://browser/content/abouthome/settings.png" alt="Settings">
+    </div>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+  </body>
+</html>
