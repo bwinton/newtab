@@ -2,158 +2,219 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <title>Blake’s Mozilla Project Pages</title>
+    <title>About New Home</title>
+    <script type="text/javascript" src="http://x-tags.org/x-tag.js"></script>
+    <script type="text/javascript">
+      xtag.register("history", {
+        onCreate: function(){
+          var self = $(this);
+          self.html('<div class="media">' +
+              '<div class="img"><img src="' +
+                (self.attr('img') || 'http://g.etfv.co/' + self.attr('url')) + '"></div>' +
+              '<div class="bd">' +
+                  '<div class="title">' + self.text() + '</div>' +
+                  '<div class="url">' + self.attr('url') + '</div>' +
+              '</div>' +
+          '</div>');
+        },
+      });
+    </script>
     <style>
 
-body {
-  font: 15px/16px Segoe UI, Verdana, sans-serif;
-  background-color: rgb(229, 229, 229);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  margin: 20px;
-  height: calc(100vh - 40px);
-}
+/* Base stuff */
 
-#container {
-  display: -moz-box;
-  -moz-box-orient: vertical;
-  width: 100%;
-  height: 100%;
-}
+  body {
+    font: 15px/16px Segoe UI, Verdana, sans-serif;
+    background-color: rgb(229, 229, 229);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 20px;
+    height: calc(100vh - 40px);
+  }
 
+  #container {
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    width: 100%;
+    height: 100%;
+  }
+
+
+/* Utils */
+
+  /* Debug
+
+  #container > div {
+    border: 1px solid red;
+  }
+  #container > div > * {
+    border: 1px solid red;
+  }
+ */
+  /* ====== media ====== */
+  .media {
+    margin: 20px;
+    white-space: nowrap;
+  }
+  .media, .bd {
+    overflow: hidden;
+    _overflow: visible;
+    zoom: 1;
+  }
+  .media .img {
+    float: left;
+    margin-right: 10px;
+  }
+  .media .img img {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+  .media .imgExt {
+    float: right;
+    margin-left: 10px;
+  }
+  .media .title {
+    font-size: 120%;
+  }
+  .media .url {
+    color: #888;
+    font-size: 80%;
+  }
 
 /* Top stuff */
 
-#top > .button {
-  background-repeat: no-repeat;
-  background-position: left top;
-  margin: 10px;
-  padding-left: 20px;
-}
-
-#top > .separator {
-    width: 3px;
-    min-width: 3px;
-    margin: 0px 10px;
-    background-image: linear-gradient(rgba(255, 255, 255, 0),
-                                      rgba(255, 255, 255, 0.3) 30%,
-                                      rgba(255, 255, 255, 0.3) 70%,
-                                      rgba(255, 255, 255, 0)),
-                      linear-gradient(rgba(23, 51, 78, 0),
-                                      rgba(23, 51, 78, 0.3) 30%,
-                                      rgba(23, 51, 78, 0.3) 70%,
-                                      rgba(23, 51, 78, 0)),
-                      linear-gradient(rgba(255, 255, 255, 0),
-                                      rgba(255, 255, 255, 0.3) 30%,
-                                      rgba(255, 255, 255, 0.3) 70%,
-                                      rgba(255, 255, 255, 0));
-    background-size: 1px auto, 1px auto, 1px auto;
-    background-position: left top, center top, right top;
+  #top > .button {
     background-repeat: no-repeat;
-}
+    background-position: left top;
+    margin: 10px;
+    padding-left: 20px;
+  }
 
-#top > img {
-  width: 16px;
-  height: 16px;
-  vertical-align: top;
-  margin: 0px 3px;
-}
+  #top > .separator {
+      width: 3px;
+      min-width: 3px;
+      margin: 0px 10px;
+      background-image: linear-gradient(rgba(255, 255, 255, 0),
+                                        rgba(255, 255, 255, 0.3) 30%,
+                                        rgba(255, 255, 255, 0.3) 70%,
+                                        rgba(255, 255, 255, 0)),
+                        linear-gradient(rgba(23, 51, 78, 0),
+                                        rgba(23, 51, 78, 0.3) 30%,
+                                        rgba(23, 51, 78, 0.3) 70%,
+                                        rgba(23, 51, 78, 0)),
+                        linear-gradient(rgba(255, 255, 255, 0),
+                                        rgba(255, 255, 255, 0.3) 30%,
+                                        rgba(255, 255, 255, 0.3) 70%,
+                                        rgba(255, 255, 255, 0));
+      background-size: 1px auto, 1px auto, 1px auto;
+      background-position: left top, center top, right top;
+      background-repeat: no-repeat;
+  }
+
+  #top > img {
+    width: 16px;
+    height: 16px;
+    vertical-align: top;
+    margin: 0px 3px;
+  }
 
 
-/* Top Buttons */
+  /* Top Buttons */
 
-#home {
-  background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 120, 20, 100);
-}
+    #home {
+      background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 120, 20, 100);
+    }
 
-#apps {
-  background-image: -moz-image-rect(url(chrome://browser/skin/webapps-16.png), 0, 20, 20, 0);
-}
+    #apps {
+      background-image: -moz-image-rect(url(chrome://browser/skin/webapps-16.png), 0, 20, 20, 0);
+    }
 
-#whatsnew {
-  background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 320, 20, 300);
-}
+    #whatsnew {
+      background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 320, 20, 300);
+    }
 
-#search {
-  display: inline-block;
-  -moz-user-select: -moz-none;
-  background-color: hsla(0,0%,100%,.9);
-  border: 1px solid transparent;
-  border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
-  border-radius: 2px;
-  box-shadow: 0 1px 0 hsla(0,0%,0%,.01) inset,
-              0 1px 0 hsla(0,0%,100%,.1);
-  color: #808080;
-  outline-style: none;
-  overflow: hidden;
+    #search {
+      display: inline-block;
+      -moz-user-select: -moz-none;
+      background-color: hsla(0,0%,100%,.9);
+      border: 1px solid transparent;
+      border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
+      border-radius: 2px;
+      box-shadow: 0 1px 0 hsla(0,0%,0%,.01) inset,
+                  0 1px 0 hsla(0,0%,100%,.1);
+      color: #808080;
+      outline-style: none;
+      overflow: hidden;
 
-  width: 28%;
-  float: right;
-  height: 27px;
-}
+      width: 28%;
+      float: right;
+      height: 27px;
+    }
 
-#search > .button {
-  cursor: default;
-  float:right;
-  background-color: #FCFCFC;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
-  height: 100%;
-  padding: 5px 10px;
+    #search > .button {
+      cursor: default;
+      float:right;
+      background-color: #FCFCFC;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+      height: 100%;
+      padding: 5px 10px;
 
-  border-left: 1px solid transparent;
-  border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
-}
+      border-left: 1px solid transparent;
+      border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
+    }
 
-#search > .terms {
-  -moz-user-select: text;
-  cursor: text;
-}
+    #search > .terms {
+      -moz-user-select: text;
+      cursor: text;
+    }
 
 
 /* Middle stuff */
 
-#middle {
-  -moz-box-flex: 1;
-  padding: 4vh;
-}
+  #middle {
+    -moz-box-flex: 1;
+    padding: 4vh;
+  }
 
-#middle > div {
-  height: 65vh;
-}
+  #middle > div {
+    height: 65vh;
+  }
 
-#topsites {
-  margin-left: 5%;
-  width: 65%;
-}
+  #topsites {
+    margin-left: 5%;
+    width: 65%;
+  }
 
-#history {
-  float: right;
-  width: 20%;
-  margin-right: 5%;
-}
+  #history {
+    float: right;
+    width: 20%;
+    margin-right: 5%;
+  }
 
 
 /* Bottom stuff */
 
-#bottom {
-  padding: 4vh;
-}
+  #bottom {
+    padding: 4vh;
+  }
 
-#bottom > div {
-  height: 10vh;
-}
+  #bottom > div {
+    height: 10vh;
+  }
 
-#weather {
-  margin-left: 2%;
-  width: 30%;
-}
+  #weather {
+    margin-left: 2%;
+    width: 30%;
+  }
 
-#snippet {
-  float: right;
-  width: 30%;
-  margin-right: 2%;
-}
+  #snippet {
+    float: right;
+    width: 30%;
+    margin-right: 2%;
+  }
+
 
     </style>
   </head>
@@ -172,7 +233,13 @@ body {
         <div id='search'><div class='button'>Search</div><div class='terms'>&nbsp;</div></div>
       </div>
       <div id='middle'>
-        <div id='history'>History!</div>
+        <div id='history'><h3>History!</h3>
+          <history img='https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'
+                   url='https://www.dropbox.com/'>Dropbox</history>
+          <history url='http://yelp.com/'>Yelp</history>
+          <history url='http://amazon.com/'>Amazon</history>
+          <history url='http://www.npr.org/'>NPR</history>
+        </div>
         <div id='topsites'>Top Sites!</div>
       </div>
       <div id='bottom'>
