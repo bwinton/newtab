@@ -11,6 +11,7 @@ body {
   background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
   background-repeat: no-repeat;
   background-attachment: fixed;
+  margin: 20px;
 }
 
 /* Top stuff */
@@ -65,7 +66,40 @@ body {
   background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 320, 20, 300);
 }
 
+#search {
+  display: inline-block;
+  -moz-user-select: -moz-none;
+  background-color: hsla(0,0%,100%,.9);
+  border: 1px solid transparent;
+  border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
+  border-radius: 2px;
+  box-shadow: 0 1px 0 hsla(0,0%,0%,.01) inset,
+              0 1px 0 hsla(0,0%,100%,.1);
+  color: #808080;
+  outline-style: none;
+  overflow: hidden;
 
+  width: 28%;
+  float: right;
+  height: 27px;
+}
+
+#search > .button {
+  cursor: default;
+  float:right;
+  background-color: #FCFCFC;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+  height: 100%;
+  padding: 5px 10px;
+
+  border-left: 1px solid transparent;
+  border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
+}
+
+#search > .terms {
+  -moz-user-select: text;
+  cursor: text;
+}
 
     </style>
   </head>
@@ -80,6 +114,7 @@ body {
       <img src='chrome://browser/content/abouthome/bookmarks.png' alt='Bookmarks'>
       <img src='chrome://browser/content/abouthome/addons.png' alt='Add-ons'>
       <img src='chrome://browser/content/abouthome/settings.png' alt='Settings'>
+      <div id='search'><div class='button'>Search</div><div class='terms'>&nbsp;</div></div>
     </div>
 
     <script src='http://code.jquery.com/jquery-latest.js'></script>
