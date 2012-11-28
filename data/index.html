@@ -12,7 +12,16 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 20px;
+  height: calc(100vh - 40px);
 }
+
+#container {
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  width: 100%;
+  height: 100%;
+}
+
 
 /* Top stuff */
 
@@ -101,20 +110,75 @@ body {
   cursor: text;
 }
 
+
+/* Middle stuff */
+
+#middle {
+  -moz-box-flex: 1;
+  padding: 4vh;
+}
+
+#middle > div {
+  height: 65vh;
+}
+
+#topsites {
+  margin-left: 5%;
+  width: 65%;
+}
+
+#history {
+  float: right;
+  width: 20%;
+  margin-right: 5%;
+}
+
+
+/* Bottom stuff */
+
+#bottom {
+  padding: 4vh;
+}
+
+#bottom > div {
+  height: 10vh;
+}
+
+#weather {
+  margin-left: 2%;
+  width: 30%;
+}
+
+#snippet {
+  float: right;
+  width: 30%;
+  margin-right: 2%;
+}
+
     </style>
   </head>
   <body>
 
-    <div id='top'>
-      <span id='home' class='button'>Home</span>
-      <span id='apps' class='button'>Apps</span>
-      <span id='whatsnew' class='button'>What’s New!</span>
-      <span class='separator'>&nbsp;</span>
-      <img src='chrome://browser/content/abouthome/downloads.png' alt='Downloads'>
-      <img src='chrome://browser/content/abouthome/bookmarks.png' alt='Bookmarks'>
-      <img src='chrome://browser/content/abouthome/addons.png' alt='Add-ons'>
-      <img src='chrome://browser/content/abouthome/settings.png' alt='Settings'>
-      <div id='search'><div class='button'>Search</div><div class='terms'>&nbsp;</div></div>
+    <div id='container'>
+      <div id='top'>
+        <span id='home' class='button'>Home</span>
+        <span id='apps' class='button'>Apps</span>
+        <span id='whatsnew' class='button'>What’s New!</span>
+        <span class='separator'>&nbsp;</span>
+        <img src='chrome://browser/content/abouthome/downloads.png' alt='Downloads'>
+        <img src='chrome://browser/content/abouthome/bookmarks.png' alt='Bookmarks'>
+        <img src='chrome://browser/content/abouthome/addons.png' alt='Add-ons'>
+        <img src='chrome://browser/content/abouthome/settings.png' alt='Settings'>
+        <div id='search'><div class='button'>Search</div><div class='terms'>&nbsp;</div></div>
+      </div>
+      <div id='middle'>
+        <div id='history'>History!</div>
+        <div id='topsites'>Top Sites!</div>
+      </div>
+      <div id='bottom'>
+        <div id='snippet'>Snippet!</div>
+        <div id='weather'>Weather!  It’s raining!</div>
+      </div>
     </div>
 
     <script src='http://code.jquery.com/jquery-latest.js'></script>
