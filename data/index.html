@@ -18,6 +18,22 @@
           '</div>');
         },
       });
+
+      xtag.register("site", {
+        onCreate: function(){
+          var self = $(this);
+          self.html('<div class="newtab-link" ' +
+             'title="' + self.text() + ' ' + + self.attr('url') + '" ' +
+             'href="' + self.attr('url') + '">' +
+            '<div class="newtab-thumbnail" ' +
+                  'style="background-image: ' +
+                  'url(&quot;moz-page-thumb://thumbnail?url=' + encodeURIComponent(self.attr('url')) +
+                  '&quot;);"></div>' +
+            '<div class="newtab-title">' + self.text() + '</div>' +
+          '</div>');
+        },
+      });
+
     </script>
     <style>
 
@@ -185,6 +201,7 @@
   #topsites {
     margin-left: 5%;
     width: 65%;
+    position: relative;
   }
 
   #history {
@@ -193,6 +210,28 @@
     margin-right: 5%;
   }
 
+  .newtab-link {
+    float: left;
+    margin: 1%;
+    width: 30%;
+    height: 30%;
+  }
+
+  .newtab-thumbnail {
+    background-origin: padding-box;
+    background-clip: padding-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 90%;
+  }
+
+  .newtab-title {
+    width: 100%;
+    height: 10%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
 /* Bottom stuff */
 
@@ -240,7 +279,12 @@
           <history url='http://amazon.com/'>Amazon</history>
           <history url='http://www.npr.org/'>NPR</history>
         </div>
-        <div id='topsites'>Top Sites!</div>
+        <div id='topsites'>
+          <site url="http://www.weatheroffice.gc.ca/city/pages/on-143_metric_e.html">Toronto, Ontario - 7 Day Forecast - Environment Canada</site>
+          <site url="https://bugzilla.mozilla.org/request.cgi?action=queue&requestee=bwinton@mozilla.com">Request Queue</site>
+          <site url="https://people.mozilla.com/~bwinton/australis/customization/mac/">Home</site>
+          <site url="https://mail.mozilla.com/zimbra/#1">Zimbra: Inbox</site>
+        </div>
       </div>
       <div id='bottom'>
         <div id='snippet'>Snippet!</div>
