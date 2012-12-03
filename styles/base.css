@@ -3,8 +3,11 @@
 
 body {
   font: 15px/16px Segoe UI, Verdana, sans-serif;
-  background-color: rgb(229, 229, 229);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+  background-color: #bbf;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8) 90%,
+      rgba(255, 255, 255, 0.5));
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 20px;
@@ -38,7 +41,6 @@ body {
 .media, .bd {
   overflow: hidden;
   _overflow: visible;
-  zoom: 1;
 }
 .media .img {
   float: left;
@@ -110,7 +112,7 @@ body {
   }
 
   #whatsnew {
-    background-image: url(https://people.mozilla.com/~bwinton/newtab/whats_new_icon.png);
+    background-image: url(https://people.mozilla.com/~bwinton/newtab/images/whats_new_icon.png);
   }
 
   #search {
@@ -173,30 +175,34 @@ body {
 }
 
 .newtab-link.blank {
-  border: 1px solid blue;
+  border: 1px dashed #AAA;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .newtab-link {
+  border: 1px solid #AAA;
   float: left;
   margin: 1%;
   width: 30%;
   height: 30%;
-}
-
-.newtab-thumbnail {
   background-origin: padding-box;
   background-clip: padding-box;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.newtab-thumbnail {
   width: 100%;
-  height: 90%;
+  height: calc(100% - 1em - 14px);
 }
 
 .newtab-title {
-  width: 100%;
-  height: 10%;
+  width: calc(100% - 14px);
+  height: 1em;
+  padding: 7px;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 /* Bottom stuff */
@@ -214,8 +220,25 @@ body {
   width: 30%;
 }
 
-#snippet {
+#snippetContainer {
   float: right;
   width: 30%;
   margin-right: 2%;
+}
+
+#defaultSnippet1,
+#defaultSnippet2 {
+  display: block;
+  min-height: 38px;
+  background: 30px center no-repeat;
+  padding: 6px 0;
+  -moz-padding-start: 79px;
+}
+
+#defaultSnippet1 {
+  background-image: url("chrome://browser/content/abouthome/snippet1.png");
+}
+
+#defaultSnippet2 {
+  background-image: url("chrome://browser/content/abouthome/snippet2.png");
 }

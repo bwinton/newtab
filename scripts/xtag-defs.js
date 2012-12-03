@@ -23,13 +23,12 @@ xtag.register("site", {
     if (self.attr('url')) {
       var thumb = 'moz-page-thumb://thumbnail?url=' + encodeURIComponent(self.attr('url'));
       if (self.attr('img'))
-        thumb = 'https://people.mozilla.com/~bwinton/newtab/images/' + self.attr('img') + '.png';
-      self.html('<div class="newtab-link" ' +
+        thumb = 'http://people.mozilla.com/~bwinton/newtab/images/' + self.attr('img') + '.png';
+      self.html('<div class="newtab-link"  ' +
+          'style="background-image: url(' + thumb + ');"' +
           'title="' + self.text() + ' ' + self.attr('url') + '" ' +
           'href="' + self.attr('url') + '">' +
-        '<div class="newtab-thumbnail" ' +
-          'style="background-image: ' +
-          'url(' + thumb + ');"></div>' +
+        '<div class="newtab-thumbnail"></div>' +
         '<div class="newtab-title">' + self.text() + '</div>' +
       '</div>');
     } else {
