@@ -5,7 +5,7 @@ $(function () {
   $('history').add('site').click(function(e) {
     var url = $(this).attr('url');
     if (url)
-      alert("Clicked on "+url);
+      window.location = url;
   });
 
   loadSnippets();

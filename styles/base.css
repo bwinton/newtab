@@ -72,11 +72,8 @@ body {
   background-repeat: no-repeat;
   background-position: left top;
 
-  margin: 16px 1px;
-  padding: 10px 6px;
-  min-width: 88px;
-  max-width: 176px;
-  max-height: 85px;
+  margin: 10px 1px;
+  padding: 6px 6px;
   vertical-align: top;
   white-space: normal;
   background: transparent padding-box;
@@ -135,14 +132,17 @@ body {
 
   #home::before {
     content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-home-small.png");
+    margin-right: 5px;
   }
 
   #apps::before {
     content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-addons-small.png");
+    margin-right: 5px;
   }
 
   #whatsnew::before {
     content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-help-small.png");
+    margin-right: 5px;
   }
 
   #downloads::before {
@@ -263,12 +263,18 @@ body {
   margin-right: 5%;
 }
 
+history {
+  cursor: pointer;
+}
+
 .newtab-link.blank {
   border: 1px dashed #AAA;
   background-color: rgba(255, 255, 255, 0.7);
+  cursor: default;
 }
 
 .newtab-link {
+  cursor: pointer;
   border: 1px solid #AAA;
   float: left;
   margin: 1%;
