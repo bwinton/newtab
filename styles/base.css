@@ -2,7 +2,7 @@
 /* Base stuff */
 
 body {
-  font: 15px/16px Segoe UI, Verdana, sans-serif;
+  font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
   background-color: #bbf;
   background-image: linear-gradient(
       rgba(255, 255, 255, 0.8),
@@ -67,12 +67,40 @@ body {
 
 /* Top stuff */
 
+
 #top > .button {
   background-repeat: no-repeat;
   background-position: left top;
-  margin: 10px;
-  padding-left: 20px;
+
+  margin: 16px 1px;
+  padding: 10px 6px;
+  min-width: 88px;
+  max-width: 176px;
+  max-height: 85px;
+  vertical-align: top;
+  white-space: normal;
+  background: transparent padding-box;
+  border: 1px solid transparent;
+  border-radius: 2.5px;
+  color: #525c66;
+  cursor: pointer;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 150ms;
 }
+
+#top > .button:hover {
+  background-color: hsla(211,79%,6%,.03);
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+}
+
+#top > .button:hover:active {
+  background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
+  border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
+  box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,
+              0 0 1px hsla(211,79%,6%,.1) inset;
+  transition-duration: 0ms;
+}
+
 
 #top > .separator {
     width: 3px;
@@ -105,52 +133,111 @@ body {
 
 /* Top Buttons */
 
-  #home {
-    background-image: -moz-image-rect(url(chrome://browser/skin/Toolbar.png), 0, 120, 20, 100);
+  #home::before {
+    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-home-small.png");
   }
 
-  #apps {
-    background-image: -moz-image-rect(url(chrome://browser/skin/webapps-16.png), 0, 20, 20, 0);
+  #apps::before {
+    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-addons-small.png");
   }
 
-  #whatsnew {
-    background-image: url(https://people.mozilla.com/~bwinton/newtab/images/whats_new_icon.png);
+  #whatsnew::before {
+    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-help-small.png");
   }
 
-  #search {
-    display: inline-block;
-    -moz-user-select: -moz-none;
-    background-color: hsla(0,0%,100%,.9);
-    border: 1px solid transparent;
-    border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
-    border-radius: 2px;
-    box-shadow: 0 1px 0 hsla(0,0%,0%,.01) inset,
-                0 1px 0 hsla(0,0%,100%,.1);
-    color: #808080;
-    outline-style: none;
-    overflow: hidden;
-
-    width: 28%;
-    float: right;
-    height: 27px;
+  #downloads::before {
+    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-downloads-small.png");
+  }
+  #bookmarks::before {
+    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-bookmarks-small.png");
+  }
+  #addons::before {
+    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-addons-small.png");
+  }
+  #settings::before {
+    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-preferences-small.png");
   }
 
-  #search > .button {
-    cursor: default;
-    float:right;
-    background-color: #FCFCFC;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
-    height: 100%;
-    padding: 5px 10px;
 
-    border-left: 1px solid transparent;
-    border-color: hsla(210,54%,20%,.25) hsla(210,54%,20%,.27) hsla(210,54%,20%,.3);
-  }
+/* Search */
 
-  #search > .terms {
-    -moz-user-select: text;
-    cursor: text;
-  }
+#search {
+  float: right;
+  width: 30%;
+  font-size: 17px;
+}
+
+#searchText {
+  font-size: 17px;
+  padding: 6px 8px;
+  background: hsla(0,0%,100%,.9) padding-box;
+  border: 1px solid;
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+  box-shadow: 0 1px 0 hsla(210,65%,9%,.02) inset,
+              0 0 2px hsla(210,65%,9%,.1) inset,
+              0 1px 0 hsla(0,0%,100%,.2);
+  border-radius: 2.5px 0 0 2.5px;
+  width: 78%;
+}
+
+#searchText:-moz-dir(rtl) {
+  border-radius: 0 2.5px 2.5px 0;
+}
+
+#searchText:focus,
+#searchText[autofocus] {
+  border-color: hsla(206,100%,60%,.6) hsla(206,76%,52%,.6) hsla(204,100%,40%,.6);
+}
+
+#searchSubmit {
+  font-size: 17px;
+  -moz-margin-start: -7px;
+  background: -moz-linear-gradient(hsla(0,0%,100%,.8), hsla(0,0%,100%,.1)) padding-box;
+  padding: 5px 9px;
+  border: 1px solid;
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+  -moz-border-start: 1px solid transparent;
+  border-radius: 0 2.5px 2.5px 0;
+  box-shadow: 0 0 2px hsla(0,0%,100%,.5) inset,
+              0 1px 0 hsla(0,0%,100%,.2);
+  cursor: pointer;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 150ms;
+  width: 17%;
+}
+
+#searchSubmit:-moz-dir(rtl) {
+  border-radius: 2.5px 0 0 2.5px;
+}
+
+#searchText:focus + #searchSubmit,
+#searchText + #searchSubmit:hover,
+#searchText[autofocus] + #searchSubmit {
+  border-color: #59b5fc #45a3e7 #3294d5;
+  color: white;
+}
+
+#searchText:focus + #searchSubmit,
+#searchText[autofocus] + #searchSubmit {
+  background-image: -moz-linear-gradient(#4cb1ff, #1793e5);
+  box-shadow: 0 1px 0 hsla(0,0%,100%,.2) inset,
+              0 0 0 1px hsla(0,0%,100%,.1) inset,
+              0 1px 0 hsla(210,54%,20%,.03);
+}
+
+#searchText + #searchSubmit:hover {
+  background-image: -moz-linear-gradient(#66bdff, #0d9eff);
+  box-shadow: 0 1px 0 hsla(0,0%,100%,.2) inset,
+              0 0 0 1px hsla(0,0%,100%,.1) inset,
+              0 1px 0 hsla(210,54%,20%,.03),
+              0 0 4px hsla(206,100%,20%,.2);
+}
+
+#searchText + #searchSubmit:hover:active {
+  box-shadow: 0 1px 1px hsla(211,79%,6%,.1) inset,
+              0 0 1px hsla(211,79%,6%,.2) inset;
+  transition-duration: 0ms;
+}
 
 
 /* Middle stuff */
@@ -247,6 +334,12 @@ body {
   margin-right: 2%;
 }
 
+#snippetLogo {
+  width: 64px;
+  height: 64px;
+  float: right;
+}
+
 #defaultSnippet1,
 #defaultSnippet2 {
   display: block;
@@ -254,6 +347,7 @@ body {
   background: 30px center no-repeat;
   padding: 6px 0;
   -moz-padding-start: 79px;
+  -moz-padding-end: 10px;
 }
 
 #defaultSnippet1 {

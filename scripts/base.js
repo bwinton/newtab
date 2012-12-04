@@ -1,6 +1,13 @@
 const WEATHER_URL = 'http://openweathermap.org/data/2.1/find/city?lat={LAT}&lon={LON}&cnt=1&callback=?';
 
 $(function () {
+
+  $('history').add('site').click(function(e) {
+    var url = $(this).attr('url');
+    if (url)
+      alert("Clicked on "+url);
+  });
+
   loadSnippets();
   navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
 
@@ -36,52 +43,8 @@ $(function () {
                          .replace('{LON}',position.coords.longitude), function (data) {
       $('#weather .temperature').text((data.list[0].main.temp - 273.15).toFixed(1) + "ºC");
       $('#weather .city').text(data.list[0].name);
-      $('#weather img').attr('src', 'http://openweathermap.org/img/w/' + data.list[0].weather[0].icon + '.png');
-      // alert(data.list[0].name + ', ' + (data.list[0].main.temp - 273.15).toFixed(1) + ', ' +
-      //      data.list[0].weather[0].main + ', ' +
-      //      'http://openweathermap.org/img/w/' + data.list[0].weather[0].icon + '.png');
+      $('#weather img').attr('src', 'http://openweathermap.org/img/w/' + data.list[0].weather[0].icon + '.png')
+                       .attr('title', data.list[0].weather[0].description);
     });
-    // Get data.list[0].name, data.list[0].main.temp - 273.15,
-    //     data.list[0].weather.main, 'http://openweathermap.org/img/w/' + data.list[0].weather.icon
-    // {
-    //   "message":"Model=GFS-OWM, ",
-    //   "cod":"200",
-    //   "calctime":" mysql = 0.0038 mongo = 0.0004 center = 0.0142 total=0.0185",
-    //   "cnt":1,
-    //   "list":[
-    //     {
-    //       "id":6167865,
-    //       "name":"Toronto",
-    //       "coord":{
-    //         "lon":-79.416298,
-    //         "lat":43.700111
-    //       },
-    //       "distance":2.878,
-    //       "main":{
-    //         "temp":280.45,
-    //         "pressure":1020,
-    //         "humidity":87,
-    //         "temp_min":278.71,
-    //         "temp_max":283.15
-    //       },
-    //       "dt":1354579685,
-    //       "wind":{
-    //         "speed":7.7,
-    //         "deg":70
-    //       },
-    //       "clouds":{
-    //         "all":90
-    //       },
-    //       "weather":[
-    //         {
-    //           "id":804,
-    //           "main":"Clouds",
-    //           "description":"overcast clouds",
-    //           "icon":"04n"
-    //         }
-    //       ]
-    //     }
-    //   ]
-    // }
   }
 });
