@@ -33,6 +33,8 @@ body {
   border: 1px solid red;
 }
 */
+
+
 /* ====== media ====== */
 .media {
   margin: 20px;
@@ -218,6 +220,25 @@ body {
 #weather {
   margin-left: 2%;
   width: 30%;
+}
+
+#weather img {
+  position: absolute;
+}
+
+#weather div {
+  margin-left: 50px;
+  padding: 5px 5px 0px;
+}
+
+#weather .temperature {
+  font-weight: bolder;
+  font-size: larger;
+}
+
+#weather .city {
+  color: #888;
+  font-size: smaller;
 }
 
 #snippetContainer {

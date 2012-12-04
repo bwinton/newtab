@@ -5,11 +5,11 @@
     <title>About New Home</title>
     <script type="text/javascript" src="http://x-tags.org/x-tag.js"></script>
     <script type="text/javascript"
-            src="https://people.mozilla.com/~bwinton/newtab/scripts/xtag-defs.js"></script>
+            src="http://people.mozilla.com/~bwinton/newtab/scripts/xtag-defs.js"></script>
     <script type="text/javascript;version=1.8"
             src="chrome://browser/content/abouthome/aboutHome.js"></script>
     <link rel="stylesheet" type="text/css"
-          href="https://people.mozilla.com/~bwinton/newtab/styles/base.css"></link>
+          href="http://people.mozilla.com/~bwinton/newtab/styles/base.css"></link>
   </head>
   <body>
 
@@ -60,14 +60,14 @@
           <div id="snippets"/>
         </div>
       </div>
-      <div id='weather'>Weather!  It’s raining!</div>
+      <div id='weather'><img>
+        <div class="temperature">Weather!</div>
+        <div class="city">It’s raining!</div></div>
     </div>
 
-    <script src='http://code.jquery.com/jquery-latest.js'></script>
+    <script type="text/javascript;version=1.8"
+            src='http://code.jquery.com/jquery-latest.js'></script>
+    <script type="text/javascript;version=1.8"
+            src="http://people.mozilla.com/~bwinton/newtab/scripts/base.js"></script>
   </body>
-  <script type="text/javascript;version=1.8">
-  $(function () {
-    loadSnippets();
-  });
-  </script>
 </html>
