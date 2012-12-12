@@ -279,7 +279,7 @@ history {
   float: left;
   margin: 1%;
   width: 30%;
-  height: 30%;
+  height: calc(30% - 1em);
   background-origin: padding-box;
   background-clip: padding-box;
   background-repeat: no-repeat;
