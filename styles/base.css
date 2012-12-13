@@ -3,11 +3,11 @@
 
 body {
   font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
-  background-color: #bbf;
+  background-color: #E5E5E5;
   background-image: linear-gradient(
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.8) 90%,
-      rgba(255, 255, 255, 0.5));
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5) 85%,
+      rgba(150, 210, 255, 0.6));
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 20px;
