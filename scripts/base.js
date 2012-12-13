@@ -13,11 +13,6 @@
 
 const WEATHER_URL = 'http://openweathermap.org/data/2.1/find/city?lat={LAT}&lon={LON}&cnt=1&callback=?';
 
-let Cu = Components.utils;
-let Ci = Components.interfaces;
-
-Cu.import("resource:///modules/NewTabUtils.jsm");
-
 $(function () {
 
   $('history').add('site').click(function site_click(e) {
@@ -27,19 +22,27 @@ $(function () {
     }
   });
 
-  NewTabUtils.links.populateCache(function () {
-    //We can get the links here.
-    var links = NewTabUtils.links.getLinks();
-    var container = $('#topsites').empty();
-    for (var i = 0; i < 9; i++) {
-      if (i < links.length) {
-        container.append($('<site url="' + links[i].url + '">' + links[i].title + '</site>'));
-      } else {
-        container.append($('<site></site>'));
-      }
-    }
-  });
+  try {
+    let Cu = Components.utils;
+    let Ci = Components.interfaces;
 
+    Cu.import("resource:///modules/NewTabUtils.jsm");
+
+    NewTabUtils.links.populateCache(function () {
+      //We can get the links here.
+      var links = NewTabUtils.links.getLinks();
+      var container = $('#topsites').empty();
+      for (var i = 0; i < 9; i++) {
+        if (i < links.length) {
+          container.append($('<site url="' + links[i].url + '">' + links[i].title + '</site>'));
+        } else {
+          container.append($('<site></site>'));
+        }
+      }
+    });
+  } catch (e) {
+    // Yeah, no links for us.  Just use the defaults, then.
+  }
 
   loadSnippets();
 
