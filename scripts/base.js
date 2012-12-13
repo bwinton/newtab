@@ -1,3 +1,16 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true,
+  strict:true, undef:true, curly:true, browser:true, es5:true,
+  indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
+  globalstrict:true, nomen:false, newcap:true, esnext:true */
+
+/*global addon:true, Components:true, NewTabUtils:true, loadSnippets:true */
+
+"use strict";
+
 const WEATHER_URL = 'http://openweathermap.org/data/2.1/find/city?lat={LAT}&lon={LON}&cnt=1&callback=?';
 
 let Cu = Components.utils;
@@ -7,10 +20,11 @@ Cu.import("resource:///modules/NewTabUtils.jsm");
 
 $(function () {
 
-  $('history').add('site').click(function(e) {
+  $('history').add('site').click(function site_click(e) {
     var url = $(this).attr('url');
-    if (url)
+    if (url) {
       window.location = url;
+    }
   });
 
   NewTabUtils.links.populateCache(function () {
@@ -19,7 +33,7 @@ $(function () {
     var container = $('#topsites').empty();
     for (var i = 0; i < 9; i++) {
       if (i < links.length) {
-        container.append($('<site url="' + links[i].url+ '">' + links[i].title + '</site>'));
+        container.append($('<site url="' + links[i].url + '">' + links[i].title + '</site>'));
       } else {
         container.append($('<site></site>'));
       }
@@ -28,11 +42,10 @@ $(function () {
 
 
   loadSnippets();
-  navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
 
-  function locationError(error){
+  function locationError(error) {
     alert("Bbbbbb!");
-    switch(error.code) {
+    switch (error.code) {
     case error.TIMEOUT:
       showError('A timeout occured! Please try again!');
       break;
@@ -48,8 +61,8 @@ $(function () {
     }
   }
    
-  function showError(msg){
-    weatherDiv.addClass('error').text(msg);
+  function showError(msg) {
+    $('#weather').addClass('error').text(msg);
   }
 
   function locationSuccess(position) {
@@ -57,13 +70,16 @@ $(function () {
     var lon = position.coords.longitude;
     $('#weather img').attr('src', '');
     $('#weather .temperature').text('Getting weather for…');
-    $('#weather .city').text(lat.toFixed(2)+', '+lon.toFixed(1));
-    $.getJSON(WEATHER_URL.replace('{LAT}',position.coords.latitude)
-                         .replace('{LON}',position.coords.longitude), function (data) {
+    $('#weather .city').text(lat.toFixed(2) + ', ' + lon.toFixed(1));
+    $.getJSON(WEATHER_URL.replace('{LAT}', position.coords.latitude)
+                         .replace('{LON}', position.coords.longitude), function (data) {
       $('#weather .temperature').text((data.list[0].main.temp - 273.15).toFixed(1) + "ºC");
       $('#weather .city').text(data.list[0].name);
       $('#weather img').attr('src', 'http://openweathermap.org/img/w/' + data.list[0].weather[0].icon + '.png')
                        .attr('title', data.list[0].weather[0].description);
     });
   }
+
+  navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+
 });
