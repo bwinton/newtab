@@ -7,11 +7,16 @@
   indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
   globalstrict:true, nomen:false, newcap:true, esnext:true */
 
-/*global addon:true, Components:true, NewTabUtils:true, loadSnippets:true */
+/*global addon:true, Components:true, NewTabUtils:true, loadSnippets:true, dump:true, CustomEvent: true */
 
 "use strict";
 
 const WEATHER_URL = 'http://openweathermap.org/data/2.1/find/city?lat={LAT}&lon={LON}&cnt=1&callback=?';
+
+var interesting = function (data) {
+  var event = new CustomEvent('tpemit', {'detail': data});
+  document.dispatchEvent(event);
+};
 
 $(function () {
 
@@ -83,6 +88,7 @@ $(function () {
     });
   }
 
+  interesting({"message": "Got something!"});
   navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
 
 });
