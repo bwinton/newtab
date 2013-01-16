@@ -7,7 +7,8 @@
   indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
   globalstrict:true, nomen:false, newcap:true, esnext:true */
 
-/*global addon:true, Components:true, NewTabUtils:true, loadSnippets:true, dump:true, CustomEvent: true */
+/*global addon:true, Components:true, NewTabUtils:true, loadSnippets:true, dump:true,
+         CustomEvent: true, RemoteTabViewer: true */
 
 "use strict";
 
@@ -20,7 +21,7 @@ var interesting = function (data) {
 
 $(function () {
 
-  $('history').add('site').click(function site_click(e) {
+  $('#middle').on('click', 'history, site', function site_click(e) {
     var url = $(this).attr('url');
     if (url) {
       window.location = url;
@@ -28,15 +29,13 @@ $(function () {
   });
 
   try {
-    let Cu = Components.utils;
-    let Ci = Components.interfaces;
-
-    Cu.import("resource:///modules/NewTabUtils.jsm");
+    Components.utils.import("resource:///modules/NewTabUtils.jsm");
 
     NewTabUtils.links.populateCache(function () {
       //We can get the links here.
       var links = NewTabUtils.links.getLinks();
-      var container = $('#topsites').empty();
+      var container = $('#topsites');
+      container.children().not("h3").remove();
       for (var i = 0; i < 9; i++) {
         if (i < links.length) {
           container.append($('<site url="' + links[i].url + '">' + links[i].title + '</site>'));
@@ -45,8 +44,10 @@ $(function () {
         }
       }
     });
+
   } catch (e) {
     // Yeah, no links for us.  Just use the defaults, then.
+    console.log("No previous links for you.");
   }
 
   loadSnippets();
@@ -91,4 +92,65 @@ $(function () {
   interesting({"message": "Got something!"});
   navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
 
+  if (!RemoteTabViewer) {
+    console.log("No remote tabs for you.");
+    return;
+  }
+
+  var SyncTabs = function SyncTabs() {
+  };
+
+  SyncTabs.prototype = RemoteTabViewer;
+
+  SyncTabs.prototype.createItem = function SyncTabs_createItem(attrs) {
+    var item;
+    if (attrs["type"] === "tab") {
+      item = '<history type="' + attrs.type + '" ' +
+                      'url="' + attrs.url + '" ' +
+                      'img="' + attrs.img + '"' +
+                      '>' + attrs.text + '</history>';
+    } else {
+      item = '<h3>' + attrs.text + '</h3>';
+    }
+    return $(item);
+  };
+
+  SyncTabs.prototype._generateTabList = function SyncTabs_generateTabList() {
+    let engine = Weave.Service.engineManager.get("tabs");
+    let $list = $(this._tabsList).children(".scrollingContainer");
+    // clear out existing richlistitems
+    $list.empty();
+    for (let [guid, client] in Iterator(engine.getAllClients())) {
+      // Create the client node, but don't add it in-case we don't show any tabs
+      let appendClient = true;
+      let seenURLs = {};
+      client.tabs.forEach(function({title, urlHistory, icon}) {
+        let url = urlHistory[0];
+        if (engine.locallyOpenTabMatchesURL(url) || url in seenURLs)
+          return;
+        seenURLs[url] = null;
+        if (appendClient) {
+          let clientEnt = this.createItem({
+            type: "client",
+            class: Weave.Service.clientsEngine.isMobile(client.id) ? "mobile" : "desktop",
+            text: client.clientName
+          });
+          $list.append(clientEnt);
+          appendClient = false;
+          clientEnt.disabled = true;
+        }
+        let tab = this.createItem({
+          type: "tab",
+          url: url,
+          img: Weave.Utils.getIcon(icon),
+          text: title || url
+        });
+        $list.append(tab);
+      }, this);
+    }
+    alert("Building list " + force + ", " + this._tabsList);
+  };
+
+  var syncTabs = new SyncTabs();
+  syncTabs.init();
 });

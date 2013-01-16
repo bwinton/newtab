@@ -257,14 +257,28 @@ body {
   position: relative;
 }
 
-#history {
+#tabsList {
   float: right;
   width: 20%;
   margin-right: 5%;
 }
 
+#tabsList > .scrollingContainer {
+  height: 100%;
+  font: message-box;
+  color: -moz-dialogtext;
+  max-width: 100em;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 history {
   cursor: pointer;
+}
+
+history .title,
+history .url {
+  text-overflow: ellipsis;
 }
 
 .newtab-link.blank {
@@ -280,10 +294,16 @@ history {
   margin: 1%;
   width: 30%;
   height: calc(30% - 1em);
+  min-width: 185px;
+  min-height: 118px;
+
   background-origin: padding-box;
   background-clip: padding-box;
   background-repeat: no-repeat;
   background-size: cover;
+
+  font: message-box;
+  color: -moz-dialogtext;
 }
 
 .newtab-thumbnail {
@@ -295,6 +315,7 @@ history {
   width: calc(100% - 14px);
   height: 1em;
   padding: 7px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   background-color: rgba(255, 255, 255, 0.7);

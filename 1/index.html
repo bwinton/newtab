@@ -28,12 +28,14 @@
         </div>
       </div>
       <div id='middle'>
-        <div id='history'><h3>History</h3>
-          <history img='https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'
-                   url='https://www.dropbox.com/'>Dropbox</history>
-          <history url='http://yelp.com/'>Yelp</history>
-          <history url='http://amazon.com/'>Amazon</history>
-          <history url='http://www.npr.org/'>NPR</history>
+        <div id='tabsList'><h3>Tabs From Other Devices</h3>
+          <div class="scrollingContainer">
+            <history img='https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'
+                     url='https://www.dropbox.com/'>Dropbox</history>
+            <history url='http://yelp.com/'>Yelp</history>
+            <history url='http://amazon.com/'>Amazon</history>
+            <history url='http://www.npr.org/'>NPR</history>
+          </div>
         </div>
         <div id='topsites'><h3>Top Sites</h3>
           <site url='http://www.weatheroffice.gc.ca/city/pages/on-143_metric_e.html'
@@ -67,6 +69,8 @@
         <div class='city'>It’s raining!</div></div>
     </div>
 
+    <script type='text/javascript;version=1.8'
+            src='chrome://browser/content/sync/aboutSyncTabs.js'></script>
     <script type='text/javascript;version=1.8'
             src='https://people.mozilla.com/~bwinton/newtab/scripts/jquery.js'></script>
     <script type='text/javascript;version=1.8'
