@@ -25,9 +25,8 @@ try {
   ls = localStorage["snippets-last-update"];
   ls = localStorage;
 } catch (e) {
-  console.log("Couldn't get localStorage!!!  " + e + "\n");
+  console.log("Couldn't get localStorage, using fallback.\n");
 }
-console.log("ls = " + ls);
 
 function loadSnippets()
 {
