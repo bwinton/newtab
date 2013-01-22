@@ -19,6 +19,22 @@ var interesting = function (data) {
   document.dispatchEvent(event);
 };
 
+function onSearchSubmit(aEvent)
+{
+  let searchTerms = document.getElementById("searchText").value;
+  let searchURL = document.documentElement.getAttribute("searchEngineURL");
+  if (searchURL && searchTerms.length > 0) {
+    const SEARCH_TOKENS = {
+      "_searchTerms_": encodeURIComponent(searchTerms)
+    };
+    for (let key in SEARCH_TOKENS) {
+      searchURL = searchURL.replace(key, SEARCH_TOKENS[key]);
+    }
+    window.location.href = searchURL;
+  }
+  aEvent.preventDefault();
+}
+
 $(function () {
 
   $('#middle').on('click', 'history, site', function site_click(e) {
@@ -53,7 +69,6 @@ $(function () {
   loadSnippets();
 
   function locationError(error) {
-    alert("Bbbbbb!");
     switch (error.code) {
     case error.TIMEOUT:
       showError('A timeout occured! Please try again!');
@@ -80,17 +95,21 @@ $(function () {
     $('#weather img').attr('src', '');
     $('#weather .temperature').text('Getting weather for…');
     $('#weather .city').text(lat.toFixed(2) + ', ' + lon.toFixed(1));
-    $.getJSON(WEATHER_URL.replace('{LAT}', position.coords.latitude)
-                         .replace('{LON}', position.coords.longitude), function (data) {
-      $('#weather .temperature').text((data.list[0].main.temp - 273.15).toFixed(1) + "ºC");
-      $('#weather .city').text(data.list[0].name);
-      $('#weather img').attr('src', 'http://openweathermap.org/img/w/' + data.list[0].weather[0].icon + '.png')
-                       .attr('title', data.list[0].weather[0].description);
+    $.getJSON(WEATHER_URL.replace('{LAT}', lat).replace('{LON}', lon), function (data) {
+      var city = data.list[0];
+      $('#weather .temperature').text((city.main.temp - 273.15).toFixed(1) + "ºC");
+      $('#weather .city').text(city.name);
+      $('#weather img').attr('src', 'http://openweathermap.org/img/w/' + city.weather[0].icon + '.png')
+                       .attr('title', city.weather[0].description);
     });
   }
 
-  interesting({"message": "Got something!"});
+  //interesting({"message": "Got something!"});
+  console.log("YYYYYYYYYY\nCalling Geolocation!!!");
+  // Start with Toronto, so that we have something to show.
+  setTimeout(locationSuccess, 500, {coords: {latitude: 43.652527, longitude: -79.381961}});
   navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+  console.log("ZZZZZZZZZZ\nCalled Geolocation!!!");
 
   if (!RemoteTabViewer) {
     console.log("No remote tabs for you.");
@@ -148,7 +167,6 @@ $(function () {
         $list.append(tab);
       }, this);
     }
-    alert("Building list " + force + ", " + this._tabsList);
   };
 
   var syncTabs = new SyncTabs();

@@ -14,17 +14,19 @@
 
     <div id='container'>
       <div id='top'>
-        <span id='home' class='button'>Home</span>&nbsp;
-        <span id='apps' class='button'>Apps</span>&nbsp;
-        <span id='whatsnew' class='button'>What’s New!</span>
-        <span class='separator'>&nbsp;</span>
-        <span id='downloads' class='button' title='Downloads'></span
-        ><span id='bookmarks' class='button' title='Bookmarks'></span
-        ><span id='addons' class='button' title='Add-ons'></span
-        ><span id='settings' class='button' title='Settings'></span>
+        <button id='home' class='button'>Home</button>&nbsp;
+        <button id='apps' class='button'>Apps</button>&nbsp;
+        <button id='whatsnew' class='button'>What’s New!</button>
+        <button class='separator'>&nbsp;</button>
+        <button id='downloads' class='button' title='Downloads'></button
+        ><button id='bookmarks' class='button' title='Bookmarks'></button
+        ><button id='addons' class='button' title='Add-ons'></button
+        ><button id='settings' class='button' title='Settings'></button>
         <div id='search'>
-          <input id='searchText' type='text' name='q' value='' maxlength='256'></input>
-          <input id='searchSubmit' type='submit' value='Search'></input>
+          <form id="searchForm" name="searchForm" onsubmit="onSearchSubmit(event)">
+            <input id='searchText' type='text' name='q' value='' maxlength='256'></input>
+            <input id='searchSubmit' type='submit' value='Search'></input>
+          </form>
         </div>
       </div>
       <div id='middle'>
@@ -36,6 +38,7 @@
             <history url='http://amazon.com/'>Amazon</history>
             <history url='http://www.npr.org/'>NPR</history>
           </div>
+          <span class="next">&gt;</span>
         </div>
         <div id='topsites'><h3>Top Sites</h3>
           <site url='http://www.weatheroffice.gc.ca/city/pages/on-143_metric_e.html'
