@@ -7,36 +7,15 @@
   indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
   globalstrict:true, nomen:false, newcap:true, esnext:true */
 
-/*global addon:true, Components:true, NewTabUtils:true, loadSnippets:true, dump:true,
-         CustomEvent: true, RemoteTabViewer: true */
+/*global loadSnippets:true, CustomEvent: true */
 
 "use strict";
 
 const WEATHER_URL = 'http://openweathermap.org/data/2.1/find/city?lat={LAT}&lon={LON}&cnt=1&callback=?';
 
-var interesting = function (data) {
-  var event = new CustomEvent('tpemit', {'detail': data});
-  document.dispatchEvent(event);
-};
-
-function onSearchSubmit(aEvent)
-{
-  let searchTerms = document.getElementById("searchText").value;
-  let searchURL = document.documentElement.getAttribute("searchEngineURL");
-  if (searchURL && searchTerms.length > 0) {
-    const SEARCH_TOKENS = {
-      "_searchTerms_": encodeURIComponent(searchTerms)
-    };
-    for (let key in SEARCH_TOKENS) {
-      searchURL = searchURL.replace(key, SEARCH_TOKENS[key]);
-    }
-    window.location.href = searchURL;
-  }
-  aEvent.preventDefault();
-}
-
 $(function () {
 
+  /* When we click on things in the middle, open them up in this window. */
   $('#middle').on('click', 'history, site', function site_click(e) {
     var url = $(this).attr('url');
     if (url) {
@@ -44,30 +23,91 @@ $(function () {
     }
   });
 
-  try {
-    Components.utils.import("resource:///modules/NewTabUtils.jsm");
-
-    NewTabUtils.links.populateCache(function () {
-      //We can get the links here.
-      var links = NewTabUtils.links.getLinks();
-      var container = $('#topsites');
-      container.children().not("h3").remove();
-      for (var i = 0; i < 9; i++) {
-        if (i < links.length) {
-          container.append($('<site url="' + links[i].url + '">' + links[i].title + '</site>'));
-        } else {
-          container.append($('<site></site>'));
-        }
+  /* Handle the search form. */
+  $("#searchForm").submit(function onSearchSubmit(aEvent) {
+    let searchTerms = document.getElementById("searchText").value;
+    let searchURL = document.documentElement.getAttribute("searchEngineURL");
+    if (searchURL && searchTerms.length > 0) {
+      const SEARCH_TOKENS = {
+        "_searchTerms_": encodeURIComponent(searchTerms)
+      };
+      for (let key in SEARCH_TOKENS) {
+        searchURL = searchURL.replace(key, SEARCH_TOKENS[key]);
       }
-    });
+      window.location.href = searchURL;
+    }
+    aEvent.preventDefault();
+  });
 
-  } catch (e) {
-    // Yeah, no links for us.  Just use the defaults, then.
-    console.log("No previous links for you.");
-  }
 
+  /* Handle the list of recently-viewed sites. */
+  var addSites = function addSites(links) {
+    //We can get the links here.
+    var container = $('#topsites');
+    container.children().not("h3").remove();
+    for (var i = 0; i < 9; i++) {
+      var site = '<site></site>';
+      if (i < links.length) {
+        site = '<site url="';
+        site += links[i].url;
+        if (links[i].img) {
+          site += '" img="' + links[i].img;
+        }
+        site += '">' + links[i].title + '</site>';
+      }
+      container.append($(site));
+    }
+  };
+
+  /* Add the default list of sites. */
+  addSites([
+    {url: 'http://www.weatheroffice.gc.ca/city/pages/on-143_metric_e.html',
+     title: 'Toronto, Ontario - 7 Day Forecast',
+     img: 'aboutpixels'},
+    {url: 'https://bugzilla.mozilla.org/request.cgi?action=queue&requestee=bwinton@mozilla.com',
+     title: 'Request Queue',
+     img: 'chromaticpixel'},
+    {url: 'https://people.mozilla.com/~bwinton/australis/customization/mac/',
+     title: 'Home',
+     img: 'firefox'},
+    {url: 'https://mail.mozilla.com/zimbra/#1',
+     title: 'Zimbra: Inbox',
+     img: 'isitmfbt'},
+    {url: 'http://www.hulu.com/',
+     title: 'Hulu',
+     img: 'hulu'},
+  ]);
+
+  /* Handle the list of tabs from other computers. */
+  var addOtherTabs = function addOtherTabs(links) {
+    var container = $('#tabsList > .scrollingContainer');
+    container.children().remove();
+    for (var i = 0; i < links.length; i++) {
+      var site = '<history url="';
+      site += links[i].url;
+      if (links[i].img) {
+        site += '" img="' + links[i].img;
+      }
+      site += '">' + links[i].title + '</history>';
+      container.append($(site));
+    }
+  };
+
+  /* Add the default list of tabs. */
+  addOtherTabs([
+    {url: 'https://www.dropbox.com/', title: 'Dropbox',
+     img: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+    {url: 'http://yelp.com/', title: 'Yelp'},
+    {url: 'http://amazon.com/', title: 'Amazon'},
+    {url: 'http://www.npr.org/', title: 'NPR'},
+  ]);
+
+
+  /* Load the snippets. */
   loadSnippets();
 
+
+  /* Handle the weather */
   function locationError(error) {
     switch (error.code) {
     case error.TIMEOUT:
@@ -104,71 +144,28 @@ $(function () {
     });
   }
 
-  //interesting({"message": "Got something!"});
-  console.log("YYYYYYYYYY\nCalling Geolocation!!!");
-  // Start with Toronto, so that we have something to show.
-  setTimeout(locationSuccess, 500, {coords: {latitude: 43.652527, longitude: -79.381961}});
+  /* Load the default weather. */
   navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
-  console.log("ZZZZZZZZZZ\nCalled Geolocation!!!");
 
-  if (!RemoteTabViewer) {
-    console.log("No remote tabs for you.");
-    return;
-  }
 
-  var SyncTabs = function SyncTabs() {
+  /* Send a message to the add-on. */
+  var interesting = function (data) {
+    var event = new CustomEvent('tpemit', {'detail': data});
+    document.dispatchEvent(event);
   };
 
-  SyncTabs.prototype = RemoteTabViewer;
-
-  SyncTabs.prototype.createItem = function SyncTabs_createItem(attrs) {
-    var item;
-    if (attrs["type"] === "tab") {
-      item = '<history type="' + attrs.type + '" ' +
-                      'url="' + attrs.url + '" ' +
-                      'img="' + attrs.img + '"' +
-                      '>' + attrs.text + '</history>';
-    } else {
-      item = '<h3>' + attrs.text + '</h3>';
+  /* Receive a message from the add-on. */
+  window.addEventListener('message', function (event) {
+    var data = event.data;
+    if (data.type === 'sites') {
+      addSites(data.sites);
+    } else if (data.type === 'tabs') {
+      addOtherTabs(data.tabs);
+    } else if (data.type === 'geolocation') {
+      locationSuccess(data.position);
     }
-    return $(item);
-  };
+  }, false);
 
-  SyncTabs.prototype._generateTabList = function SyncTabs_generateTabList() {
-    let engine = Weave.Service.engineManager.get("tabs");
-    let $list = $(this._tabsList).children(".scrollingContainer");
-    // clear out existing richlistitems
-    $list.empty();
-    for (let [guid, client] in Iterator(engine.getAllClients())) {
-      // Create the client node, but don't add it in-case we don't show any tabs
-      let appendClient = true;
-      let seenURLs = {};
-      client.tabs.forEach(function({title, urlHistory, icon}) {
-        let url = urlHistory[0];
-        if (engine.locallyOpenTabMatchesURL(url) || url in seenURLs)
-          return;
-        seenURLs[url] = null;
-        if (appendClient) {
-          let clientEnt = this.createItem({
-            type: "client",
-            class: Weave.Service.clientsEngine.isMobile(client.id) ? "mobile" : "desktop",
-            text: client.clientName
-          });
-          $list.append(clientEnt);
-          appendClient = false;
-          clientEnt.disabled = true;
-        }
-        let tab = this.createItem({
-          type: "tab",
-          url: url,
-          img: Weave.Utils.getIcon(icon),
-          text: title || url
-        });
-        $list.append(tab);
-      }, this);
-    }
-  };
-
-  var syncTabs = new SyncTabs();
-  syncTabs.init();
+  /* And let the add-on know that we're done initializing. */
+  interesting('initialized');
 });

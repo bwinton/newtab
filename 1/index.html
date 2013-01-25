@@ -23,7 +23,7 @@
         ><button id='addons' class='button' title='Add-ons'></button
         ><button id='settings' class='button' title='Settings'></button>
         <div id='search'>
-          <form id="searchForm" name="searchForm" onsubmit="onSearchSubmit(event)">
+          <form id="searchForm" name="searchForm">
             <input id='searchText' type='text' name='q' value='' maxlength='256'></input>
             <input id='searchSubmit' type='submit' value='Search'></input>
           </form>
@@ -31,31 +31,10 @@
       </div>
       <div id='middle'>
         <div id='tabsList'><h3>Tabs From Other Devices</h3>
-          <div class="scrollingContainer">
-            <history img='https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'
-                     url='https://www.dropbox.com/'>Dropbox</history>
-            <history url='http://yelp.com/'>Yelp</history>
-            <history url='http://amazon.com/'>Amazon</history>
-            <history url='http://www.npr.org/'>NPR</history>
-          </div>
+          <div class="scrollingContainer"></div>
           <span class="next">&gt;</span>
         </div>
-        <div id='topsites'><h3>Top Sites</h3>
-          <site url='http://www.weatheroffice.gc.ca/city/pages/on-143_metric_e.html'
-                img='aboutpixels'>Toronto, Ontario - 7 Day Forecast</site>
-          <site url='https://bugzilla.mozilla.org/request.cgi?action=queue&requestee=bwinton@mozilla.com'
-                img='chromaticpixel'>Request Queue</site>
-          <site url='https://people.mozilla.com/~bwinton/australis/customization/mac/'
-                img='firefox'>Home</site>
-          <site url='https://mail.mozilla.com/zimbra/#1'
-                img='isitmfbt'>Zimbra: Inbox</site>
-          <site url='http://www.hulu.com/'
-                img='hulu'>Hulu</site>
-          <site></site>
-          <site></site>
-          <site></site>
-          <site></site>
-        </div>
+        <div id='topsites'><h3>Top Sites</h3></div>
       </div>
       <div id='bottom'>
         <div id='snippetContainer'>
@@ -72,8 +51,6 @@
         <div class='city'>It’s raining!</div></div>
     </div>
 
-    <script type='text/javascript;version=1.8'
-            src='chrome://browser/content/sync/aboutSyncTabs.js'></script>
     <script type='text/javascript;version=1.8'
             src='https://people.mozilla.com/~bwinton/newtab/scripts/jquery.js'></script>
     <script type='text/javascript;version=1.8'
