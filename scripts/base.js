@@ -23,6 +23,21 @@ $(function () {
     }
   });
 
+  /* When we click on the disclosure arrow, hide the top sites. */
+  $('#middle > .next').click(function (e) {
+    var ts = $('#topsites');
+    if (ts.css('min-width') === '0px') {
+      ts.toggle({complete: function () {
+        ts.animate({'min-width': '70vw'});
+      }});
+    } else {
+      ts.animate({'min-width': '0vw'}, {complete: function () {
+        ts.toggle();
+      }});
+    }
+  });
+
+
   /* Handle the search form. */
   $("#searchForm").submit(function onSearchSubmit(aEvent) {
     let searchTerms = document.getElementById("searchText").value;
@@ -78,30 +93,87 @@ $(function () {
      img: 'hulu'},
   ]);
 
-  /* Handle the list of tabs from other computers. */
-  var addOtherTabs = function addOtherTabs(links) {
-    var container = $('#tabsList > .scrollingContainer');
+  var addLinkList = function addLinkList(container, links) {
     container.children().remove();
     for (var i = 0; i < links.length; i++) {
-      var site = '<history url="';
-      site += links[i].url;
-      if (links[i].img) {
-        site += '" img="' + links[i].img;
+      var link = links[i];
+      var site = '';
+      if (link.type === 'tab') {
+        site += '<history url="';
+        site += link.url;
+        if (link.icon) {
+          if (link.icon.startsWith('moz-anno:favicon:')) {
+            link.icon = link.icon.substr(17);
+          }
+          site += '" img="' + link.icon;
+        }
+        site += '">' + link.title + '</history>';
+      } else {
+        site += '<h3>' + link.clientName + '</h3>';
       }
-      site += '">' + links[i].title + '</history>';
       container.append($(site));
     }
   };
 
+  /* Handle the list of tabs from other computers. */
+  var addOtherTabs = function addOtherTabs(links) {
+    addLinkList($('#tabsList > .scrollingContainer'), links);
+  };
+
   /* Add the default list of tabs. */
   addOtherTabs([
-    {url: 'https://www.dropbox.com/', title: 'Dropbox',
-     img: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
-    {url: 'http://yelp.com/', title: 'Yelp'},
-    {url: 'http://amazon.com/', title: 'Amazon'},
-    {url: 'http://www.npr.org/', title: 'NPR'},
+    {type: 'client', clientName: 'Demo Data…'},
+    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
+     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+    {type: 'tab', url: 'http://yelp.com/', title: 'Yelp'},
+    {type: 'tab', url: 'http://amazon.com/', title: 'Amazon'},
+    {type: 'tab', url: 'http://www.npr.org/', title: 'NPR'},
   ]);
 
+
+  /* Handle the reading list. */
+  var addReadingList = function addReadingList(links) {
+    addLinkList($('#readingList > .scrollingContainer'), links);
+  };
+
+  /* Add the default reading list. */
+  addReadingList([
+    {type: 'client', clientName: 'Demo Data…'},
+    {"type": "tab", "title": "Approaching git from svn | Pen and Pants",
+     "url": "http://penandpants.com/2013/02/13/approaching-git-from-svn/"},
+    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
+     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+  ]);
+
+
+  /* Handle the bookmarks. */
+  var addBookmarks = function addBookmarks(links) {
+    addLinkList($('#bookmarkList > .scrollingContainer'), links);
+  };
+
+  /* Add the default bookmarks. */
+  addBookmarks([
+    {type: 'client', clientName: 'Demo Data…'},
+    {"type": "tab", "title": "Approaching git from svn | Pen and Pants",
+     "url": "http://penandpants.com/2013/02/13/approaching-git-from-svn/"},
+    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
+     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+  ]);
+
+
+  /* Handle the history. */
+  var addHistory = function addHistory(links) {
+    addLinkList($('#historyList > .scrollingContainer'), links);
+  };
+
+  /* Add the default history. */
+  addHistory([
+    {type: 'client', clientName: 'Demo Data…'},
+    {"type": "tab", "title": "Approaching git from svn | Pen and Pants",
+     "url": "http://penandpants.com/2013/02/13/approaching-git-from-svn/"},
+    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
+     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+  ]);
 
   /* Load the snippets. */
   loadSnippets();
@@ -161,6 +233,12 @@ $(function () {
       addSites(data.sites);
     } else if (data.type === 'tabs') {
       addOtherTabs(data.tabs);
+    } else if (data.type === 'readinglist') {
+      addReadingList(data.list);
+    } else if (data.type === 'bookmarklist') {
+      addBookmarks(data.list);
+    } else if (data.type === 'historylist') {
+      addHistory(data.list);
     } else if (data.type === 'geolocation') {
       locationSuccess(data.position);
     }

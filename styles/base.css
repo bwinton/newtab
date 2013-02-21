@@ -19,6 +19,7 @@ body {
   -moz-box-orient: vertical;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   color: #525c66;
 }
 
@@ -162,7 +163,9 @@ body {
 /* Search */
 
 #search {
-  float: right;
+  position: absolute;
+  left: 65vw;
+  top: 1em;
   width: 30%;
   font-size: 17px;
 }
@@ -244,30 +247,28 @@ body {
 
 #middle {
   -moz-box-flex: 1;
-  padding: 4vh;
+  display: flex;
+  align-items: center;
 }
 
 #middle > div {
   height: 65vh;
+  flex: 0 0 20vw;
+  display: inline-block;
+  vertical-align: top;
 }
 
-#topsites {
-  margin-left: 5%;
-  width: 65%;
-  position: relative;
-}
-
-#tabsList {
-  float: right;
-  width: 20%;
-  margin-right: 5%;
+#middle > #topsites {
+  flex: 0 0;
+  min-width: 70vw;
+  overflow: hidden;
 }
 
 #topsites > h3 {
-  margin: 20px;
+  margin: 1%;
 }
 
-#tabsList > .scrollingContainer {
+#middle > div > .scrollingContainer {
   height: 100%;
   font: message-box;
   color: -moz-dialogtext;
@@ -276,15 +277,12 @@ body {
   overflow-y: auto;
 }
 
-#tabsList > .next {
-  position: relative;
-  top: -50%;
-  left: 104%;
+#middle > .next {
+  padding-right: 10vw;
+  height: 1em;
+  flex: 0 0 auto;
 }
 
-#topsites > h3 {
-  margin: 1%;
-}
 
 history {
   cursor: pointer;
@@ -338,7 +336,7 @@ history .url {
 /* Bottom stuff */
 
 #bottom {
-  padding: 4vh;
+  padding: 2vh 4vw 0vh;
 }
 
 #bottom > div {
@@ -370,7 +368,9 @@ history .url {
 }
 
 #snippetContainer {
-  float: right;
+  position: absolute;
+  left: 65vw;
+  bottom: 1em;
   width: 30%;
   margin-right: 2%;
 }
