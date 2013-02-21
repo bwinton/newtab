@@ -254,6 +254,7 @@ body {
 #middle > div {
   height: 65vh;
   flex: 0 0 20vw;
+  min-width: 20vw;
   display: inline-block;
   vertical-align: top;
 }
@@ -281,6 +282,7 @@ body {
   padding-right: 10vw;
   height: 1em;
   flex: 0 0 auto;
+  min-width: auto;
 }
 
 
