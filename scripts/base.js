@@ -76,21 +76,21 @@ $(function () {
 
   /* Add the default list of sites. */
   addSites([
-    {url: 'http://www.weatheroffice.gc.ca/city/pages/on-143_metric_e.html',
-     title: 'Toronto, Ontario - 7 Day Forecast',
-     img: 'aboutpixels'},
-    {url: 'https://bugzilla.mozilla.org/request.cgi?action=queue&requestee=bwinton@mozilla.com',
-     title: 'Request Queue',
-     img: 'chromaticpixel'},
-    {url: 'https://people.mozilla.com/~bwinton/australis/customization/mac/',
-     title: 'Home',
-     img: 'firefox'},
-    {url: 'https://mail.mozilla.com/zimbra/#1',
-     title: 'Zimbra: Inbox',
-     img: 'isitmfbt'},
-    {url: 'http://www.hulu.com/',
-     title: 'Hulu',
-     img: 'hulu'},
+    {'url': 'http://www.weatheroffice.gc.ca/city/pages/on-143_metric_e.html',
+     'title': 'Toronto, Ontario - 7 Day Forecast',
+     'img': 'aboutpixels'},
+    {'url': 'https://bugzilla.mozilla.org/request.cgi?action=queue&requestee=bwinton@mozilla.com',
+     'title': 'Request Queue',
+     'img': 'chromaticpixel'},
+    {'url': 'https://people.mozilla.com/~bwinton/australis/customization/mac/',
+     'title': 'Home',
+     'img': 'firefox'},
+    {'url': 'https://mail.mozilla.com/zimbra/#1',
+     'title': 'Zimbra: Inbox',
+     'img': 'isitmfbt'},
+    {'url': 'http://www.hulu.com/',
+     'title': 'Hulu',
+     'img': 'hulu'},
   ]);
 
   var addLinkList = function addLinkList(container, links) {
@@ -122,12 +122,12 @@ $(function () {
 
   /* Add the default list of tabs. */
   addOtherTabs([
-    {type: 'client', clientName: 'Demo Data…'},
-    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
-     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
-    {type: 'tab', url: 'http://yelp.com/', title: 'Yelp'},
-    {type: 'tab', url: 'http://amazon.com/', title: 'Amazon'},
-    {type: 'tab', url: 'http://www.npr.org/', title: 'NPR'},
+    {'type': 'client', 'clientName': 'Demo Data…'},
+    {'type': 'tab', 'title': 'Dropbox', 'url': 'https://www.dropbox.com/',
+     'icon': 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+    {'type': 'tab', 'title': 'Yelp', 'url': 'http://yelp.com/'},
+    {'type': 'tab', 'title': 'Amazon', 'url': 'http://amazon.com/'},
+    {'type': 'tab', 'title': 'NPR', 'url': 'http://www.npr.org/'},
   ]);
 
 
@@ -138,11 +138,11 @@ $(function () {
 
   /* Add the default reading list. */
   addReadingList([
-    {type: 'client', clientName: 'Demo Data…'},
-    {"type": "tab", "title": "Approaching git from svn | Pen and Pants",
-     "url": "http://penandpants.com/2013/02/13/approaching-git-from-svn/"},
-    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
-     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+    {'type': 'client', 'clientName': 'Demo Data…'},
+    {'type': 'tab', 'title': 'Approaching git from svn | Pen and Pants',
+     'url': 'http://penandpants.com/2013/02/13/approaching-git-from-svn/'},
+    {'type': 'tab', 'title': 'Dropbox', 'url': 'https://www.dropbox.com/',
+     'icon': 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
   ]);
 
 
@@ -153,11 +153,11 @@ $(function () {
 
   /* Add the default bookmarks. */
   addBookmarks([
-    {type: 'client', clientName: 'Demo Data…'},
-    {"type": "tab", "title": "Approaching git from svn | Pen and Pants",
-     "url": "http://penandpants.com/2013/02/13/approaching-git-from-svn/"},
-    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
-     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+    {'type': 'client', 'clientName': 'Demo Data…'},
+    {'type': 'tab', 'title': 'Approaching git from svn | Pen and Pants',
+     'url': 'http://penandpants.com/2013/02/13/approaching-git-from-svn/'},
+    {'type': 'tab', 'title': 'Dropbox', 'url': 'https://www.dropbox.com/',
+     'icon': 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
   ]);
 
 
@@ -168,11 +168,11 @@ $(function () {
 
   /* Add the default history. */
   addHistory([
-    {type: 'client', clientName: 'Demo Data…'},
-    {"type": "tab", "title": "Approaching git from svn | Pen and Pants",
-     "url": "http://penandpants.com/2013/02/13/approaching-git-from-svn/"},
-    {type: 'tab', url: 'https://www.dropbox.com/', title: 'Dropbox',
-     icon: 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
+    {'type': 'client', 'clientName': 'Demo Data…'},
+    {'type': 'tab', 'title': 'Approaching git from svn | Pen and Pants',
+     'url': 'http://penandpants.com/2013/02/13/approaching-git-from-svn/'},
+    {'type': 'tab', 'title': 'Dropbox', 'url': 'https://www.dropbox.com/',
+     'icon': 'https://www.dropbox.com/static/images/favicon-vfl7PByQm.ico'},
   ]);
 
   /* Load the snippets. */
