@@ -263,6 +263,11 @@ body {
   flex: 0 0;
   min-width: 70vw;
   overflow: hidden;
+  transition: min-width 400ms;
+}
+
+#middle > #topsites.collapsed {
+  min-width: 0px;
 }
 
 #topsites > h3 {
@@ -283,8 +288,12 @@ body {
   height: 1em;
   flex: 0 0 auto;
   min-width: auto;
+  transition: transform 400ms;
 }
 
+#middle > .next.collapsed {
+  transform:rotate(180deg);
+}
 
 history {
   cursor: pointer;

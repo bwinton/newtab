@@ -25,16 +25,8 @@ $(function () {
 
   /* When we click on the disclosure arrow, hide the top sites. */
   $('#middle > .next').click(function (e) {
-    var ts = $('#topsites');
-    if (ts.css('min-width') === '0px') {
-      ts.toggle({complete: function () {
-        ts.animate({'min-width': '70vw'});
-      }});
-    } else {
-      ts.animate({'min-width': '0vw'}, {complete: function () {
-        ts.toggle();
-      }});
-    }
+    $('#topsites').toggleClass('collapsed');
+    $(this).toggleClass('collapsed');
   });
 
 
