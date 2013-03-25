@@ -277,6 +277,8 @@ button {
 
 #topsites > h3 {
   margin: 1%;
+  padding-left: 24px;
+  background: url("../images/icon-topsites.png") no-repeat 0px -1px transparent;
 }
 
 #middle > div > .scrollingContainer {
