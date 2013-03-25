@@ -387,16 +387,16 @@ history .url {
 
 #snippetContainer {
   position: absolute;
-  left: 65vw;
+  left: 80vw;
   bottom: 1em;
-  width: 30%;
+  width: 20%;
+  min-width: 300px;
   margin-right: 2%;
 }
 
-#snippetLogo {
-  width: 64px;
-  height: 64px;
-  float: right;
+#snippetContainer .snippet .icon {
+  right: 15vw;
+  margin-top: 0;
 }
 
 #defaultSnippet1,
@@ -405,8 +405,6 @@ history .url {
   min-height: 38px;
   background: 30px center no-repeat;
   padding: 6px 0;
-  -moz-padding-start: 79px;
-  -moz-padding-end: 10px;
 }
 
 #defaultSnippet1 {
