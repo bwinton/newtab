@@ -202,7 +202,7 @@ $(function () {
       break;
     }
   }
-   
+
   function showError(msg) {
     $('#weather').addClass('error').text(msg);
   }
@@ -222,8 +222,10 @@ $(function () {
     });
   }
 
-  /* Load the default weather. */
-  navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+  if ($('#weather').length) {
+    /* Load the default weather. */
+    navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+  }
 
 
   /* Send a message to the add-on. */
