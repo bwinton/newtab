@@ -67,16 +67,20 @@ body {
   font-size: 80%;
 }
 
-/* Top stuff */
 
 
-#top > button {
+/* Buttons */
+
+button {
   background-repeat: no-repeat;
   background-position: left top;
 
   margin: 10px 1px;
-  padding: 6px 6px;
   vertical-align: top;
+}
+
+.button {
+  padding: 6px;
   white-space: normal;
   background: transparent padding-box;
   border: 1px solid transparent;
@@ -86,12 +90,12 @@ body {
   transition-duration: 150ms;
 }
 
-#top > button:hover {
+.button:hover {
   background-color: hsla(211,79%,6%,.03);
   border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
 }
 
-#top > button:hover:active {
+.button:hover:active {
   background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
   border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
   box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,
@@ -99,8 +103,7 @@ body {
   transition-duration: 0ms;
 }
 
-
-#top > .separator {
+.separator {
     width: 3px;
     min-width: 3px;
     margin: 0px 10px;
@@ -121,43 +124,38 @@ body {
     background-repeat: no-repeat;
 }
 
+#downloads::before {
+  content: url("chrome://browser/content/abouthome/downloads.png");
+}
+#bookmarks::before {
+  content: url("chrome://browser/content/abouthome/bookmarks.png");
+}
+#history::before {
+  content: url("chrome://browser/content/abouthome/history.png");
+}
+#apps::before {
+  content: url("chrome://browser/content/abouthome/apps.png");
+}
+#addons::before {
+  content: url("chrome://browser/content/abouthome/addons.png");
+}
+#sync::before {
+  content: url("chrome://browser/content/abouthome/sync.png");
+}
+#settings::before {
+  content: url("chrome://browser/content/abouthome/settings.png");
+}
+
+
+
+/* Top stuff */
+
 #top > img {
   width: 16px;
   height: 16px;
   vertical-align: top;
   margin: 0px 3px;
 }
-
-
-/* Top Buttons */
-
-  #home::before {
-    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-home-small.png");
-    margin-right: 5px;
-  }
-
-  #apps::before {
-    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-addons-small.png");
-    margin-right: 5px;
-  }
-
-  #whatsnew::before {
-    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-help-small.png");
-    margin-right: 5px;
-  }
-
-  #downloads::before {
-    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-downloads-small.png");
-  }
-  #bookmarks::before {
-    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-bookmarks-small.png");
-  }
-  #addons::before {
-    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-addons-small.png");
-  }
-  #settings::before {
-    content: url("http://people.mozilla.com/~bwinton/newtab/images/icon-preferences-small.png");
-  }
 
 
 /* Search */
