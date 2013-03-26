@@ -32,12 +32,12 @@ $(function () {
 
 
   /* Handle the search form. */
-  $("#searchForm").submit(function onSearchSubmit(aEvent) {
-    let searchTerms = document.getElementById("searchText").value;
-    let searchURL = document.documentElement.getAttribute("searchEngineURL");
+  $('#searchForm').submit(function onSearchSubmit(aEvent) {
+    let searchTerms = document.getElementById('searchText').value;
+    let searchURL = document.documentElement.getAttribute('searchEngineURL');
     if (searchURL && searchTerms.length > 0) {
       const SEARCH_TOKENS = {
-        "_searchTerms_": encodeURIComponent(searchTerms)
+        '_searchTerms_': encodeURIComponent(searchTerms)
       };
       for (let key in SEARCH_TOKENS) {
         searchURL = searchURL.replace(key, SEARCH_TOKENS[key]);
@@ -48,24 +48,40 @@ $(function () {
   });
 
   /* Set the user's search engine. */
-  var setSearch = function setSearch(engine) {
-    var logo = $("#searchEngineLogo");
-    logo.attr('alt', engine.name);
-    logo.attr('src', engine.image);
+  var setSearch = function setSearch(defaultEngine, engines) {
+    var logo = $('#searchEngineLogo');
+    var engineElems = $('#searchEngines');
+
+    logo.attr('alt', defaultEngine.name);
+    logo.attr('src', '../images/SearchEngines/' + defaultEngine.image + '.png');
+    logo.click(function () {
+      engineElems.slideToggle();
+    });
+    $.each(engines, function (i, engine) {
+      engineElems.append('<div class="engine">' +
+        '<img alt="' + engine.name + '" src="../images/SearchEngines/' + engine.image +
+        '.png">' + engine.name + '</div>\n');
+    });
+    engineElems.append('<div class="manage engine">Manage Search Engines</div>');
   };
 
   /* Set the default search engine. */
-  setSearch({
-    'name': 'Google',
-    'image': GOOGLE_IMAGE
-  });
+  setSearch({'name': 'Google', 'image': 'google'}, [
+    {'name': 'Google', 'image': 'google'},
+    {'name': 'Yahoo', 'image': 'yahoo'},
+    {'name': 'Bing', 'image': 'bing'},
+    {'name': 'Amazon.com', 'image': 'amazon'},
+    {'name': 'eBay', 'image': 'ebay'},
+    {'name': 'Twitter', 'image': 'twitter'},
+    {'name': 'Wikipedia (en)', 'image': 'wikipedia'}
+  ]);
 
 
   /* Handle the list of recently-viewed sites. */
   var addSites = function addSites(links) {
     //We can get the links here.
     var container = $('#topsites');
-    container.children().not("h3").remove();
+    container.children().not('h3').remove();
     for (var i = 0; i < 9; i++) {
       var site = '<site></site>';
       if (i < links.length) {
@@ -215,7 +231,7 @@ $(function () {
     $('#weather .city').text(lat.toFixed(2) + ', ' + lon.toFixed(1));
     $.getJSON(WEATHER_URL.replace('{LAT}', lat).replace('{LON}', lon), function (data) {
       var city = data.list[0];
-      $('#weather .temperature').text((city.main.temp - 273.15).toFixed(1) + "ºC");
+      $('#weather .temperature').text((city.main.temp - 273.15).toFixed(1) + 'ºC');
       $('#weather .city').text(city.name);
       $('#weather img').attr('src', 'http://openweathermap.org/img/w/' + city.weather[0].icon + '.png')
                        .attr('title', city.weather[0].description);

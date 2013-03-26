@@ -150,19 +150,12 @@ button {
 
 /* Top stuff */
 
-#top > img {
-  width: 16px;
-  height: 16px;
-  vertical-align: top;
-  margin: 0px 3px;
-}
-
 
 /* Search */
 
 #search {
   width: 48vw;
-  font-size: 17px;
+  font-size: 14px;
   margin: 6px 30vw;
 }
 
@@ -173,6 +166,42 @@ button {
   min-width: 70px;
   vertical-align: bottom;
   margin-bottom: -6px;
+}
+
+#searchEngines {
+  display: none;
+  position: absolute;
+  top: 72px;
+  left: 30vw;
+  padding: 0px;
+  white-space: normal;
+  border-radius: 3px;
+  background-color: #E5E5E5;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.7));
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+  box-shadow: 1px 1px 5px hsla(211,79%,6%,.6);
+}
+
+.engine {
+  padding: .5em;
+  border-bottom: 1px solid hsla(210,54%,20%,.2);
+  padding-right: 2em;
+}
+
+.engine.manage {
+  padding: 12px 2em;
+}
+
+.engine:hover {
+  background-color: #EEE;
+}
+
+#searchEngines img {
+  vertical-align: middle;
+  padding-left: 1.5em;
+  padding-right: 1em;
 }
 
 #searchText {
