@@ -47,26 +47,37 @@ $(function () {
     aEvent.preventDefault();
   });
 
+  var toggleMenu = function toggleMenu(engine) {
+    logo.toggleClass('expanded');
+    $('#searchEngineContainer').slideToggle();
+    if (engine !== undefined) {
+      setSearch(engine.data('engine'));
+    }
+  };
+  var logo = $('#searchEngineLogo');
+  logo.click(function () {
+    toggleMenu();
+  });
+  var engineElems = $('#searchEngines');
+  engineElems.on('click', 'div.engine', function (e) {
+    toggleMenu($(this));
+  });
+
   /* Set the user's search engine. */
   var setSearch = function setSearch(defaultEngine, engines) {
-    var logo = $('#searchEngineLogo');
-    var engineElems = $('#searchEngines');
-
-    var toggleMenu = function toggleMenu() {
-      logo.toggleClass('expanded');
-      engineElems.slideToggle();
-    };
-
     logo.attr('alt', defaultEngine.name);
     logo.attr('src', '../images/SearchEngines/' + defaultEngine.image + '.png');
-    logo.click(toggleMenu);
-    $.each(engines, function (i, engine) {
-      engineElems.append('<div class="engine">' +
-        '<img alt="' + engine.name + '" src="../images/SearchEngines/' + engine.image +
-        '.png">' + engine.name + '</div>\n');
-    });
-    engineElems.append('<div class="manage engine">Manage Search Engines</div>');
-    engineElems.click(toggleMenu);
+    if (engines !== undefined) {
+      engineElems.empty();
+      $.each(engines, function (i, engine) {
+        var engineElem = $('<div class="engine">' +
+          '<img alt="' + engine.name + '" src="../images/SearchEngines/' + engine.image +
+          '.png">' + engine.name + '</div>\n');
+        engineElem.data('engine', engine);
+        engineElems.append(engineElem);
+      });
+      engineElems.append('<div class="manage engine">Manage Search Engines</div>');
+    }
   };
 
   /* Set the default search engine. */

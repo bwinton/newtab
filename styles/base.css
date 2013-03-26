@@ -169,12 +169,26 @@ button {
   margin-bottom: -6px;
 }
 
-#searchEngines {
+#searchEngineContainer {
   display: none;
   position: absolute;
   top: 72px;
   left: 30vw;
-  padding: 0px;
+}
+
+.arrowPanelArrowTop {
+    position: relative;
+    margin-left: 14px;
+    padding: 0px;
+    height: 20px;
+    background-image: url("../images/panel-arrowTop.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+#searchEngines {
   white-space: normal;
   border-radius: 3px;
   background-color: #E5E5E5;
@@ -183,6 +197,7 @@ button {
       rgba(255, 255, 255, 0.7));
   border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
   box-shadow: 1px 1px 5px hsla(211,79%,6%,.6);
+  margin-top: -4px;
 }
 
 .engine {
