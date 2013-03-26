@@ -95,7 +95,8 @@ button {
   border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
 }
 
-.button:hover:active {
+.button:hover:active,
+#searchEngineLogo.expanded {
   background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
   border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
   box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,

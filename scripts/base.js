@@ -52,17 +52,21 @@ $(function () {
     var logo = $('#searchEngineLogo');
     var engineElems = $('#searchEngines');
 
+    var toggleMenu = function toggleMenu() {
+      logo.toggleClass('expanded');
+      engineElems.slideToggle();
+    };
+
     logo.attr('alt', defaultEngine.name);
     logo.attr('src', '../images/SearchEngines/' + defaultEngine.image + '.png');
-    logo.click(function () {
-      engineElems.slideToggle();
-    });
+    logo.click(toggleMenu);
     $.each(engines, function (i, engine) {
       engineElems.append('<div class="engine">' +
         '<img alt="' + engine.name + '" src="../images/SearchEngines/' + engine.image +
         '.png">' + engine.name + '</div>\n');
     });
     engineElems.append('<div class="manage engine">Manage Search Engines</div>');
+    engineElems.click(toggleMenu);
   };
 
   /* Set the default search engine. */
