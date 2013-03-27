@@ -1,0 +1,3 @@
+[submodule "lib/jetpack-protocol"]
+	path = lib/jetpack-protocol
+	url = git://github.com/bwinton/jetpack-protocol.git
