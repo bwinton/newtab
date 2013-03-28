@@ -52,6 +52,7 @@ $(function () {
     $('#searchEngineContainer').slideToggle();
     if (engine !== undefined) {
       setSearch(engine.data('engine'));
+      interesting('searchChanged', engine.data('engine'));
     }
   };
   var logo = $('#searchEngineLogo');
@@ -82,13 +83,13 @@ $(function () {
 
   /* Set the default search engine. */
   setSearch({'name': 'Google', 'image': 'google'}, [
-    {'name': 'Google', 'image': 'google'},
-    {'name': 'Yahoo', 'image': 'yahoo'},
-    {'name': 'Bing', 'image': 'bing'},
-    {'name': 'Amazon.com', 'image': 'amazon'},
-    {'name': 'eBay', 'image': 'ebay'},
-    {'name': 'Twitter', 'image': 'twitter'},
-    {'name': 'Wikipedia (en)', 'image': 'wikipedia'}
+    {'name': 'Demo Google', 'image': 'google'},
+    {'name': 'Demo Yahoo', 'image': 'yahoo'},
+    {'name': 'Demo Bing', 'image': 'bing'},
+    {'name': 'Demo Amazon.com', 'image': 'amazon'},
+    {'name': 'Demo eBay', 'image': 'ebay'},
+    {'name': 'Demo Twitter', 'image': 'twitter'},
+    {'name': 'Demo Wikipedia (en)', 'image': 'wikipedia'}
   ]);
 
 
@@ -260,8 +261,8 @@ $(function () {
 
 
   /* Send a message to the add-on. */
-  var interesting = function (data) {
-    var event = new CustomEvent('tpemit', {'detail': data});
+  var interesting = function (type, detail) {
+    var event = new CustomEvent('tpemit', {'detail': {'type': type, 'detail': detail}});
     document.dispatchEvent(event);
   };
 
@@ -280,6 +281,8 @@ $(function () {
       addHistory(data.list);
     } else if (data.type === 'geolocation') {
       locationSuccess(data.position);
+    } else if (data.type === 'search') {
+      setSearch(data.defaultEngine, data.engines);
     }
   }, false);
 
