@@ -40,3 +40,8 @@ self.port.on('historylist', function (list) {
 self.port.on('geolocation', function (position) {
   document.defaultView.postMessage({'type': 'geolocation', 'position': position}, '*');
 });
+
+self.port.on('search', function (defaultEngine, engines) {
+  document.defaultView.postMessage({'type': 'search', 'defaultEngine': defaultEngine, 'engines': engines}, '*');
+});
+
