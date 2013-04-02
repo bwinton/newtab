@@ -3,26 +3,15 @@
 'use strict';
 
 module.exports = {
-  onCreate: {
+  deploy: {
     run: function (d, v, namedArgs, appName) {
-      // Now, get the submodules!
-      if (v.exists('.git')) {
-        console.log('git', 'submodule', 'add', 'https://github.com/mozilla/addon-sdk.git', '.addon-sdk')
-        v.spawn('git', ['submodule', 'add', 'https://github.com/mozilla/addon-sdk.git', '.addon-sdk']);
-        console.log('git', 'submodule', 'init');
-        v.spawn('git', ['submodule', 'init']);
-        console.log('git', 'submodule', 'update');
-        v.spawn('git', ['submodule', 'update']);
-      } else {
-        var moduleRegex = /^\W*path = (.*).*\W*url = (.*)$/gm;
-        var modules = v.read('.gitmodules');
-        for (var module = moduleRegex.exec(modules);
-             module !== null;
-             module = moduleRegex.exec(modules)) {
-          console.log("git clone " + module[2] + " " + module[1]);
-          v.spawn('git', ['clone', module[2], module[1]]);
-        }
-      }
+      v.sequence([
+        ['cfx', 'xpi',
+          '--update-link', 'https://people.mozilla.com/~bwinton/newtab/newtab.xpi',
+          '--update-url', 'https://people.mozilla.com/~bwinton/newtab/newtab.update.rdf'],
+        [v, 'copyFile', 'newtab.xpi', '/Volumes/people.mozilla.com/public_html/newtab/newtab.xpi'],
+        [v, 'copyFile', 'newtab.update.rdf', '/Volumes/people.mozilla.com/public_html/newtab/newtab.update.rdf']
+      ], {useConsole: !namedArgs.quiet});
     }
   }
 };
