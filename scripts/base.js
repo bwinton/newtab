@@ -28,8 +28,12 @@ $(function () {
   $('#middle > .next').click(function (e) {
     $('#topsites').toggleClass('collapsed');
     $(this).toggleClass('collapsed');
+    localStorage['expanded'] = $('#topsites').hasClass('collapsed') ? 'true' : 'false';
   });
 
+  if (localStorage['expanded'] === 'true') {
+    $('#middle > .next').click();
+  }
 
   /* Handle the search form. */
   $('#searchForm').submit(function onSearchSubmit(aEvent) {
