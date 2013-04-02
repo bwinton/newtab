@@ -67,12 +67,12 @@ $(function () {
   /* Set the user's search engine. */
   var setSearch = function setSearch(defaultEngine, engines) {
     logo.attr('alt', defaultEngine.name);
-    logo.attr('src', '../images/SearchEngines/' + defaultEngine.image + '.png');
+    logo.attr('src', 'http://people.mozilla.com/~bwinton/newtab/images/SearchEngines/' + defaultEngine.image + '.png');
     if (engines !== undefined) {
       engineElems.empty();
       $.each(engines, function (i, engine) {
         var engineElem = $('<div class="engine">' +
-          '<img alt="' + engine.name + '" src="../images/SearchEngines/' + engine.image +
+          '<img alt="' + engine.name + '" src="http://people.mozilla.com/~bwinton/newtab/images/SearchEngines/' + engine.image +
           '.png">' + engine.name + '</div>\n');
         engineElem.data('engine', engine);
         engineElems.append(engineElem);
