@@ -345,6 +345,8 @@ button {
 
 #middle > .next.collapsed {
   transform:rotate(180deg);
+  min-width: 2vw;
+  padding: 1vw;
 }
 
 history {
