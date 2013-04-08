@@ -35,6 +35,12 @@ $(function () {
     $('#middle > .next').click();
   }
 
+  /* Handle the telemetry snippet. */
+  $('#snippets').on('click', '#telemetry-snippet-link', function (event) {
+    event.preventDefault();
+    interesting('telemetry', {});
+  });
+
   /* Handle the search form. */
   $('#searchForm').submit(function onSearchSubmit(aEvent) {
     let searchTerms = document.getElementById('searchText').value;
