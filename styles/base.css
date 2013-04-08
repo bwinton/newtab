@@ -461,3 +461,20 @@ history .url {
 #defaultSnippet2 {
   background-image: url("chrome://browser/content/abouthome/snippet2.png");
 }
+
+/* Flicks Snippet Fix! */
+.flicks-2012-snippet .message .icon {
+  position:absolute !important;
+  right: 15vw !important;
+  top: 5px !important;
+  padding-left: 0px !important;
+  float: left !important;
+}
+
+.flicks-2012-snippet .message p {
+  display: table-cell !important;
+  height: 40px;
+  padding-left: 80px !important;
+  vertical-align: middle;
+  width: 400px;
+}
