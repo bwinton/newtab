@@ -398,6 +398,7 @@ history .url {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
+
 /* Bottom stuff */
 
 #bottom {
@@ -434,16 +435,20 @@ history .url {
 
 #snippetContainer {
   position: absolute;
-  left: 80vw;
+  left: 60vw;
   bottom: 1em;
-  width: 20%;
+  width: 40%;
   min-width: 300px;
   margin-right: 2%;
 }
 
 #snippetContainer .snippet .icon {
-  right: 15vw;
+  right: 35vw;
   margin-top: 0;
+}
+
+#snippetContainer .snippet p {
+  width: 100%;
 }
 
 #defaultSnippet1,
@@ -463,9 +468,10 @@ history .url {
 }
 
 /* Flicks Snippet Fix! */
+
 .flicks-2012-snippet .message .icon {
   position:absolute !important;
-  right: 15vw !important;
+  right: 35vw !important;
   top: 5px !important;
   padding-left: 0px !important;
   float: left !important;
@@ -476,5 +482,39 @@ history .url {
   height: 40px;
   padding-left: 80px !important;
   vertical-align: middle;
-  width: 400px;
+  width: 100%;
+}
+
+/* Telemetry Snippet Styling! */
+
+div.telemetry-note-1,
+div.telemetry-note-2,
+div.telemetry-note-3 {
+  display: table-cell;
+  height: 40px;
+  padding-left: 80px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+div.telemetry-note-2,
+#telemetry-icon-2,
+div.telemetry-note-3 {
+  display: none;
+}
+
+div.telemetry-note-1 span,
+div.telemetry-note-2 span,
+div.telemetry-note-3 span {
+  color: #0B6CDA;
+  border: 1px solid #AAA;
+  background: #fff;
+  padding: 2px 6px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.snippet .buttons {
+  margin-top: 8px;
+  margin-left: -2px;
 }
