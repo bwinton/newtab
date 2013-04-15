@@ -79,6 +79,12 @@ function showSnippets()
         relocatedScript.text = elt.text;
         elt.parentNode.replaceChild(relocatedScript, elt);
       });
+
+      var list = $(snippetsElt).find('div[class^="telemetry"]');
+      list.append('<div class="buttons"></div>');
+      list.each(function (i, e) {
+        $(e).children('span').appendTo($(e).children('.buttons'));
+      });
       return;
     } catch (ex) {
       // Bad content, continue to show default snippets.
