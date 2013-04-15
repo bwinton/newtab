@@ -36,9 +36,26 @@ $(function () {
   }
 
   /* Handle the telemetry snippet. */
-  $('#snippets').on('click', '#telemetry-snippet-link', function (event) {
+  $('#snippets').on('click', 'span[class^="telemetry-button-"]', function (event) {
     event.preventDefault();
-    interesting('telemetry', {});
+    var type = $(this).attr('class').slice(17);
+    var current = $(this).parents('div[class^="telemetry-note-"]').attr('class').slice(15);
+    $(this).parents('div[class^="telemetry-note-"]').toggle();
+    if (type === 'sure') {
+      $('.telemetry-note-2').toggle();
+      localStorage['telemetry-prompted'] = 'sure';
+    } else if (type === 'no') {
+      $('.telemetry-note-3').toggle();
+      localStorage['telemetry-prompted'] = 'no';
+    } else if (type === 'maybe') {
+      $(this).parents('div[class^="telemetry-note-"]').toggle();
+      window.open('https://www.mozilla.org/en-US/legal/privacy/firefox.html#telemetry');
+    } else if (type === 'undo') {
+      $('.telemetry-note-1').toggle();
+      delete localStorage['telemetry-prompted'];
+    }
+
+    interesting('telemetry', {'type': type, 'current': current});
   });
 
   /* Handle the search form. */

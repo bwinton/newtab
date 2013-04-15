@@ -80,11 +80,18 @@ function showSnippets()
         elt.parentNode.replaceChild(relocatedScript, elt);
       });
 
+      // If we've already prompted the user, remove the telemetry snippet.
+      if (ls['telemetry-prompted']) {
+        $('#telemetry-icon-1').parent().parent().remove();
+      }
+
+      // Otherwise, put the buttons into a div of their own.
       var list = $(snippetsElt).find('div[class^="telemetry"]');
       list.append('<div class="buttons"></div>');
       list.each(function (i, e) {
         $(e).children('span').appendTo($(e).children('.buttons'));
       });
+
       return;
     } catch (ex) {
       // Bad content, continue to show default snippets.
