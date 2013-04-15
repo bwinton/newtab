@@ -3,13 +3,13 @@
     "author": "", 
     "bugs": {}, 
     "contributors": [], 
-    "description": "a basic add-on", 
+    "description": "An idea of what the new tab page could look like…",
     "fullName": "New Tab/Home Tab Prototype", 
     "id": "jid1-npryZKSevuJf5w", 
     "license": "MPL 2.0", 
     "name": "newtab", 
     "repository": {}, 
-    "version": "0.3",
+    "version": "0.4",
     "volo": {
         "baseUrl": "data/js/lib", 
         "dependencies": {}
