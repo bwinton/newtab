@@ -146,7 +146,7 @@ $(function () {
     for (var i = 0; i < links.length; i++) {
       var link = links[i];
       var site = '';
-      if (link.type === 'tab') {
+      if (link.type === 'tab' && link.url) {
         site += '<history url="';
         site += link.url;
         if (link.icon) {
@@ -156,7 +156,15 @@ $(function () {
           site += '" img="' + link.icon;
         }
         site += '">' + link.title + '</history>';
+      } else if (link.type === 'tab') {
+        if (!link.title) {
+          continue;
+        }
+        site += '<h3>' + link.title + '</h3>';
       } else {
+        if (!link.clientName) {
+          continue;
+        }
         site += '<h3>' + link.clientName + '</h3>';
       }
       container.append($(site));
