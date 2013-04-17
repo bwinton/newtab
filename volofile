@@ -22,9 +22,12 @@ define(function (require) {
       depends: ['build'],
       run: function (d, v, namedArgs) {
         console.log('Deploying…');
-        d.resolve(v.spawn('scp',
-          ['-Cpr', '.', 'bwinton@people.mozilla.com:~/public_html/newtab'
-          ], { cwd: 'www-built', useConsole: !namedArgs.quiet }));
+        v.sequence([
+          ['scp', '-Cpr', '.', 'bwinton@people.mozilla.com:~/public_html/newtab'],
+          ['growlnotify', '-m', 'Website deploy done at ' + new Date().toLocaleTimeString() + '!!!']
+        ], { cwd: 'www-built', useConsole: !namedArgs.quiet }).then(function() {
+          d.resolve('deployed');
+        });
       }
     }
   };
