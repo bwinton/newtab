@@ -134,7 +134,7 @@ $(function () {
         if (links[i].img) {
           site += '" img="' + links[i].img;
         }
-        site += '">' + links[i].title + '</site>';
+        site += '">' + (links[i].title || '') + '</site>';
       }
       container.append($(site));
     }

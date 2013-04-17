@@ -38,14 +38,23 @@ xtag.register("site", {
     if (self.attr('url')) {
       var thumb = 'moz-page-thumb://thumbnail?url=' + encodeURIComponent(self.attr('url'));
       if (self.attr('img')) {
-        thumb = 'http://people.mozilla.com/~bwinton/newtab/images/' + self.attr('img') + '.png';
+        thumb = self.attr('img');
+        if (!thumb.contains(':')) {
+          thumb = 'http://people.mozilla.com/~bwinton/newtab/images/' + thumb + '.png';
+        }
+      }
+      var title = self.text();
+      var titleAttr = self.text() + '\n' + self.attr('url');
+      if (!self.text()) {
+        title = self.attr('url');
+        titleAttr = self.attr('url');
       }
       self.html('<div class="newtab-link"  ' +
           'style="background-image: url(' + thumb + ');"' +
-          'title="' + self.text() + ' ' + self.attr('url') + '" ' +
+          'title="' + titleAttr + '" ' +
           'href="' + self.attr('url') + '">' +
         '<div class="newtab-thumbnail"></div>' +
-        '<div class="newtab-title">' + self.text() + '</div>' +
+        '<div class="newtab-title">' + title + '</div>' +
       '</div>');
     } else {
       self.html('<div class="newtab-link blank">' +
