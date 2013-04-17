@@ -93,6 +93,8 @@ $(function () {
 
   /* Set the user's search engine. */
   var setSearch = function setSearch(defaultEngine, engines) {
+    document.documentElement.setAttribute("searchEngineName", defaultEngine.name);
+    document.documentElement.setAttribute("searchEngineURL", defaultEngine.searchURL);
     logo.attr('alt', defaultEngine.name);
     logo.attr('src', 'http://people.mozilla.com/~bwinton/newtab/images/SearchEngines/' + defaultEngine.image + '.png');
     if (engines !== undefined) {
