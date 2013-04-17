@@ -5,13 +5,18 @@
 module.exports = {
   deploy: {
     run: function (d, v, namedArgs, appName) {
+      var newTabUrl = 'https://people.mozilla.com/~bwinton/newtab';
+      var newTabDir = '/Volumes/people.mozilla.com/public_html/newtab';
       v.sequence([
         ['cfx', 'xpi',
-          '--update-link', 'https://people.mozilla.com/~bwinton/newtab/newtab.xpi',
-          '--update-url', 'https://people.mozilla.com/~bwinton/newtab/newtab.update.rdf'],
-        [v, 'copyFile', 'newtab.xpi', '/Volumes/people.mozilla.com/public_html/newtab/newtab.xpi'],
-        [v, 'copyFile', 'newtab.update.rdf', '/Volumes/people.mozilla.com/public_html/newtab/newtab.update.rdf']
-      ], {useConsole: !namedArgs.quiet});
+          '--update-link', newTabUrl + '/newtab.xpi',
+          '--update-url', newTabUrl + '/newtab.update.rdf'],
+        [v, 'copyFile', 'newtab.xpi', newTabDir + '/newtab.xpi'],
+        [v, 'copyFile', 'newtab.update.rdf', newTabDir + '/newtab.update.rdf'],
+        ['growlnotify', '-m', 'XPI deploy deploy done at ' + new Date().toLocaleTimeString() + '!!!']
+      ], {useConsole: !namedArgs.quiet}).then(function() {
+        d.resolve('deployed');
+      });
     }
   }
 };
