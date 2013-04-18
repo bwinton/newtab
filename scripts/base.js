@@ -74,6 +74,10 @@ $(function () {
     aEvent.preventDefault();
   });
 
+  $('#clickjack').click(function () {
+    toggleMenu();
+  });
+
   var toggleMenu = function toggleMenu(engine) {
     logo.toggleClass('expanded');
     $('#searchEngineContainer').slideToggle();
@@ -81,6 +85,7 @@ $(function () {
       setSearch(engine.data('engine'));
       interesting('searchChanged', engine.data('engine'));
     }
+    $('#clickjack').toggle();
   };
   var logo = $('#searchEngineLogo');
   logo.click(function () {
