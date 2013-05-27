@@ -1,0 +1,23 @@
+.clearfix{
+	clear: both;
+}
+
+.slider_panel{
+	height: 100px;
+	width: 100px;
+	float:left;
+	text-align: center;
+	line-height: 100px;
+}
+
+div#panel_0{
+	background-color: red;
+}
+
+div#panel_1{
+	background-color: blue;
+}
+
+div#panel_2{
+	background-color: green;
+}
