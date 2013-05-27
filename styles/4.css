@@ -1,23 +1,51 @@
+/* general tools */
+
+html{
+	overflow-x:hidden;
+}
+
 .clearfix{
 	clear: both;
 }
 
+/* panels */
+
+#slider_div{
+	height: 300px;
+	width: 5000px;
+	overflow: auto;
+}
+
 .slider_panel{
-	height: 100px;
-	width: 100px;
+	height: 100%;
+	width: 400px;
 	float:left;
 	text-align: center;
 	line-height: 100px;
 }
 
-div#panel_0{
+#panel_0{
 	background-color: red;
 }
 
-div#panel_1{
+#panel_1{
 	background-color: blue;
 }
 
-div#panel_2{
+#panel_2{
 	background-color: green;
+}
+
+
+/* prev/next buttons */
+.slider_button{
+	position: fixed;
+}
+#prev_button{
+	top: 50%;
+	left: 10px;
+}
+#next_button{
+	top: 50%;
+	right: 10px;
 }
