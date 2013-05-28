@@ -3,5 +3,6 @@
  */
 
 /* create a new slider */
-var slider = new Slider();
-// slider.init();
+$(function(){
+  var slider = new Slider();
+})

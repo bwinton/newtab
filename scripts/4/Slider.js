@@ -39,6 +39,21 @@
       this.next();
     }.bind(this));
 
+    this.$els.window.on("keydown", function(e){
+      var keyCode = e.keyCode;
+      switch(keyCode){
+        case 39:
+          this.next();
+          e.preventDefault();
+          break;
+        case 37:
+          this.prev();
+          e.preventDefault();
+          break;
+      }
+      // console.log(e);
+    }.bind(this));
+
   };
 
   Slider.prototype.init = function(){
@@ -66,6 +81,7 @@
 
   Slider.prototype.prev = function(){
     // alert("prev");
+    if(this.current_panel<=0) return;
     this.current_panel--;
     this.do_shift();
 
@@ -76,6 +92,7 @@
 
   Slider.prototype.next = function(){
     // alert("next");
+    if(this.current_panel >= this.panels-1) return;
     this.current_panel++;
     this.do_shift();
 
@@ -86,11 +103,15 @@
 
   /* looks at the current shift amount and updates
   the css to reflect this */
-  Slider.prototype.do_shift = function(){
+  Slider.prototype.do_shift = function(is_resize){
     this.current_shift = this.current_panel * this.data.width;
-    if (this.current_shift < 0) this.current_shift = 0;
+    // if (this.current_shift < 0) this.current_shift = 0;
+    var transTime = 0;
+    if(!is_resize) transTime = 150;
     this.$els.slider_div.css({
-      'transform': "translate(-"+this.current_shift+"px,0)"
+      "transform": "translate(-"+this.current_shift+"px,0)",
+      "transition": "transform "+transTime+"ms ease-in-out"
+
     });
   };
 
@@ -104,13 +125,11 @@
     var width = $(window).innerWidth();
 
     /* adjust for stupid width resizing error */
-    if(height < this.data.height) width +=15;
+    
+    if(this.data.height && this.data.height > height) width +=15;
 
     this.data.width = width;
-    console.log("width: ", width);
     this.data.height = height;
-
-
 
     /* fix height */
     this.$els.slider_div.css("height", height+"px");
@@ -118,7 +137,7 @@
     this.$els.panels.css("width", width+"px");
 
     /* fix shift */
-    this.do_shift();
+    this.do_shift(true);
   };
 
   /* export */
