@@ -1,7 +1,7 @@
 /* general tools */
 
 html{
-	overflow-x:hidden;
+	overflow:hidden;
 	font-family: helvetica;
 }
 

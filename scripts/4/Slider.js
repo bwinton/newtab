@@ -124,10 +124,6 @@
     // var width = this.$els.window.innerWidth();
     var width = $(window).innerWidth();
 
-    /* adjust for stupid width resizing error */
-    
-    if(this.data.height && this.data.height > height) width +=15;
-
     this.data.width = width;
     this.data.height = height;
 
