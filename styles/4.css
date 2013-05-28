@@ -4,6 +4,12 @@ html{
 	overflow-x:hidden;
 }
 
+#header,
+#footer{
+	text-align: center;
+	font-size: 18px;
+}
+
 .clearfix{
 	clear: both;
 }
@@ -14,6 +20,7 @@ html{
 	height: 300px;
 	width: 5000px;
 	overflow: auto;
+	transition: transform 150ms ease-in-out;
 }
 
 .slider_panel{
@@ -44,6 +51,7 @@ html{
 #prev_button{
 	top: 50%;
 	left: 10px;
+	z-index: 10;
 }
 #next_button{
 	top: 50%;
