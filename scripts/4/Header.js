@@ -19,9 +19,21 @@
 
       /* Handle the search form. */
       $('#searchForm').submit(function onSearchSubmit(aEvent) {
+        // var searchTerms = $("#searchText").val();
+        // alert("search for: "+ searchTerms);
         var searchTerms = $("#searchText").val();
-        alert("search for: "+ searchTerms);
-      });
+        var searchURL = this.data.searchProviders[this.data.searchProvider].searchURL
+        if (searchURL && searchTerms.length > 0) {
+          var SEARCH_TOKENS = {
+            '_searchTerms_': encodeURIComponent(searchTerms)
+          };
+          for (var key in SEARCH_TOKENS) {
+            searchURL = searchURL.replace(key, SEARCH_TOKENS[key]);
+          }
+          window.location.href = searchURL;
+        }
+        aEvent.preventDefault();
+      }.bind(this));
 
       /* click on search provider logo */
       $('#searchEngineLogo').click(function () {
@@ -77,15 +89,17 @@
       var providers = this.data.searchProviders;
       var $enginesContainer = $("#searchEngines").empty();
       $.each(providers, function(i, provider){
-        // if(i>0) return;
-        console.log(i);
         $("<div>").addClass("engine").append(
           $("<img>")
           .attr("src", getRealImageLoc(provider.image))
           .attr("alt", provider.name)
         )
+        .click(function(e){
+          this.setSearch(i);
+          this.toggleMenu();
+        }.bind(this))
         .appendTo($enginesContainer);
-      });
+      }.bind(this));
     };
 
 
