@@ -8,8 +8,6 @@
   /* define the object */
   var Slider = function(){
 
-    this.init();
-
     /*
     DATA
      */
@@ -19,12 +17,15 @@
     /* number of pixels the slider div is currently shifted by */
     this.current_shift = 0;
 
+    this.data = {};
+    this.init();
+
     /* 
     EVENTS
     */
-   
+
     /* window resize */
-    this.$els.window.resize(function() {
+    this.$els.window.resize(function(e) {
       this.fix_size();
     }.bind(this));
 
@@ -86,31 +87,39 @@
   /* looks at the current shift amount and updates
   the css to reflect this */
   Slider.prototype.do_shift = function(){
-    this.current_shift = this.current_panel * this.$els.window.width();
+    this.current_shift = this.current_panel * this.data.width;
     if (this.current_shift < 0) this.current_shift = 0;
     this.$els.slider_div.css({
-      // 'transform': "translate3d(-"+this.current_shift+"px,0,0)"
-      'transform': "translate3d(-"+this.current_shift+"px,0,0)"
+      'transform': "translate(-"+this.current_shift+"px,0)"
     });
-  }
+  };
 
   /*
   this fixes the size of each panel to be exactly
   the size of the browser window
    */
   Slider.prototype.fix_size = function(){
-    var height = this.$els.window.height() - this.$els.header.height() - this.$els.footer.height();
-    var width = this.$els.window.width();
-    
+    var height = this.$els.window.innerHeight() - this.$els.header.height() - this.$els.footer.height();
+    // var width = this.$els.window.innerWidth();
+    var width = $(window).innerWidth();
+
+    /* adjust for stupid width resizing error */
+    if(height < this.data.height) width +=15;
+
+    this.data.width = width;
+    console.log("width: ", width);
+    this.data.height = height;
+
+
+
     /* fix height */
     this.$els.slider_div.css("height", height+"px");
     /* fix width of each panel */
     this.$els.panels.css("width", width+"px");
-  
+
     /* fix shift */
     this.do_shift();
   };
-
 
   /* export */
   window.Slider = Slider;
