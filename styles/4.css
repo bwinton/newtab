@@ -34,7 +34,7 @@ html{
 .app_group{
 	border: dotted;
 	border-radius: 1px;
-	margin: 20px 40px;
+	margin: 25px 40px;
 }
 
 .app_container{
@@ -43,8 +43,6 @@ html{
 	margin: 10px;
 	padding: 10px;
 	display: inline-block;
-	min-width: 100px;
-	min-height: 100px;
 }
 
 .size_1{

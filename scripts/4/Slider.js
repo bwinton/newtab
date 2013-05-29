@@ -51,7 +51,6 @@
           e.preventDefault();
           break;
       }
-      // console.log(e);
     }.bind(this));
 
   };
