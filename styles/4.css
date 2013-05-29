@@ -31,7 +31,13 @@ html{
 	line-height: 100px;
 }
 
-.tile{
+.app_group{
+	border: dotted;
+	border-radius: 1px;
+	margin: 20px 40px;
+}
+
+.app_container{
 	border: solid;
 	border-width: 2px;
 	margin: 10px;
@@ -39,7 +45,18 @@ html{
 	display: inline-block;
 	min-width: 100px;
 	min-height: 100px;
-	
+}
+
+.size_1{
+
+}
+
+.size_2{
+
+}
+
+.size_3{
+
 }
 
 #panel_0{

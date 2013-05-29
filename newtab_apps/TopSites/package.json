@@ -1,5 +1,5 @@
 {
 	"preferences": {
-		"share_panel": false //makes it so this app wll not share a panel with any other app
+		"app_width": 3 // makes this app the width of 3 apps (gets its own page)
 	}
 }
