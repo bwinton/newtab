@@ -31,6 +31,17 @@ html{
 	line-height: 100px;
 }
 
+.tile{
+	border: solid;
+	border-width: 2px;
+	margin: 10px;
+	padding: 10px;
+	display: inline-block;
+	min-width: 100px;
+	min-height: 100px;
+	
+}
+
 #panel_0{
 	background-color: red;
 }

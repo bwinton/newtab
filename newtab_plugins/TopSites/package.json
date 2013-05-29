@@ -1,0 +1,5 @@
+{
+	"preferences": {
+		"share_panel": false //makes it so this app wll not share a panel with any other app
+	}
+}

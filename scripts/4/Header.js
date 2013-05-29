@@ -20,7 +20,7 @@
       /* Handle the search form. */
       $('#searchForm').submit(function onSearchSubmit(aEvent) {
         var searchTerms = $("#searchText").val();
-        var searchURL = this.data.searchProviders[this.data.searchProvider].searchURL
+        var searchURL = this.data.searchProviders[this.data.searchProvider].searchURL;
         if (searchURL && searchTerms.length > 0) {
           var SEARCH_TOKENS = {
             '_searchTerms_': encodeURIComponent(searchTerms)
@@ -41,7 +41,7 @@
     };
 
     Header.prototype.init = function(){
-      
+
       /* setup search providers */
       var searchProviders =  [
         {'name': 'Google', 'image': 'google', 'searchURL': 'https://www.google.com/search?q=_searchTerms_&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:unofficial&client=firefox-a&channel=np&source=hp'},
@@ -77,7 +77,7 @@
       $logo.attr('src', getRealImageLoc(searchProvider.image));
 
       /* set filler text in search input */
-      $("#searchText").attr("placeholder",searchProvider.name)
+      $("#searchText").attr("placeholder",searchProvider.name);
 
     };
 
@@ -105,7 +105,7 @@
 
     Header.prototype.toggleMenu = function(){
       $("#searchEngineLogo").toggleClass("expanded");
-      $("#searchEngineContainer").slideToggle({duration: 250});
+      $("#searchEngineContainer").slideToggle({duration: 200});
         // interesting('searchChanged', engine.data('engine'));
       // $('#clickjack').toggle();
     };
