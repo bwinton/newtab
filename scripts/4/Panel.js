@@ -1,10 +1,17 @@
 ;(function(){
-    var Panel = function($panel){
+    // var Panel = function($panel){
+    /* start and end (inclusive-exclusive) are
+    incices into the NewTabs array of app_data */
+    var Panel = function(Slider, start, end){
 
       this.$els = {};
+      this.parent = Slider;
+      this.data = {
+        app_data_start: start,
+        app_data_end: end
+      };
 
-      this.data = {};
-      this.init($panel);
+      this.init();
 
       /* 
       EVENTS
@@ -17,17 +24,20 @@
 
     };
 
-    Panel.prototype.init = function($panel){
+    Panel.prototype.init = function(){
       /* find elements */
       this.$els = {
-        panel: $panel,
-        app_group: $panel.find(".app_group"),
-        apps: $panel.find(".app_container"),
+        // panel: $panel,
+        // app_group: $panel.find(".app_group"),
+        // apps: $panel.find(".app_container"),
         window: $(window)
       };
 
-      /* init sizes */
-      this.fix_size();
+      this.render();
+      window.setTimeout(function(){
+        this.fix_size();
+        // console.log(this.constructor);
+      }.bind(this), 0);
 
     };
 
@@ -36,6 +46,10 @@
       var panel_width = this.$els.panel.width();
       var apps_on_panel = this.$els.apps.length;
       var denom;
+
+      /* fix panel width */
+      var width = $(window).innerWidth();
+      this.$els.panel.css("width", width);
 
       /* calculates how wide the given app should
       be given its container, the number of apps
@@ -66,6 +80,46 @@
         var width = calc_app_width($app_container);
         $(app_container).css("width", width+"px");
       });
+
+
+    };
+
+    Panel.prototype.render = function(){
+      /* create panel div */
+      var panel = $("<div>").addClass('slider_panel');
+      var app_group = $("<div>").addClass("app_group");
+      panel.append(app_group);
+      panel.appendTo(this.parent.$els.slider_div);
+      this.$els.panel = panel;
+      this.$els.app_group = app_group;
+
+      /* generate each app */
+      for(var x=this.data.app_data_start;
+        x<this.data.app_data_end; x++){
+
+        var app_data = this.parent.data.apps_data[x];
+        var app_container = $("<div>").addClass("app_container");
+        /* set app size factor */
+        if(app_data.size === 1)
+          app_container.addClass("app_1");
+        else if(app_data.size === 2)
+          app_container.addClass("app_2");
+        else if(app_data.size === 3)
+          app_container.addClass("app_3");
+
+        app_group.append(app_container);
+
+        /* inject app script */
+        app_container.append($("<div>").html(app_data.id));
+
+      }
+
+      this.$els.apps = $(".app_container");
+
+      // /* init sizes */
+      window.setTimeout(function(){
+        this.fix_size();
+      }.bind(this), 0);
 
 
     };

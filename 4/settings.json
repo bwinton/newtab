@@ -1,0 +1,18 @@
+{
+	"apps":
+	[
+		{
+			"id": "NewTab",
+			"size": 2
+		},
+		{
+			"id": "app1",
+			"size": 2
+		},
+		{
+			"id": "app2",
+			"size": 2
+		}
+	]
+
+}

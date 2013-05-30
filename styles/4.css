@@ -31,6 +31,13 @@ html{
 	line-height: 100px;
 }
 
+.slider_panel:nth-child(odd){
+	background:blue;
+}
+.slider_panel:nth-child(even){
+	background:red;
+} 
+
 .app_group{
 	border: dotted;
 	border-radius: 1px;
