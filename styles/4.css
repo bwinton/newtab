@@ -32,10 +32,10 @@ html{
 }
 
 .slider_panel:nth-child(odd){
-	background:blue;
+	background:#eee;
 }
 .slider_panel:nth-child(even){
-	background:red;
+	background:#eee;
 } 
 
 .app_group{

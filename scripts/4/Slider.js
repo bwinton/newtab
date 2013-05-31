@@ -101,6 +101,11 @@
 
 
         move_container(this.$drag_src, $target);
+        
+        /* refind all panels */
+        $.map(this.submods.panels, function(panel){
+          panel.$els.apps = $(".app_container");
+        })
 
         $(".app_container").removeClass('drag_over')
         .css('opacity', '1.0');
@@ -185,7 +190,7 @@
   Slider.prototype.do_shift = function(is_resize){
     this.data.current_shift = this.data.current_panel * $(window).innerWidth();
     var transTime = 0;
-    if(!is_resize) transTime = 150;
+    if(!is_resize) transTime = 450;
     this.$els.slider_div.css({
       "transform": "translate(-"+this.data.current_shift+"px,0)",
       "transition": "transform "+transTime+"ms ease-in-out"
@@ -265,9 +270,10 @@
     /* if target is after source */
 
     if($c1.index() > $c2.index())
-      $c2.before($c1.clone(true));
+      $c2.before($c1.clone(true, true));
     else
-      $c2.after($c1.clone(true));
+      $c2.after($c1.clone(true, true));
+
     $c1.remove();
   }
 
