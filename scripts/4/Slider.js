@@ -210,7 +210,7 @@
     this.data.height = height;
 
     /* fix height */
-    this.$els.slider_div.css("height", height+"px");
+    // this.$els.slider_div.css("height", height+"px");
 
     /* fix shift */
     this.do_shift(true);

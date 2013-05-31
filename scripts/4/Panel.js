@@ -71,14 +71,14 @@
       }
 
       /* app_group */
-      this.$els.app_group.css("height", panel_height-50+"px");
+      // this.$els.app_group.css("height", panel_height-50+"px");
 
       /* apps */
-      this.$els.apps.css("height", panel_height-100+"px");
+      // this.$els.apps.css("height", panel_height-100+"px");
       this.$els.apps.each(function(i,app_container){
         var $app_container = $(app_container);
         var width = calc_app_width($app_container);
-        $(app_container).css("width", width+"px");
+        // $(app_container).css("width", width+"px");
       });
 
 

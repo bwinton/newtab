@@ -5,10 +5,17 @@ html{
 	font-family: helvetica;
 }
 
+html,
+body,
+#wrapper{
+	height: 100%;
+}
+
 #header,
 #footer{
 	text-align: center;
-	font-size: 38px;
+	font-size: 40px;
+	height: 75px;
 }
 
 .clearfix{
@@ -18,30 +25,36 @@ html{
 /* panels */
 
 #slider_div{
-	height: 300px;
+	/*height: 300px;*/
 	width: 5000px;
 	overflow: auto;
+	height: calc(100% - 75px - 75px); /* - header and footer */
 }
 
 .slider_panel{
-	height: 100%;
 	width: 400px;
 	float:left;
 	text-align: center;
 	line-height: 100px;
+	height: 100%;
+	width: 100%;
+	/*height: calc(100% - 350px);*/
 }
 
 .slider_panel:nth-child(odd){
 	background:#eee;
 }
 .slider_panel:nth-child(even){
-	background:#eee;
+	background:#ddd;
 } 
 
 .app_group{
-	/*border: dotted;*/
+	border: dotted;
 	border-radius: 0px;
 	margin: 25px 40px;
+	/*height: 100%;*/
+	height: calc(100%);
+	width: 100%;
 }
 
 .app_container{
@@ -51,30 +64,20 @@ html{
 	margin: 10px;
 	padding: 10px;
 	display: inline-block;
+	height: 100%;
+	/*width: 100%;*/
 }
 
-.size_1{
-
+.app_1{
+	width: 33%;
 }
 
-.size_2{
-
+.app_2{
+	width: 50%;
 }
 
-.size_3{
-
-}
-
-#panel_0{
-	background-color: red;
-}
-
-#panel_1{
-	background-color: blue;
-}
-
-#panel_2{
-	background-color: green;
+.app_3{
+	width: 100%;
 }
 
 
