@@ -39,14 +39,15 @@ html{
 } 
 
 .app_group{
-	border: dotted;
-	border-radius: 1px;
+	/*border: dotted;*/
+	border-radius: 0px;
 	margin: 25px 40px;
 }
 
 .app_container{
 	border: solid;
 	border-width: 2px;
+	border-radius: 15px;
 	margin: 10px;
 	padding: 10px;
 	display: inline-block;
@@ -89,4 +90,11 @@ html{
 #next_button{
 	top: 50%;
 	right: 10px;
+}
+
+/*drag and drop styles*/
+
+.drag_over{
+	border-radius: 20px;
+	border: dashed;
 }

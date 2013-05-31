@@ -21,6 +21,7 @@
       panels: []
     }
     this.parent = NewTab;
+    this.$drag_src;
     this.data = {
       current_panel: 0, /* the number of the currently view panel */
       current_shift: 0, /* the current shift amount in positive pixels */
@@ -61,6 +62,73 @@
           break;
       }
     }.bind(this));
+
+    /* handle app_container drag events */
+    $(".app_container").bind("dragstart", function(e){
+      $target = $(e.target);
+      $target.css('opacity', '0.4');
+      this.$drag_src = $target;
+      e.originalEvent.dataTransfer.setData('text/html', $target.html);
+    }.bind(this))
+
+    .bind("dragover", function(e){
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+
+      return false;
+    }.bind(this))
+
+    .bind("dragenter", function(e){
+      $(e.target).addClass('drag_over');
+    }.bind(this))
+
+    .bind("dragleave", function(e){
+      $(e.target).removeClass('drag_over');
+    }.bind(this))
+
+    .bind("drop", function(e){
+        // this / e.target is current target element.
+
+        if (e.stopPropagation) {
+          e.stopPropagation(); // stops the browser from redirecting.
+        }
+
+        $target = $(e.target);
+        // target_html = $target.html();
+
+        /* move container */
+
+
+        move_container(this.$drag_src, $target);
+
+        $(".app_container").removeClass('drag_over')
+        .css('opacity', '1.0');
+
+        // $.each(this.submods.panels, function(i, panel){
+        //   panel.fix_size();
+        // });
+
+        this.$drag_src = undefined;
+
+        return false;
+    }.bind(this))
+
+    .bind("dragend", function(e){
+      $(".app_container").removeClass('drag_over')
+      .css('opacity', '1.0');
+
+    }.bind(this));
+
+    $("#next_button").bind("dragenter", function(){
+      this.next();
+    }.bind(this));
+
+    $("#prev_button").bind("dragenter", function(){
+      this.prev();
+    }.bind(this));
+
+
 
   };
 
@@ -116,8 +184,6 @@
   the css to reflect this */
   Slider.prototype.do_shift = function(is_resize){
     this.data.current_shift = this.data.current_panel * $(window).innerWidth();
-    // if (this.current_shift < 0) this.current_shift = 0;
-    console.log(this.data.current_shift);
     var transTime = 0;
     if(!is_resize) transTime = 150;
     this.$els.slider_div.css({
@@ -183,15 +249,27 @@
 
   };
 
-  /* calculates the number of panels needed to
-  hold all apps */
-  // function calc_numb_of_panels_needed(app_data){
-  //   var width_total = 0;
-  //   $.each(app_data, function(i, app){
-  //     width_total+=app.size;
-  //   });
-  //   return (width_total+2) / 3;
-  // }
+  function swap_$els($c1, $c2){
+    var $c1_copy = $c1.clone(true, true);
+    var $c2_copy = $c2.clone(true, true);
+
+    $c2.replaceWith($c1_copy);
+    $c1.replaceWith($c2_copy);
+
+  }
+
+  function move_container($c1, $c2){
+    /* make sure theres a target */
+    if(!$c2) return;
+
+    /* if target is after source */
+
+    if($c1.index() > $c2.index())
+      $c2.before($c1.clone(true));
+    else
+      $c2.after($c1.clone(true));
+    $c1.remove();
+  }
 
   /* export */
   window.Slider = Slider;

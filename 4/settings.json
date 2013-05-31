@@ -3,7 +3,7 @@
 	[
 		{
 			"id": "NewTab",
-			"size": 2
+			"size": 1
 		},
 		{
 			"id": "app1",
@@ -11,7 +11,7 @@
 		},
 		{
 			"id": "app2",
-			"size": 2
+			"size": 1
 		}
 	]
 

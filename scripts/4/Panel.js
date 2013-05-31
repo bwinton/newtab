@@ -98,7 +98,7 @@
         x<this.data.app_data_end; x++){
 
         var app_data = this.parent.data.apps_data[x];
-        var app_container = $("<div>").addClass("app_container");
+        var app_container = $("<div>").addClass("app_container").attr('draggable','true');
         /* set app size factor */
         if(app_data.size === 1)
           app_container.addClass("app_1");
