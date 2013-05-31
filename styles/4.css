@@ -35,18 +35,12 @@ body,
 	/*width: 400px;*/
 	/*float:left;*/
 	text-align: center;
-	line-height: 100px;
-	height: 100%;
+	/*line-height: 100px;*/
 	display: inline-block;
+	height: 100%;
+	width: 100%;
 	/*height: calc(100% - 350px);*/
 }
-
-.slider_panel:nth-child(odd){
-	background:#eee;
-}
-.slider_panel:nth-child(even){
-	background:#ddd;
-} 
 
 .app_group{
 	border: dotted;
@@ -54,6 +48,7 @@ body,
 	margin: 25px 40px;
 	/*height: 100%;*/
 	height: calc(70%);
+	width: 100%;
 }
 
 .app_container{
@@ -64,9 +59,17 @@ body,
 	padding: 10px;
 	display: inline-block;
 	height: 100%;
-	width: 33%;
+	/*width: 33%;*/
 	float: left;
 }
+
+
+.slider_panel:nth-child(odd){
+	background:#eee;
+}
+.slider_panel:nth-child(even){
+	background:#ddd;
+} 
 
 .app_1{
 	width: 30%;
