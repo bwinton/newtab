@@ -26,18 +26,18 @@ body,
 
 #slider_div{
 	/*height: 300px;*/
-	width: 5000px;
+	width: 50000px;
 	overflow: auto;
 	height: calc(100% - 75px - 75px); /* - header and footer */
 }
 
 .slider_panel{
-	width: 400px;
-	float:left;
+	/*width: 400px;*/
+	/*float:left;*/
 	text-align: center;
 	line-height: 100px;
 	height: 100%;
-	width: 100%;
+	display: inline-block;
 	/*height: calc(100% - 350px);*/
 }
 
@@ -53,8 +53,7 @@ body,
 	border-radius: 0px;
 	margin: 25px 40px;
 	/*height: 100%;*/
-	height: calc(100%);
-	width: 100%;
+	height: calc(70%);
 }
 
 .app_container{
@@ -65,19 +64,20 @@ body,
 	padding: 10px;
 	display: inline-block;
 	height: 100%;
-	/*width: 100%;*/
+	width: 33%;
+	float: left;
 }
 
 .app_1{
-	width: 33%;
+	width: 30%;
 }
 
 .app_2{
-	width: 50%;
+	width: 10%;
 }
 
-.app_3{
-	width: 100%;
+.app_{
+	width: 10%;
 }
 
 
