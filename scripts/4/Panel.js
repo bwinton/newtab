@@ -114,6 +114,8 @@
 
       }
 
+      /* insert clearfix */
+      app_group.append($("<div>").addClass('clearfix'));
       this.$els.apps = $(".app_container");
 
       // /* init sizes */
