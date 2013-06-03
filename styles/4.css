@@ -26,7 +26,6 @@ body,
 
 #middle{	
 	height: calc(100% - 75px - 75px); /* - header and footer */
-
 }
 
 #slider_div{
@@ -43,7 +42,7 @@ body,
 	/*line-height: 100px;*/
 	display: inline-block;
 	height: 100%;
-	width: 100%;
+	/*width: 100%;*/
 	/*height: calc(100% - 350px);*/
 }
 
@@ -51,7 +50,42 @@ body,
 	border: dotted;
 	border-radius: 0px;
 	margin: 25px 40px;
-	/*height: calc(100% - 60px);*/
+	height: calc(100% - 60px);
+	/*width: 100%;*/
+
+
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-box-align: stretch;
+    -moz-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+
+
+
 }
 
 .app_container{
@@ -63,7 +97,24 @@ body,
 	/*display: inline-block;*/
 	/*height: calc(100% - 60px);*/
 	/*width: 33%;*/
-	float: left;
+	/*float: left;*/
+
+
+
+    -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 1;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+
 }
 
 
