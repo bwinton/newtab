@@ -7,7 +7,8 @@
       */
       this.data = {
         searchProviders: [],
-        searchProvider: undefined
+        searchProvider: undefined,
+        expanded: false
       };
 
       this.init();
@@ -36,6 +37,13 @@
       /* click on search provider logo */
       $('#searchEngineLogo').click(function () {
         this.toggleMenu();
+      }.bind(this));
+
+      /* retract menu if click anywhere else */
+      $(document).click(function (e) {
+        if($(e.target).attr("id") !== "searchEngineLogo"
+        && this.data.expanded === true)
+          this.toggleMenu();
       }.bind(this));
 
     };
@@ -104,6 +112,7 @@
 
 
     Header.prototype.toggleMenu = function(){
+      this.data.expanded = !this.data.expanded;
       $("#searchEngineLogo").toggleClass("expanded");
       $("#searchEngineContainer").slideToggle({duration: 200});
         // interesting('searchChanged', engine.data('engine'));

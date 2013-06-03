@@ -194,7 +194,7 @@
   the css to reflect this */
   Slider.prototype.do_shift = function(is_resize){
     this.data.current_shift = this.data.current_panel * $(window).innerWidth();
-    var transTime;;
+    var transTime;
     if(!is_resize) transTime = 350;
     this.$els.slider_div.css({
       "transform": "translate(-"+this.data.current_shift+"px,0)",
