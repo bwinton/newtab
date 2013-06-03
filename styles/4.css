@@ -11,10 +11,168 @@ body,
 	height: 100%;
 }
 
+/* header style */
+
+.button:hover {
+  background-color: hsla(211,79%,6%,.03);
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+}
+
+.button:hover:active,
+#searchEngineLogo.expanded {
+  background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
+  border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
+  box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,
+              0 0 1px hsla(211,79%,6%,.1) inset;
+  transition-duration: 0ms;
+}
+
+#searchEngineLogo {
+  display: inline-block;
+  height: 28px;
+  width: 70px;
+  min-width: 70px;
+  vertical-align: bottom;
+  margin-bottom: -6px;
+}
+
+#searchEngineContainer {
+  display: none;
+  position: absolute;
+  top: 72px;
+  left: 30vw;
+  z-index: 5;
+}
+
+.arrowPanelArrowTop {
+    position: relative;
+    margin-left: 48px;
+    padding: 0px;
+    height: 20px;
+    background-image: url("../images/panel-arrowTop.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+#searchEngines {
+  white-space: normal;
+  border-radius: 3px;
+  background-color: #E5E5E5;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.7));
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+  box-shadow: 1px 1px 5px hsla(211,79%,6%,.6);
+  margin-top: -4px;
+}
+
+.engine {
+  padding: .5em;
+  border-bottom: 1px solid hsla(210,54%,20%,.2);
+  padding-right: 2em;
+}
+
+.engine.manage {
+  padding: 12px 2em;
+}
+
+.engine:hover {
+  background-color: #EEE;
+}
+
+#searchEngines img {
+  vertical-align: middle;
+  padding-left: 1.5em;
+  padding-right: 1em;
+}
+
+#searchText {
+  font-size: 17px;
+  padding: 6px 8px;
+  background: hsla(0,0%,100%,.9) padding-box;
+  border: 1px solid;
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+  box-shadow: 0 1px 0 hsla(210,65%,9%,.02) inset,
+              0 0 2px hsla(210,65%,9%,.1) inset,
+              0 1px 0 hsla(0,0%,100%,.2);
+  border-radius: 2.5px 0 0 2.5px;
+  width: calc(58% - 70px);
+}
+
+#searchText:-moz-dir(rtl) {
+  border-radius: 0 2.5px 2.5px 0;
+}
+
+#searchText:focus,
+#searchText[autofocus] {
+  border-color: hsla(206,100%,60%,.6) hsla(206,76%,52%,.6) hsla(204,100%,40%,.6);
+}
+
+#searchSubmit {
+  font-size: 17px;
+  -moz-margin-start: -7px;
+  background: -moz-linear-gradient(hsla(0,0%,100%,.8), hsla(0,0%,100%,.1)) padding-box;
+  padding: 5px 9px;
+  border: 1px solid;
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+  -moz-border-start: 1px solid transparent;
+  border-radius: 0 2.5px 2.5px 0;
+  box-shadow: 0 0 2px hsla(0,0%,100%,.5) inset,
+              0 1px 0 hsla(0,0%,100%,.2);
+  cursor: pointer;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 150ms;
+  width: 17%;
+}
+
+#searchSubmit:-moz-dir(rtl) {
+  border-radius: 2.5px 0 0 2.5px;
+}
+
+#searchText:focus + #searchSubmit,
+#searchText + #searchSubmit:hover,
+#searchText[autofocus] + #searchSubmit {
+  border-color: #59b5fc #45a3e7 #3294d5;
+  color: white;
+}
+
+#searchText:focus + #searchSubmit,
+#searchText[autofocus] + #searchSubmit {
+  background-image: -moz-linear-gradient(#4cb1ff, #1793e5);
+  box-shadow: 0 1px 0 hsla(0,0%,100%,.2) inset,
+              0 0 0 1px hsla(0,0%,100%,.1) inset,
+              0 1px 0 hsla(210,54%,20%,.03);
+}
+
+#searchText + #searchSubmit:hover {
+  background-image: -moz-linear-gradient(#66bdff, #0d9eff);
+  box-shadow: 0 1px 0 hsla(0,0%,100%,.2) inset,
+              0 0 0 1px hsla(0,0%,100%,.1) inset,
+              0 1px 0 hsla(210,54%,20%,.03),
+              0 0 4px hsla(206,100%,20%,.2);
+}
+
+#searchText + #searchSubmit:hover:active {
+  box-shadow: 0 1px 1px hsla(211,79%,6%,.1) inset,
+              0 0 1px hsla(211,79%,6%,.2) inset;
+  transition-duration: 0ms;
+}
+
+
+
+
+
+
+
+
+
+
 #header,
 #footer{
-	text-align: center;
-	font-size: 40px;
+	/*text-align: center;*/
+	/*font-size: 40px;*/
 	height: 75px;
 }
 
