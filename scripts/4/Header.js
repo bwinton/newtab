@@ -41,8 +41,8 @@
 
       /* retract menu if click anywhere else */
       $(document).click(function (e) {
-        if($(e.target).attr("id") !== "searchEngineLogo"
-        && this.data.expanded === true)
+        if( $(e.target).attr("id") !== "searchEngineLogo" &&
+        this.data.expanded === true)
           this.toggleMenu();
       }.bind(this));
 
