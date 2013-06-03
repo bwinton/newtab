@@ -70,14 +70,14 @@ body {
 
 
 /* Buttons */
-
+/*
 button {
   background-repeat: no-repeat;
   background-position: left top;
 
   margin: 10px 1px;
   vertical-align: top;
-}
+}*/
 
 .button {
   padding: 6px;

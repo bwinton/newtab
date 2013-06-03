@@ -40,11 +40,20 @@
       }.bind(this));
 
       /* retract menu if click anywhere else */
-      $(document).click(function (e) {
+      $(document).bind("click keydown", function (e) {
         if( $(e.target).attr("id") !== "searchEngineLogo" &&
         this.data.expanded === true)
           this.toggleMenu();
       }.bind(this));
+
+      /* remove fade */
+      // $("#searchEngineLogo").bind("mouseenter", function(e){
+      //   $(e.target).removeClass('faded_image');
+      // }.bind(this))
+      // .bind("mouseleave", function(e){
+      //   if(this.data.expanded === true) return;
+      //   $(e.target).addClass('faded_image');
+      // }.bind(this));
 
     };
 
@@ -52,7 +61,7 @@
 
       /* setup search providers */
       var searchProviders =  [
-        {'name': 'Google', 'image': 'google', 'searchURL': 'https://www.google.com/search?q=_searchTerms_&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:unofficial&client=firefox-a&channel=np&source=hp'},
+        {'name': 'Google', 'image': 'google_larger', 'searchURL': 'https://www.google.com/search?q=_searchTerms_&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:unofficial&client=firefox-a&channel=np&source=hp'},
         {'name': 'Yahoo', 'image': 'yahoo', 'searchURL': 'http://search.yahoo.com/search?p=_searchTerms_&ei=UTF-8&fr='},
         {'name': 'Bing', 'image': 'bing', 'searchURL': 'http://www.bing.com/search?q=_searchTerms_'},
         {'name': 'Amazon.com', 'image': 'amazon', 'searchURL': 'http://www.amazon.com/exec/obidos/external-search/?field-keywords=_searchTerms_&mode=blended&tag=mozilla-20&sourceid=Mozilla-search'},
@@ -85,7 +94,7 @@
       $logo.attr('src', getRealImageLoc(searchProvider.image));
 
       /* set filler text in search input */
-      $("#searchText").attr("placeholder",searchProvider.name);
+      // $("#searchText").attr("placeholder",searchProvider.name);
 
     };
 
@@ -115,6 +124,12 @@
       this.data.expanded = !this.data.expanded;
       $("#searchEngineLogo").toggleClass("expanded");
       $("#searchEngineContainer").slideToggle({duration: 200});
+
+      // if(this.data.expanded)
+      //   $("#searchEngineLogo").removeClass("faded_image");
+      // else
+      //   $("#searchEngineLogo").addClass("faded_image");
+
         // interesting('searchChanged', engine.data('engine'));
       // $('#clickjack').toggle();
     };

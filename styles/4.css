@@ -23,7 +23,10 @@ body{
   margin: 20px 0px;
   height: calc(100vh - 40px);
 }
-
+.faded_image{
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* msie */
+}
 /* header style */
 
 
@@ -35,11 +38,12 @@ body{
 
 #searchEngineLogo {
   display: inline-block;
-  height: 28px;
+  height: 24px;
   width: 70px;
-  min-width: 70px;
+  /*min-width: 70px;*/
   vertical-align: bottom;
-  margin-bottom: -6px;
+  margin-bottom: -4px;
+  margin-right: 5px;
 }
 
 #searchEngineContainer {
@@ -88,6 +92,11 @@ body{
   padding: .5em;
   border-bottom: 1px solid hsla(210,54%,20%,.2);
   padding-right: 2em;
+}
+
+.engine > img{
+  height: 24px;
+  width: 70px;
 }
 
 .engine.manage {
@@ -175,6 +184,42 @@ body{
               0 0 1px hsla(211,79%,6%,.2) inset;
   transition-duration: 0ms;
 }
+
+
+button {
+  background-repeat: no-repeat;
+  background-position: left top;
+
+  margin: 10px 1px;
+  vertical-align: top;
+}
+
+.button {
+  padding: 6px;
+  white-space: normal;
+  background: transparent padding-box;
+  border: 1px solid transparent;
+  border-radius: 2.5px;
+  cursor: pointer;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 150ms;
+}
+
+.button:hover {
+  background-color: hsla(211,79%,6%,.03);
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+}
+
+.button:hover:active,
+#searchEngineLogo.expanded {
+  background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
+  border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
+  box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,
+              0 0 1px hsla(211,79%,6%,.1) inset;
+  transition-duration: 0ms;
+}
+
+
 
 
 
