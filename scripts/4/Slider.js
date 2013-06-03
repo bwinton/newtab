@@ -51,14 +51,19 @@
 
     this.$els.window.on("keydown", function(e){
       var keyCode = e.keyCode;
+      /* only slide if not in search box */
       switch(keyCode){
         case 39:
-          this.next();
-          e.preventDefault();
+          if($(e.target).attr("id") !== "searchText"){
+            this.next();
+            e.preventDefault();
+          }
           break;
         case 37:
-          this.prev();
-          e.preventDefault();
+          if($(e.target).attr("id") !== "searchText"){
+            this.prev();
+            e.preventDefault();
+          }
           break;
       }
     }.bind(this));
@@ -190,7 +195,7 @@
   Slider.prototype.do_shift = function(is_resize){
     this.data.current_shift = this.data.current_panel * $(window).innerWidth();
     var transTime;;
-    if(!is_resize) transTime = 450;
+    if(!is_resize) transTime = 350;
     this.$els.slider_div.css({
       "transform": "translate(-"+this.data.current_shift+"px,0)",
       "transition": "transform "+transTime+"ms ease-in-out"

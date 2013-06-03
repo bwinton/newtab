@@ -1,8 +1,8 @@
 /* general tools */
 
 html{
-	overflow:hidden;
-	font-family: helvetica;
+	overflow: hidden;
+	/*font-family: helvetica;*/
 }
 
 html,
@@ -11,20 +11,26 @@ body,
 	height: 100%;
 }
 
-/* header style */
-
-.button:hover {
-  background-color: hsla(211,79%,6%,.03);
-  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
+body{
+  font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
+  background-color: #E5E5E5;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5) 85%,
+      rgba(150, 210, 255, 0.6));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 20px 0px;
+  height: calc(100vh - 40px);
 }
 
-.button:hover:active,
-#searchEngineLogo.expanded {
-  background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
-  border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
-  box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,
-              0 0 1px hsla(211,79%,6%,.1) inset;
-  transition-duration: 0ms;
+/* header style */
+
+
+#search {
+  width: 48vw;
+  font-size: 14px;
+  margin: 0px 30vw;
 }
 
 #searchEngineLogo {
@@ -40,8 +46,18 @@ body,
   display: none;
   position: absolute;
   top: 72px;
-  left: 30vw;
+  left: calc(30vw - 20px);
   z-index: 5;
+}
+
+#clickjack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  z-index: 3;
 }
 
 .arrowPanelArrowTop {
@@ -164,16 +180,12 @@ body,
 
 
 
-
-
-
-
-
 #header,
 #footer{
 	/*text-align: center;*/
 	/*font-size: 40px;*/
 	height: 75px;
+	/*margin-left 20px;*/
 }
 
 .clearfix{
@@ -258,7 +270,6 @@ body,
 	/*float: left;*/
 
 
-
     -webkit-box-ordinal-group: 1;
     -moz-box-ordinal-group: 1;
     -webkit-order: 0;
@@ -275,13 +286,13 @@ body,
 
 }
 
-
+/*
 .slider_panel:nth-child(odd){
 	background:#eee;
 }
 .slider_panel:nth-child(even){
 	background:#ddd;
-} 
+} */
 
 .app_1{
 	/*width: 30.5%;*/
@@ -294,7 +305,7 @@ body,
 
 }
 
-.app_{
+.app_3{
 	/*width: 10%;*/
     -moz-box-flex: 3;
 
