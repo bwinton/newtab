@@ -405,3 +405,91 @@ button {
 #settings::before {
   content: url("chrome://browser/content/abouthome/settings.png");
 }
+
+
+
+
+
+/* snippets */
+
+#snippetContainer .snippet .icon {
+  right: 35vw;
+  margin-top: 0;
+}
+
+#snippetContainer .snippet p {
+  width: 100%;
+}
+
+#defaultSnippet1,
+#defaultSnippet2 {
+  display: block;
+  min-height: 38px;
+  background: 30px center no-repeat;
+  padding: 6px 0;
+}
+
+#defaultSnippet1 {
+  background-image: url("chrome://browser/content/abouthome/snippet1.png");
+}
+
+#defaultSnippet2 {
+  background-image: url("chrome://browser/content/abouthome/snippet2.png");
+}
+
+/* Flicks Snippet Fix! */
+
+.flicks-2012-snippet .message .icon {
+  position:absolute !important;
+  right: 35vw !important;
+  top: 5px !important;
+  padding-left: 0px !important;
+  float: left !important;
+}
+
+.flicks-2012-snippet .message p {
+  display: table-cell !important;
+  height: 40px;
+  padding-left: 80px !important;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Telemetry Snippet Styling! */
+
+div.telemetry-note-1,
+div.telemetry-note-2,
+div.telemetry-note-3 {
+  display: table-cell;
+  height: 40px;
+  padding-left: 80px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+div.telemetry-note-2,
+#telemetry-icon-2,
+div.telemetry-note-3 {
+  display: none;
+}
+
+div.telemetry-note-1 span,
+div.telemetry-note-2 span,
+div.telemetry-note-3 span {
+  color: #0B6CDA;
+  border: 1px solid #AAA;
+  background: #fff;
+  padding: 2px 6px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.snippet .buttons {
+  margin-top: 8px;
+  margin-left: -2px;
+}
+
+
+
+
+
