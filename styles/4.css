@@ -412,6 +412,13 @@ button {
 
 /* snippets */
 
+/* this is temporary */
+@media (max-width: 500px) {
+	#snippetContainer{
+		visibility: hidden;
+	}
+}
+
 #snippetContainer {
   position: absolute;
   left: 60vw;
