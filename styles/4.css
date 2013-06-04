@@ -32,7 +32,8 @@ new_tab_footer_background.png*/
 /* header style */
 
 #header{
-	margin: 20px 0px 0px 0px;
+	height: 33px;
+  margin: 20px 0px 0px 0px;
 }
 
 #search {
@@ -217,7 +218,7 @@ button {
 
 
 
-#header,
+
 #footer{
 	/*text-align: center;*/
 	/*font-size: 40px;*/
@@ -232,7 +233,7 @@ button {
 /* panels */
 
 #middle{	
-	height: calc(100% - ( 2 * 64px ) - 20px); /* - header and footer */
+	height: calc(100% - 64px - 20px - 34px); /* - header and footer */
 }
 
 #slider_div{
@@ -297,9 +298,9 @@ button {
 }
 
 .app_container{
-	/*box-shadow: 0 0 5px #888;*/
-	border-width: 2px;
-	border: solid;
+	box-shadow: 0 0 5px #888;
+	/*border-width: 2px;*/
+	/*border: solid;*/
 	border-radius: 15px;
 	margin: 10px;
 	padding: 10px;
