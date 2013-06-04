@@ -195,12 +195,14 @@
   Slider.prototype.do_shift = function(is_resize){
     this.data.current_shift = this.data.current_panel * $(window).innerWidth();
     var transTime;
-    if(!is_resize) transTime = 350;
+    // if(!is_resize) transTime = 350;
+    // if (true) console.log("hi");
+    // if(true) this.$els.slider_div.css("transition","transform 0ms ease-in-out");
     this.$els.slider_div.css({
-      "transform": "translate(-"+this.data.current_shift+"px,0)",
-      "transition": "transform "+transTime+"ms ease-in-out"
-
+      "transform": "translate(-"+this.data.current_shift+"px,0)"
     });
+    // if(true) this.$els.slider_div.css("transition","transform 250ms ease-in-out");
+    // if(true) this.$els.slider_div.addClass("sliding_transition");
   };
 
   /*
@@ -218,8 +220,16 @@
     // this.$els.slider_div.css("height", height+"px");
 
     /* fix shift */
+    this.$els.slider_div.css("transition","transform 0ms ease-in-out");
     this.do_shift(true);
+
+    window.setTimeout(function(){
+      this.$els.slider_div.css("transition","transform 250ms ease-in-out");
+
+    }.bind(this), 10);
   };
+
+
 
   // should give each panel an index into the NewTab's
   // app data as well as a reference to itself

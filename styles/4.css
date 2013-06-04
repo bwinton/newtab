@@ -13,15 +13,17 @@ body,
 
 body{
   font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
-  background-color: #E5E5E5;
-  background-image: linear-gradient(
+  /*background-color: #E5E5E5;*/
+/*  background-image: linear-gradient(
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5) 85%,
-      rgba(150, 210, 255, 0.6));
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  margin: 20px 0px;
-  height: calc(100vh - 40px);
+      rgba(150, 210, 255, 0.6));*/
+  background-repeat: repeat;
+  /*background-attachment: fixed;*/
+  /*height: calc(100vh - 20px);*/
+/*  new_tab_body_background.png
+new_tab_footer_background.png*/
+	background-image:url('../images/new_tab_body_background.png');
 }
 .faded_image{
   opacity: 0.4;
@@ -29,6 +31,9 @@ body{
 }
 /* header style */
 
+#header{
+	margin: 20px 0px 0px 0px;
+}
 
 #search {
   width: 48vw;
@@ -52,16 +57,6 @@ body{
   top: 72px;
   left: calc(30vw - 20px);
   z-index: 5;
-}
-
-#clickjack {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: none;
-  z-index: 3;
 }
 
 .arrowPanelArrowTop {
@@ -222,14 +217,11 @@ button {
 
 
 
-
-
-
 #header,
 #footer{
 	/*text-align: center;*/
 	/*font-size: 40px;*/
-	height: 75px;
+	height: 64px;
 	/*margin-left 20px;*/
 }
 
@@ -240,7 +232,7 @@ button {
 /* panels */
 
 #middle{	
-	height: calc(100% - 75px - 75px); /* - header and footer */
+	height: calc(100% - ( 2 * 64px ) - 20px); /* - header and footer */
 }
 
 #slider_div{
@@ -248,6 +240,7 @@ button {
 	width: 50000px;
 	overflow: auto;
 	height: 100%;
+	/*transition-property: sliding;*/
 }
 
 .slider_panel{
@@ -304,8 +297,9 @@ button {
 }
 
 .app_container{
-	box-shadow: 0 0 5px #888;
-	/*border-width: 2px;*/
+	/*box-shadow: 0 0 5px #888;*/
+	border-width: 2px;
+	border: solid;
 	border-radius: 15px;
 	margin: 10px;
 	padding: 10px;
@@ -376,4 +370,38 @@ button {
 .drag_over{
 	border-radius: 20px;
 	border: dashed;
+}
+
+
+
+/* footer styles */
+
+#footer{
+	background-image:url('../images/new_tab_footer_background.png');
+	background-repeat: repeat;
+	border-top: solid;
+	border-width: 1px;
+	border-color: #dee1e2;
+}
+
+#downloads::before {
+  content: url("chrome://browser/content/abouthome/downloads.png");
+}
+#bookmarks::before {
+  content: url("chrome://browser/content/abouthome/bookmarks.png");
+}
+#history::before {
+  content: url("chrome://browser/content/abouthome/history.png");
+}
+#apps::before {
+  content: url("chrome://browser/content/abouthome/apps.png");
+}
+#addons::before {
+  content: url("chrome://browser/content/abouthome/addons.png");
+}
+#sync::before {
+  content: url("chrome://browser/content/abouthome/sync.png");
+}
+#settings::before {
+  content: url("chrome://browser/content/abouthome/settings.png");
 }

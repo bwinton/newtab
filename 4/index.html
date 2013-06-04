@@ -33,7 +33,7 @@
       <div id="middle">
         
         
-        <div id="slider_div">
+        <div id="slider_div" class="sliding_transition">
           
   <!--         <div id="panel_0" class="slider_panel">
             
@@ -54,7 +54,23 @@
 
       <input type="image" class="slider_button" id="next_button" style="height:20px;width:20px;" src="../images/icon-nextarrow.png" />
     
-      <div id="footer">footer</div>
+      <div id="footer">
+        <div>
+          <button id='downloads' class='button' title='Downloads'></button
+          ><button id='bookmarks' class='button' title='Bookmarks'></button
+          ><button id='history' class='button' title='History'></button
+          ><button id='sync' class='button' title='Sync'></button
+          ><button id='settings' class='button' title='Settings'></button>
+        </div>
+        <div id='snippetContainer'>
+          <div id='defaultSnippets' hidden='true'>
+            <span id='defaultSnippet1'>Thanks for choosing Firefox! To get the most out of your browser, learn more about the <a>latest features</a>.</span>
+            <span id='defaultSnippet2'>It's easy to customize your Firefox exactly the way you want it. <a>Choose from thousands of add-ons</a>.</span>
+          </div>
+          <div id='snippets'/>
+        </div>
+      </div>
+      </div>
 
     </div>
 
