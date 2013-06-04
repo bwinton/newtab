@@ -412,6 +412,15 @@ button {
 
 /* snippets */
 
+#snippetContainer {
+  position: absolute;
+  left: 60vw;
+  bottom: 1em;
+  width: 40%;
+  min-width: 300px;
+  margin-right: 2%;
+}
+
 #snippetContainer .snippet .icon {
   right: 35vw;
   margin-top: 0;
