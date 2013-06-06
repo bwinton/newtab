@@ -110,7 +110,11 @@
         app_group.append(app_container);
 
         /* inject app script */
-        app_container.append($("<div>").html(app_data.id));
+        // app_container.append($("<div>").html(app_data.id));
+        // app_container.append(temporary_app_generator);
+        // app_container.append();
+        app_content_loader(app_data.id, app_container);
+
 
       }
 
@@ -125,6 +129,84 @@
 
 
     };
+
+    function app_content_loader(app_id, $app_container){
+      /* get package.json */
+      console.log("app_id: "+ app_id);
+      var app_location = "./newtab_apps/"+app_id+"/";
+
+      // $app_container.load(app_location + "index.html", function(data){
+      //   console.log(typeof(data));
+      // });
+
+      $.getJSON(app_location+"package.json")
+      .done(function(json){
+        display_logo(json, $app_container, app_location);
+        display_title(json, $app_container);
+        display_list(json, $app_container, app_location);
+      })
+      .fail(function(e){
+        console.log("not found");
+        $app_container.append("not found");
+      });
+
+    }
+
+
+    function display_title(json, $app_container){
+        $app_container.append(
+          $('<span class="app_title">').html(json.name)
+        );
+    }
+
+    function display_logo(json, $app_container, app_location){
+        var logo_loc = app_location + (json.logo || "logo.png");
+        $app_container.append(
+          $('<img class="app_logo">').attr('src', logo_loc)
+        );
+    }
+
+    function display_list(json, $app_container, app_location){
+        var ul = $('<ul class="app_list">').appendTo($app_container);
+        $.getJSON(app_location + "app.json")
+        .done(function(list){
+          $(list).each(function(i, item){
+            var li = $('<li class="app_list_item">').appendTo(ul);
+            var link = $('<a>').attr('href',item.url).appendTo(li);
+
+            link
+            .append(
+              $('<img>').attr('src', app_location+item.image)
+            )
+            .append(
+              $('<div class="list_item_text">')
+              .append(
+                $('<div class="app_item_text1">').html(item.text1)
+              )
+              .append(
+                $('<div class="app_item_text2">').html(item.text2)
+              )
+              
+            )
+            .append($('<div class="clearfix">'))
+          });
+        })
+        .fail(function(){
+          console.log("could not load list");
+        });
+    }
+
+    function temporary_app_generator(){
+      var app = $('<div class="app">');
+      var ul = $('<ul class="app_list">').appendTo(app);
+      // for(var x=0; x<50; x++){
+      //   var li = $('<li class="app_list_item">').appendTo(ul);
+      //   var text = 'abcde fghi jklmnop qrstu vwxyz abcde fghi jklmnop qrstu vwxyz abcde fghi jklmnop qrstu vwxyz abcde fghi jklmnop qrstu vwxyz'
+      //   li.html(text);
+      // }
+
+      return app;
+    }
 
     /* export */
     window.Panel = Panel;

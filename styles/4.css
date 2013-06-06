@@ -261,6 +261,7 @@ button {
 	margin: 25px 40px;
 	height: calc(100% - 60px);
 	width: 88%;
+  overflow-y: hidden;
 	 
 
 
@@ -298,16 +299,18 @@ button {
 }
 
 .app_container{
-	box-shadow: 0 0 5px #888;
+	/*box-shadow: 0 0 5px #888;*/
 	/*border-width: 2px;*/
 	/*border: solid;*/
 	border-radius: 15px;
 	margin: 10px;
 	padding: 10px;
+  text-align: left;
 	/*display: inline-block;*/
 	/*height: calc(100% - 60px);*/
 	/*width: 33%;*/
 	/*float: left;*/
+  /*overflow-y: scroll;*/
 
 
     -webkit-box-ordinal-group: 1;
@@ -372,6 +375,57 @@ button {
 	border-radius: 20px;
 	border: dashed;
 }
+
+
+
+/* Apps Styles */
+.app_title{
+  font-size: 24px;
+  color: #666;
+  margin-left: 10px;
+
+}
+
+.app_logo{
+  height: 24px;
+}
+
+.app_list{
+  margin-top: 20px;
+  border: none;
+}
+
+.app_list_item{
+  padding: 10px 0px;
+  text-align: left;
+  border: none;
+  padding: 10px 0px;
+}
+
+.list_item_text{
+  float: left;
+  margin-left: 10px;
+  margin-top: 8px;
+  color: #666;
+}
+
+.app_item_text1{
+  font-size: 18px;
+}
+.app_item_text2{
+  /*float: left;*/
+  /*margin-left: 50px;*/
+  font-size: 12px;
+}
+
+.app_list_item img{
+  width: 50px;
+  height: 50px;
+  float: left;
+}
+
+
+
 
 
 
@@ -505,7 +559,6 @@ div.telemetry-note-3 span {
   margin-top: 8px;
   margin-left: -2px;
 }
-
 
 
 

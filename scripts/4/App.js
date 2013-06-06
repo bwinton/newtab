@@ -30,7 +30,7 @@
     /* local helpers */
 
     function load_apps_data(cb){
-      $.getJSON('settings.json', function(data) {
+      $.getJSON('./settings.json', function(data) {
         cb(data);
       });
 

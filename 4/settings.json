@@ -2,19 +2,19 @@
 	"apps":
 	[
 		{
-			"id": "NewTab",
+			"id": "Recently_Closed",
 			"size": 1
 		},
 		{
-			"id": "app1",
+			"id": "Recently_Closed",
 			"size": 1
 		},
 		{
-			"id": "app2",
+			"id": "Recently_Closed",
 			"size": 1
 		},
 		{
-			"id": "app3",
+			"id": "Recently_Closed",
 			"size": 3
 		},
 		{
