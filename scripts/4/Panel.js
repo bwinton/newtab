@@ -186,9 +186,9 @@
               .append(
                 $('<div class="app_item_text2">').html(item.text2)
               )
-              
+
             )
-            .append($('<div class="clearfix">'))
+            .append($('<div class="clearfix">'));
           });
         })
         .fail(function(){

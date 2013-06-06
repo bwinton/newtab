@@ -25,7 +25,8 @@
     this.data = {
       current_panel: 0, /* the number of the currently view panel */
       current_shift: 0, /* the current shift amount in positive pixels */
-      apps_data: apps_data /* JSONic data about the apps on the slider */
+      apps_data: apps_data, /* JSONic data about the apps on the slider */
+      transition_on: false
     };
 
     this.init();
@@ -36,6 +37,7 @@
 
     /* window resize */
     this.$els.window.resize(function(e) {
+      this.remove_transition();
       this.fix_size();
     }.bind(this));
 
@@ -172,6 +174,8 @@
   Slider.prototype.prev = function(){
     if(this.data.current_panel<=0) return;
     this.data.current_panel--;
+
+    this.add_transition();
     this.do_shift();
 
     /* manage buttons */
@@ -183,6 +187,8 @@
     // alert("next");
     if(this.data.current_panel >= this.submods.panels.length - 1) return;
     this.data.current_panel++;
+
+    this.add_transition();
     this.do_shift();
 
     /* manage buttons */
@@ -199,7 +205,7 @@
     // if (true) console.log("hi");
     // if(true) this.$els.slider_div.css("transition","transform 0ms ease-in-out");
     this.$els.slider_div.css({
-      "transform": "translate(-"+this.data.current_shift+"px,0)"
+      "transform": "translate3d(-"+this.data.current_shift+"px,0,0)"
     });
     // if(true) this.$els.slider_div.css("transition","transform 250ms ease-in-out");
     // if(true) this.$els.slider_div.addClass("sliding_transition");
@@ -216,17 +222,31 @@
 
     this.data.height = height;
 
-    /* fix height */
-    // this.$els.slider_div.css("height", height+"px");
-
-    /* fix shift */
-    this.$els.slider_div.css("transition","transform 0ms ease-in-out");
     this.do_shift(true);
+  };
 
-    window.setTimeout(function(){
+  Slider.prototype.remove_transition = function(){
+    if(this.data.transition_on === false) return;
+
+    this.data.transition_on = false;
+    var browser = $.browser;
+    if(browser.mozilla)
+      this.$els.slider_div.css("transition","none");
+    else if(browser.chrome)
+      this.$els.slider_div.css("-webkit-transition","none");
+
+  };
+
+  Slider.prototype.add_transition = function(){
+    if(this.data.transition_on === true) return;
+    
+    this.data.transition_on = true;
+    var browser = $.browser;
+    if(browser.mozilla)
       this.$els.slider_div.css("transition","transform 250ms ease-in-out");
+    else if(browser.chrome)
+      this.$els.slider_div.css("-webkit-transition","transform 250ms ease-in-out");
 
-    }.bind(this), 10);
   };
 
 
