@@ -226,26 +226,22 @@
   };
 
   Slider.prototype.remove_transition = function(){
-    if(this.data.transition_on === false) return;
+    // if(this.data.transition_on === false) return;
 
     this.data.transition_on = false;
-    var browser = $.browser;
-    if(browser.mozilla)
-      this.$els.slider_div.css("transition","none");
-    else if(browser.chrome)
-      this.$els.slider_div.css("-webkit-transition","none");
+    this.$els.slider_div.css("transition","");
 
   };
 
   Slider.prototype.add_transition = function(){
-    if(this.data.transition_on === true) return;
-    
+    // if(this.data.transition_on === true) return;
+
     this.data.transition_on = true;
     var browser = $.browser;
     if(browser.mozilla)
       this.$els.slider_div.css("transition","transform 250ms ease-in-out");
     else if(browser.chrome)
-      this.$els.slider_div.css("-webkit-transition","transform 250ms ease-in-out");
+      this.$els.slider_div.css("transition","-webkit-transform 250ms ease-in-out");
 
   };
 
