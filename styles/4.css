@@ -24,6 +24,7 @@ body{
 /*  new_tab_body_background.png
 new_tab_footer_background.png*/
 	background-image:url('../images/new_tab_body_background.png');
+  overflow: hidden;
 }
 .faded_image{
   opacity: 0.4;
@@ -261,8 +262,7 @@ button {
 	margin: 25px 40px;
 	height: calc(100% - 60px);
 	width: 88%;
-  overflow-y: hidden;
-	 
+  overflow: hidden;	 
 
 
     display: -webkit-box;
@@ -437,6 +437,7 @@ button {
 	border-top: solid;
 	border-width: 1px;
 	border-color: #dee1e2;
+  overflow-y: hidden;
 }
 
 #downloads::before {
@@ -462,34 +463,42 @@ button {
 }
 
 
+#footer_buttons{
+  float: left;
+  height: 100%;
 
+}
 
 
 /* snippets */
 
 /* this is temporary */
-@media (max-width: 500px) {
+/*@media (max-width: 500px) {
 	#snippetContainer{
 		visibility: hidden;
 	}
-}
+}*/
 
 #snippetContainer {
-  position: absolute;
+/*  position: absolute;
   left: 60vw;
   bottom: 1em;
   width: 40%;
   min-width: 300px;
-  margin-right: 2%;
+  margin-right: 2%;*/
+  background-color: #ddd;
+  width: 400px;
+  height: 100%;
+  float: right;
 }
 
 #snippetContainer .snippet .icon {
-  right: 35vw;
-  margin-top: 0;
+/*  right: 35vw;
+  margin-top: 0;*/
 }
 
 #snippetContainer .snippet p {
-  width: 100%;
+  /*width: 100%;*/
 }
 
 #defaultSnippet1,
