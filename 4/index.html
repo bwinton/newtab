@@ -65,8 +65,16 @@
       <div id="snippetContainer">
         <div id="snippet">
           This is a snippet. Snippets are cool because they let Mozilla talk to the user directly.
-          <button>awesome</button>
+          <button onclick="hide_snippet()" id="snippet_dismiss">awesome</button>
           <button>pretty cool</button>
+
+          <script>
+            function hide_snippet(){
+              $('#snippetContainer').hide();
+              $('#snippetArrow').hide();
+              $('#snippet_image').hide();
+            }
+          </script>
         </div>
       </div>
 
