@@ -187,7 +187,7 @@ button {
   background-repeat: no-repeat;
   background-position: left top;
 
-  margin: 10px 1px;
+  margin: 10px -2px;
   vertical-align: top;
 }
 
@@ -376,8 +376,6 @@ button {
 	border: dashed;
 }
 
-
-
 /* Apps Styles */
 .app_title{
   font-size: 24px;
@@ -387,7 +385,7 @@ button {
 }
 
 .app_logo{
-  height: 24px;
+  height: 20px;
 }
 
 .app_list{
@@ -497,6 +495,19 @@ button {
   /*display: block;*/
   /*margin-right: 65px;*/
 /*}*/
+
+@media (max-width: 650px){
+  #snippetContainer{
+    display: none
+  }
+  #snippetArrow{
+    display: none
+  }
+  #snippet_image{
+    display: none
+  }
+  
+}
 
 #firefox_logo {
   height: 50px;
