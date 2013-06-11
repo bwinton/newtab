@@ -1,5 +1,4 @@
 ;(function(){
-    // var Panel = function($panel){
     /* start and end (inclusive-exclusive) are
     incices into the NewTabs array of app_data */
     var Panel = function(Slider, start, end){
@@ -32,16 +31,12 @@
       init: function(){
         /* find elements */
         this.$els = {
-          // panel: $panel,
-          // app_group: $panel.find(".app_group"),
-          // apps: $panel.find(".app_container"),
           window: $(window)
         };
 
         this.render();
         window.setTimeout(function(){
           this.fix_size();
-          // console.log(this.constructor);
         }.bind(this), 0);
 
       },
@@ -76,14 +71,11 @@
         }
 
         /* app_group */
-        // this.$els.app_group.css("height", panel_height-50+"px");
 
         /* apps */
-        // this.$els.apps.css("height", panel_height-100+"px");
         this.$els.apps.each(function(i,app_container){
           var $app_container = $(app_container);
           var width = calc_app_width($app_container);
-          // $(app_container).css("width", width+"px");
         });
 
 
@@ -124,7 +116,7 @@
         app_group.append($("<div>").addClass('clearfix'));
         this.$els.apps = $(".app_container");
 
-        // /* init sizes */
+        /* init sizes */
         window.setTimeout(function(){
           this.fix_size();
         }.bind(this), 0);

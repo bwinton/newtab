@@ -12,10 +12,7 @@
     DATA
      */
 
-    // this.panels = 3;
-    // this.current_panel = 0;
     /* number of pixels the slider div is currently shifted by */
-    // this.current_shift = 0;
 
     this.submods = {
       panels: []
@@ -96,14 +93,12 @@
     }.bind(this))
 
     .bind("drop", function(e){
-        // this / e.target is current target element.
 
         if (e.stopPropagation) {
-          e.stopPropagation(); // stops the browser from redirecting.
+          e.stopPropagation(); /* stops the browser from redirecting. */
         }
 
         $target = $(e.target);
-        // target_html = $target.html();
 
         /* move container */
 
@@ -117,10 +112,6 @@
 
         $(".app_container").removeClass('drag_over')
         .css('opacity', '1.0');
-
-        // $.each(this.submods.panels, function(i, panel){
-        //   panel.fix_size();
-        // });
 
         this.$drag_src = undefined;
 
@@ -200,20 +191,13 @@
     do_shift: function(is_resize){
       this.data.current_shift = this.data.current_panel * $(window).innerWidth();
       var transTime;
-      // if(!is_resize) transTime = 350;
-      // if (true) console.log("hi");
-      // if(true) this.$els.slider_div.css("transition","transform 0ms ease-in-out");
       this.$els.slider_div.css({
         "transform": "translate3d(-"+this.data.current_shift+"px,0,0)"
       });
-      // if(true) this.$els.slider_div.css("transition","transform 250ms ease-in-out");
-      // if(true) this.$els.slider_div.addClass("sliding_transition");
     },
 
     fix_size: function(){
       var height = this.$els.window.innerHeight() - this.$els.header.height() - this.$els.footer.height();
-      // var width = this.$els.window.innerWidth();
-      // var width = $(window).innerWidth();
 
       this.data.height = height;
 

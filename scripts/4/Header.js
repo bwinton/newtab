@@ -66,7 +66,6 @@
         $logo.attr('src', getRealImageLoc(searchProvider.image));
 
         /* set filler text in search input */
-        // $("#searchText").attr("placeholder",searchProvider.name);
 
       },
 
@@ -95,14 +94,6 @@
         this.data.expanded = !this.data.expanded;
         $("#searchEngineLogo").toggleClass("expanded");
         $("#searchEngineContainer").slideToggle({duration: 200});
-
-        // if(this.data.expanded)
-        //   $("#searchEngineLogo").removeClass("faded_image");
-        // else
-        //   $("#searchEngineLogo").addClass("faded_image");
-
-          // interesting('searchChanged', engine.data('engine'));
-        // $('#clickjack').toggle();
       }
 
     };

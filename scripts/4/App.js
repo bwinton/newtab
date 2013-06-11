@@ -8,10 +8,6 @@
 
       this.init();
 
-      /* 
-      EVENTS
-      */
-
     };
 
     NewTab.prototype.init = function(){
@@ -22,8 +18,6 @@
           this.submods.slider = new Slider(this, apps_data.apps);
         }.bind(this));
 
-        /* create a Panel as the first panel */
-        // var first_panel = new Panel($("#panel_0"));
     };
 
 
