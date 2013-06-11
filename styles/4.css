@@ -30,10 +30,7 @@ new_tab_footer_background.png*/
 	background-image:url('../images/new_tab_body_background.png');
   overflow: hidden;
 }
-.faded_image{
-  opacity: 0.4;
-  filter: alpha(opacity=40); /* msie */
-}
+
 /* header style */
 
 #header{
@@ -186,16 +183,20 @@ new_tab_footer_background.png*/
   transition-duration: 0ms;
 }
 
-
-button {
-  background-repeat: no-repeat;
-  background-position: left top;
-
-  margin: 10px -2px;
-  vertical-align: top;
+#footer_buttons button:active,
+#searchEngineLogo.expanded {
+  background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
+  border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
+  box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,
+              0 0 1px hsla(211,79%,6%,.1) inset;
+  transition-duration: 0ms;
 }
 
-.button {
+#footer_buttons button{
+  background-position: left top;
+  margin: 10px -2px;
+  vertical-align: top;
+  background-repeat: no-repeat;
   padding: 6px;
   white-space: normal;
   background: transparent padding-box;
@@ -206,21 +207,10 @@ button {
   transition-duration: 150ms;
 }
 
-.button:hover {
+#footer_buttons button:hover{
   background-color: hsla(211,79%,6%,.03);
   border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
 }
-
-.button:hover:active,
-#searchEngineLogo.expanded {
-  background-image: -moz-linear-gradient(hsla(211,79%,6%,.02), hsla(211,79%,6%,.05));
-  border-color: hsla(210,54%,20%,.2) hsla(210,54%,20%,.23) hsla(210,54%,20%,.25);
-  box-shadow: 0 1px 1px hsla(211,79%,6%,.05) inset,
-              0 0 1px hsla(211,79%,6%,.1) inset;
-  transition-duration: 0ms;
-}
-
-
 
 
 
@@ -273,33 +263,16 @@ button {
   overflow: hidden;	 
 
 
-    display: -webkit-box;
     display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-direction: normal;
     -moz-box-direction: normal;
-    -webkit-box-orient: horizontal;
     -moz-box-orient: horizontal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
-    -webkit-box-pack: justify;
     -moz-box-pack: justify;
-    -webkit-justify-content: space-around;
-    -ms-flex-pack: distribute;
     justify-content: space-around;
-    -webkit-align-content: stretch;
-    -ms-flex-line-pack: stretch;
     align-content: stretch;
-    -webkit-box-align: stretch;
     -moz-box-align: stretch;
-    -webkit-align-items: stretch;
-    -ms-flex-align: stretch;
     align-items: stretch;
 
 
@@ -321,18 +294,10 @@ button {
   /*overflow-y: scroll;*/
 
 
-    -webkit-box-ordinal-group: 1;
     -moz-box-ordinal-group: 1;
-    -webkit-order: 0;
-    -ms-flex-order: 0;
     order: 0;
-    -webkit-box-flex: 1;
     -moz-box-flex: 1;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
-    -webkit-align-self: auto;
-    -ms-flex-item-align: auto;
     align-self: auto;
 
 }
@@ -366,15 +331,28 @@ button {
 /* prev/next buttons */
 .slider_button{
 	position: fixed;
+  height: 30px;
+  width: 30px;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  cursor: pointer;
+  white-space: normal;
+  z-index: 10;
+  background: transparent padding-box;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  top: 50%;
 }
 #prev_button{
-	top: 50%;
 	left: 10px;
-	z-index: 10;
+  background-image:url('../images/left-arrow.png');
+  
 }
 #next_button{
-	top: 50%;
 	right: 10px;
+  background-image:url('../images/right-arrow.png');
+
 }
 
 /*drag and drop styles*/

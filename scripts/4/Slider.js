@@ -53,30 +53,30 @@
       var keyCode = e.keyCode;
       /* only slide if not in search box */
       switch(keyCode){
-        case 39:
-          if($(e.target).attr("id") !== "searchText"){
+        case 39: /* right */
+          // if($(e.target).attr("id") !== "searchText"){
             this.next();
             e.preventDefault();
-          }
+          // }
           break;
-        case 37:
-          if($(e.target).attr("id") !== "searchText"){
+        case 37: /* left */
+          // if($(e.target).attr("id") !== "searchText"){
             this.prev();
             e.preventDefault();
-          }
+          // }
           break;
       }
     }.bind(this));
 
     /* handle app_container drag events */
-    $(".app_container").bind("dragstart", function(e){
+    $(".app_container").on("dragstart", function(e){
       $target = $(e.target);
       $target.css('opacity', '0.4');
       this.$drag_src = $target;
       e.originalEvent.dataTransfer.setData('text/html', $target.html);
     }.bind(this))
 
-    .bind("dragover", function(e){
+    .on("dragover", function(e){
       if (e.preventDefault) {
         e.preventDefault();
       }
@@ -84,15 +84,15 @@
       return false;
     }.bind(this))
 
-    .bind("dragenter", function(e){
+    .on("dragenter", function(e){
       $(e.target).addClass('drag_over');
     }.bind(this))
 
-    .bind("dragleave", function(e){
+    .on("dragleave", function(e){
       $(e.target).removeClass('drag_over');
     }.bind(this))
 
-    .bind("drop", function(e){
+    .on("drop", function(e){
 
         if (e.stopPropagation) {
           e.stopPropagation(); /* stops the browser from redirecting. */
@@ -118,17 +118,17 @@
         return false;
     }.bind(this))
 
-    .bind("dragend", function(e){
+    .on("dragend", function(e){
       $(".app_container").removeClass('drag_over')
       .css('opacity', '1.0');
 
     }.bind(this));
 
-    $("#next_button").bind("dragenter", function(){
+    $("#next_button").on("dragenter", function(){
       this.next();
     }.bind(this));
 
-    $("#prev_button").bind("dragenter", function(){
+    $("#prev_button").on("dragenter", function(){
       this.prev();
     }.bind(this));
 
@@ -216,12 +216,7 @@
       // if(this.data.transition_on === true) return;
 
       this.data.transition_on = true;
-      var browser = $.browser;
-      if(browser.mozilla)
-        this.$els.slider_div.css("transition","transform 250ms ease-in-out");
-      else if(browser.chrome)
-        this.$els.slider_div.css("transition","-webkit-transform 250ms ease-in-out");
-
+      this.$els.slider_div.css("transition","transform 250ms ease-in-out");
     },
 
     /* walks through the list of apps and spawns new panels
@@ -266,15 +261,6 @@
   /*
   Helpers
    */
-
-  function swap_$els($c1, $c2){
-    var $c1_copy = $c1.clone(true, true);
-    var $c2_copy = $c2.clone(true, true);
-
-    $c2.replaceWith($c1_copy);
-    $c1.replaceWith($c2_copy);
-
-  }
 
   function move_container($c1, $c2){
     /* make sure theres a target */
