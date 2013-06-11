@@ -54,16 +54,16 @@
       /* only slide if not in search box */
       switch(keyCode){
         case 39: /* right */
-          // if($(e.target).attr("id") !== "searchText"){
+          if($(e.target).attr("id") !== "searchText"){
             this.next();
             e.preventDefault();
-          // }
+          }
           break;
         case 37: /* left */
-          // if($(e.target).attr("id") !== "searchText"){
+          if($(e.target).attr("id") !== "searchText"){
             this.prev();
             e.preventDefault();
-          // }
+          }
           break;
       }
     }.bind(this));
@@ -254,7 +254,6 @@
         );
 
     }
-
 
   };
 

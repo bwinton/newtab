@@ -52,6 +52,8 @@ new_tab_footer_background.png*/
   vertical-align: bottom;
   margin-bottom: -4px;
   margin-right: 5px;
+  cursor: pointer;
+  padding: 10px 5px 5px 5px;
 }
 
 #searchEngineContainer {
