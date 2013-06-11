@@ -5,7 +5,7 @@
 ;(function(){
 
   function Customizer(){
-    this.panels = 3;
+    this.panels = 0;
     this.init();
 
     /*
@@ -19,14 +19,19 @@
   //         break;
   //     }
   //   }.bind(this));
+
+  /* prevent dragging certain elements on panels */
+  $('.panel_header, .panel_footer').on('dragstart', prevent_drag);
+
   }
 
   Customizer.prototype = {
     init: function(){
-      this.decorate_panels();
-      this.adjust_slider_width();
+      this.create_panel();
+      this.create_panel();
+      this.create_panel();
     },
-    
+
     /* adds extras to panels like header and footer */
     decorate_panels: function(){
       $(".slider_panel").each(function(i, panel){
@@ -37,7 +42,7 @@
         $panel.append(generate_header);
         // $('<div class="panel_header">').appendTo(panel);
 
-      })
+      });
     },
 
     /* adjusts the overall width of the slider to accomidate all panels */
@@ -46,25 +51,22 @@
       var panel_margin = 20;
       var width = 10 + this.panels * (panel_width + panel_margin);
       $('#slider_div').css('width', width+'px');
+    },
+
+    create_panel: function(){
+      $("#slider_div").append(
+        $("#templates .slider_panel").clone(true, true)
+      );
+      this.panels++;
+      this.adjust_slider_width();
     }
 
   };
 
   /* helpers */
 
-  function generate_header(){
-    return $('<div class="panel_header">')
-    .append($('<img class="search_engine_logo">')
-      .attr('src','../images/SearchEngines/google_larger.png')
-    )
-    .append($('<input class="search_box">')
-      .attr('disabled',true)
-    )
-    .append($('<input type="submit" class="search_button">')
-      .attr('value','Search')
-
-    )
-    // .append(searh)
+  function prevent_drag(e){
+    e.preventDefault();
   }
 
 
