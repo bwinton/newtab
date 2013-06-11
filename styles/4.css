@@ -11,6 +11,10 @@ body,
 	height: 100%;
 }
 
+#wrapper{
+  position: relative;
+}
+
 body{
   font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
   /*background-color: #E5E5E5;*/
@@ -225,6 +229,9 @@ button {
 	/*font-size: 40px;*/
 	height: 64px;
 	/*margin-left 20px;*/
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
 }
 
 .clearfix{
@@ -234,7 +241,8 @@ button {
 /* panels */
 
 #middle{	
-	height: calc(100% - 64px - 20px - 34px); /* - header and footer */
+	/*height: calc(100% - 64px - 20px - 34px); /* - header and footer */
+  height: 100%;
 }
 
 #slider_div{
