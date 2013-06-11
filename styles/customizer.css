@@ -1,1 +1,40 @@
 /* sytling for newtab configuration page */
+
+body{
+  font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
+}
+
+#preview_container{
+	/*overflow: auto;*/
+	height: 100%;
+	background-color: #E6E6E7;
+	overflow: hidden;
+}
+
+#slider_div{
+	width: 50000px;
+	overflow: scroll; 
+}
+
+.slider_panel{
+	height: 300px;
+	width: 480px;
+	background-image:url('../images/new_tab_body_background.png');
+	display: inline-block;
+	/*height: 100%;*/
+	margin: 10px;
+	padding:0px;
+	position: relative;
+}
+
+#slider_container{
+	overflow: scroll;
+}
+
+.panel_footer{
+	width: 100%;
+	height: 20px;
+	background-color: blue;
+	position: absolute;
+  	bottom: 0px;
+}
