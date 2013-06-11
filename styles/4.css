@@ -364,7 +364,7 @@ new_tab_footer_background.png*/
 
 /* Apps Styles */
 .app_title{
-  font-size: 24px;
+  font-size: 18px;
   color: #666;
   margin-left: 10px;
 
@@ -403,8 +403,8 @@ new_tab_footer_background.png*/
 }
 
 .app_list_item img{
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   float: left;
 }
 
