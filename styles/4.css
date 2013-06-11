@@ -194,38 +194,6 @@ new_tab_footer_background.png*/
   transition-duration: 0ms;
 }
 
-#footer_buttons button{
-  background-position: left top;
-  margin: 10px -2px;
-  vertical-align: top;
-  background-repeat: no-repeat;
-  padding: 6px;
-  white-space: normal;
-  background: transparent padding-box;
-  border: 1px solid transparent;
-  border-radius: 2.5px;
-  cursor: pointer;
-  transition-property: background-color, border-color, box-shadow;
-  transition-duration: 150ms;
-}
-
-#footer_buttons button:hover{
-  background-color: hsla(211,79%,6%,.03);
-  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
-}
-
-
-
-#footer{
-	/*text-align: center;*/
-	/*font-size: 40px;*/
-	height: 64px;
-	/*margin-left 20px;*/
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
-}
-
 .clearfix{
 	clear: both;
 }
@@ -423,7 +391,11 @@ new_tab_footer_background.png*/
 	border-top: solid;
 	border-width: 1px;
 	border-color: #dee1e2;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/
+  height: 64px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
 }
 
 #downloads::before {
@@ -452,7 +424,26 @@ new_tab_footer_background.png*/
 #footer_buttons{
   float: left;
   height: 100%;
+}
 
+#footer_buttons button{
+  background-position: left top;
+  margin: 10px -2px;
+  vertical-align: top;
+  background-repeat: no-repeat;
+  padding: 6px;
+  white-space: normal;
+  background: transparent padding-box;
+  border: 1px solid transparent;
+  border-radius: 2.5px;
+  cursor: pointer;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 150ms;
+}
+
+#footer_buttons button:hover{
+  background-color: hsla(211,79%,6%,.03);
+  border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
 }
 
 

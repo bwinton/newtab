@@ -75,18 +75,45 @@ body{
 
 .search_engine_logo{
 	height: 9px;
-	padding-right: 5px;
+	padding-right: 3px;
 	margin-bottom: -3px;
 	-moz-user-select: none;
 }
 
 .panel_footer{
 	width: 100%;
-	height: 20px;
+	height: 30px;
 	background-color: blue;
 	position: absolute;
   	bottom: 0px;
+  	background-image:url('../images/new_tab_footer_background.png');
+	background-repeat: repeat;
+	border-top: solid;
+	border-width: 1px;
+	border-color: #dee1e2;
 }
+
+#footer_buttons{
+	float: left;
+	height: 10px;
+	padding-left: 4px;
+}
+
+#footer_buttons img{
+	height: 15px;
+	margin-top: 10px;
+	padding-left: 2px;
+}
+
+
+#firefox_logo {
+  height: 25px;
+  z-index: 3;
+  float: right;
+  padding-top: 4px;
+  padding-right: 3px;
+}
+
 
 #templates{
 	display: none;
