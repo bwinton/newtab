@@ -59,9 +59,9 @@ body{
 
 .search_button{
   font-size: 5px;
-  margin: 0px 0px;
+  margin-left: -6px;
   background: -moz-linear-gradient(hsla(0,0%,100%,.8), hsla(0,0%,100%,.1)) padding-box;
-  padding: 3px 3px 2px 3px;
+  padding: 2px 2px 1px 2px;
   border: 1px solid;
   border-color: hsla(210,54%,20%,.15) hsla(210,54%,20%,.17) hsla(210,54%,20%,.2);
   -moz-border-start: 1px solid transparent;
@@ -112,6 +112,12 @@ body{
   float: right;
   padding-top: 4px;
   padding-right: 3px;
+}
+
+#new_panel_button{
+	width: 100px;
+	margin: 0px 0px 120px 20px;
+	cursor: pointer;
 }
 
 

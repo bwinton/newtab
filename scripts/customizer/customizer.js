@@ -11,24 +11,18 @@
     /*
     Events
      */
-  //   $(document).on("keydown", function(e){
-  //     switch(e.keyCode){
-  //       case 37: /* left */
-  //       case 39: /* right */
-  //         $("#slider_div").scroll();
-  //         break;
-  //     }
-  //   }.bind(this));
 
   /* prevent dragging certain elements on panels */
   $('.panel_header, .panel_footer').on('dragstart', prevent_drag);
+  $('#new_panel_button').click(function(){
+    this.create_panel();
+  }.bind(this));
+
 
   }
 
   Customizer.prototype = {
     init: function(){
-      this.create_panel();
-      this.create_panel();
       this.create_panel();
     },
 
@@ -49,12 +43,12 @@
     adjust_slider_width: function(){
       var panel_width = 480;
       var panel_margin = 20;
-      var width = 10 + this.panels * (panel_width + panel_margin);
+      var width = 110 + 10 + this.panels * (panel_width + panel_margin);
       $('#slider_div').css('width', width+'px');
     },
 
     create_panel: function(){
-      $("#slider_div").append(
+      $("#new_panel_button").before(
         $("#templates .slider_panel").clone(true, true)
       );
       this.panels++;
