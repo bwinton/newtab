@@ -40,6 +40,8 @@
   Customizer.prototype = {
     init: function(){
       this.create_panel();
+      this.create_panel();
+      this.create_panel();
       this.create_app();
       this.create_app();
 
@@ -80,7 +82,7 @@
 
     create_app: function(){
       console.log("creating app");
-      var $new_app = $("#templates .app").clone(true, true);
+      var $new_app = $("#templates .app_banner").clone(true, true);
 
       /* fill in app details */
       var lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, itaque, magnam, accusamus.";
@@ -91,7 +93,7 @@
       $new_app.find(".app_title").html("The Name of an App");
       $new_app.find(".app_description").html(lorem);
 
-      $("#apps_container").append($new_app);
+      $("#apps_list").append($new_app);
     }
 
   };

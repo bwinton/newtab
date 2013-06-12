@@ -6,6 +6,11 @@ body{
   color: #666;
 }
 
+#templates{
+	display: none;
+}
+
+
 #preview_container{
 	/*overflow: auto;*/
 	height: 100%;
@@ -46,8 +51,9 @@ h1{
 	position: relative;
 	-moz-user-select: none;
 	user-select: none;
-	height: calc(100% - 30px);
+	height: calc(100% - 60px);
 	box-shadow: 0px 1px 6px #CCC;
+	padding-top: 30px;
 }
 
 #slider_container{
@@ -93,6 +99,20 @@ h1{
 	padding-right: 3px;
 	margin-bottom: -3px;
 	-moz-user-select: none;
+}
+
+.app_group{
+	background-color: red;
+	width: calc(100% - 40px);
+	height: calc(100% - 50px);
+	margin: 10px 20px;
+}
+
+.app_container{
+	width: 50%;
+	height: 100%;
+	margin: 0 auto;
+	background-color: blue;
 }
 
 .panel_footer{
@@ -153,18 +173,13 @@ h1{
 }
 
 
-#templates{
-	display: none;
-}
-
-
 #apps{
 	padding: 20px;
 }
 
 
 /*where all of the apps live*/
-#apps_container{
+#apps_list{
 	/*layout*/
 	display: -webkit-box;
     display: -moz-box;
@@ -201,7 +216,7 @@ h1{
 }
 
 /*the wrapper for each app*/
-.app{
+.app_banner{
 	/*layout*/
 	-webkit-box-ordinal-group: 1;
     -moz-box-ordinal-group: 1;
