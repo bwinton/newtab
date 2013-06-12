@@ -11,6 +11,22 @@
     /*
     Events
      */
+    
+  /* scroll left or right */
+
+  $(document).on('keydown',function(e){
+    $div = $("#slider_container")
+    switch(e.keyCode){
+      case(39): /* right */
+        $div.scrollTo("+=480px", "easeOutElastic");
+        console.log("right");
+        break;
+      case(37): /* left */
+        console.log("left");
+        $div.scrollTo("-=480px", "easeOutElastic");
+        break;
+    }
+  }.bind(this))
 
   /* prevent dragging certain elements on panels */
   $('.panel_header, .panel_footer').on('dragstart', prevent_drag);
