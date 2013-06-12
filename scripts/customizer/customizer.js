@@ -40,6 +40,9 @@
   Customizer.prototype = {
     init: function(){
       this.create_panel();
+      this.create_app();
+      this.create_app();
+
     },
 
     /* adds extras to panels like header and footer */
@@ -66,13 +69,29 @@
     create_panel: function(){
       this.panels++;
       this.adjust_slider_width();
-      
+
       var $new_panel = $("#templates .panel_wrapper").clone(true, true);
-      
+
       /* set panel number */
-      $new_panel.find('.panel_number').html("Panel "+this.panels)
+      $new_panel.find('.panel_number').html("Panel "+this.panels);
 
       $("#new_panel_button").before($new_panel);
+    },
+
+    create_app: function(){
+      console.log("creating app");
+      var $new_app = $("#templates .app").clone(true, true);
+
+      /* fill in app details */
+      var lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, itaque, magnam, accusamus.";
+      
+      $new_app.find(".app_icon").attr('src', '../4/newtab_apps/Recently_Bookmarked/logo.png');
+      // $new_app.find(".app_icon").attr('src', 'http://www.google.com/images/srpr/logo4w.png');
+      
+      $new_app.find(".app_title").html("The Name of an App");
+      $new_app.find(".app_description").html(lorem);
+
+      $("#apps_container").append($new_app);
     }
 
   };
