@@ -40,33 +40,39 @@
 
 
         <div id="templates">
-            <div class="slider_panel">
+            
+            <div class="panel_wrapper">
+                <div class="slider_panel">
+                    <div class="panel_header">
+                        <img class="search_engine_logo" src="../images/SearchEngines/google_larger.png" alt="search_engine">
+                        <input class="search_box" disabled="true">
+                        <input type="submit" class="search_button" value="Search" >
+                    </div>
+                    <div class="panel_footer">
+                        
+                        <div id="footer_buttons">
+                          
+                          <img src="chrome://browser/content/abouthome/downloads.png" id='downloads' class='' title='Downloads'></img>
+                          
+                          <img src="chrome://browser/content/abouthome/bookmarks.png" id='bookmarks' class='' title='Bookmarks'></img>
+                         
+                          <img src="chrome://browser/content/abouthome/history.png" id='history' class='' title='History'></img>
+                          
+                          <img src="chrome://browser/content/abouthome/sync.png" id='sync' class='' title='Sync'></img>
+                          
+                          <img src="chrome://browser/content/abouthome/settings.png" id='settings' class='' title='Settings'></img>
 
-                <div class="panel_header">
-                    <img class="search_engine_logo" src="../images/SearchEngines/google_larger.png" alt="search_engine">
-                    <input class="search_box" disabled="true">
-                    <input type="submit" class="search_button" value="Search" >
-                </div>
-                <div class="panel_footer">
-                    
-                    <div id="footer_buttons">
-                      
-                      <img src="chrome://browser/content/abouthome/downloads.png" id='downloads' class='' title='Downloads'></img>
-                      
-                      <img src="chrome://browser/content/abouthome/bookmarks.png" id='bookmarks' class='' title='Bookmarks'></img>
-                     
-                      <img src="chrome://browser/content/abouthome/history.png" id='history' class='' title='History'></img>
-                      
-                      <img src="chrome://browser/content/abouthome/sync.png" id='sync' class='' title='Sync'></img>
-                      
-                      <img src="chrome://browser/content/abouthome/settings.png" id='settings' class='' title='Settings'></img>
+                        </div>
+                        
+                        <img id="firefox_logo" src="chrome://branding/content/about-logo.png" alt="firefox">
 
                     </div>
-                    
-                    <img id="firefox_logo" src="chrome://branding/content/about-logo.png" alt="firefox">
-
+                </div>
+                 <div class="panel_info">
+                    <span class="panel_number"></span>
                 </div>
             </div>
+
         </div>
     </body>
 </html>

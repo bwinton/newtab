@@ -48,11 +48,15 @@
     },
 
     create_panel: function(){
-      $("#new_panel_button").before(
-        $("#templates .slider_panel").clone(true, true)
-      );
       this.panels++;
       this.adjust_slider_width();
+      
+      var $new_panel = $("#templates .panel_wrapper").clone(true, true);
+      
+      /* set panel number */
+      $new_panel.find('.panel_number').html("Panel "+this.panels)
+
+      $("#new_panel_button").before($new_panel);
     }
 
   };
