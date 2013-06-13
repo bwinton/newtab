@@ -4,6 +4,7 @@ body{
   font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
   background-color: #F7F7F7;
   color: #666;
+  overflow-y: hidden;
 }
 
 #templates{
@@ -107,15 +108,18 @@ h1{
 	height: calc(100% - 50px);
 	margin: 10px 20px;
 	text-align: center;
+	font-size: 0
 }
 
 .app_container{
-	width: 49%;
+	width: 20%;
 	height: 100%;
 	/*margin: 0 auto;*/
 	background-color: blue;
 	/*float: left;*/
 	display: inline-block;
+	font-size: 12px;
+	margin: 0px 10px;
 }
 
 .panel_footer{

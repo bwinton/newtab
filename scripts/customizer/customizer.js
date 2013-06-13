@@ -5,7 +5,7 @@
 ;(function(){
 
   function Customizer(){
-    this.panels = 0;
+    this.panels = [];
     this.apps={};
 
     this.init();
@@ -14,9 +14,13 @@
     Events
      */
     
-  $("button.add_app").click(function(){
-    alert("add app");
-  });
+  $("button.add_app").click(function(e){
+    $target = $(e.target);
+    var $app_banner = $target.parent().parent();
+    var app_id = $.data($app_banner.get(0), 'app_id');
+    $app_banner.hide();
+    this.add_app(app_id);
+  }.bind(this));
     
   /* scroll left or right */
 
@@ -69,20 +73,20 @@
     adjust_slider_width: function(){
       var panel_width = 480;
       var panel_margin = 20;
-      var width = 110 + 10 + this.panels * (panel_width + panel_margin);
+      var width = 110 + 10 + this.panels.length * (panel_width + panel_margin);
       $('#slider_div').css('width', width+'px');
     },
 
     create_panel: function(){
-      this.panels++;
-      this.adjust_slider_width();
 
       var $new_panel = $("#templates .panel_wrapper").clone(true, true);
+      this.panels.push(new Panel($new_panel));
 
       /* set panel number */
-      $new_panel.find('.panel_number').html("Panel "+this.panels);
+      $new_panel.find('.panel_number').html("Panel "+this.panels.length);
 
       $("#new_panel_button").before($new_panel);
+      this.adjust_slider_width();
     },
 
     /* creates a new app in the list of available apps */
@@ -98,6 +102,9 @@
       
       $new_app.find(".app_title").html("The Name of an App");
       $new_app.find(".app_description").html(lorem);
+
+      /* set jquery data of app_id onto the banner */
+      $.data($new_app.get(0), "app_id", app_data.id);
 
       $("#apps_list").append($new_app);
 
@@ -127,7 +134,9 @@
       var panel_found = false;
       $(this.panels).each(function(i, panel){
         if(panel.size<3){
-          panel.add(app);
+          panel.add_app(app);
+          panel_found = true;
+          return false;
         }
       });
       if(panel_found) return;
@@ -153,8 +162,10 @@
   
   /* for keeping track of the data
   in each panel */
-  function Panel(){
-    this.size = 0; 
+  function Panel($panel){
+    this.$panel = $panel;
+    this.$app_group = $panel.find(".app_group")
+    this.size = 1;
   }
 
   Panel.prototype = {
@@ -163,8 +174,9 @@
       app.panel = this;
 
       /* create new app_container */
-      var $new_app_container = null;
-      this.$apps_container.append($new_app_container)
+      var $new_app_container = $("#templates>.app_container").clone(true, true);
+      this.$app_group.append($new_app_container);
+      this.size += 1
 
     },
 
@@ -177,9 +189,9 @@
     [
       {id: "recently_closed", name: "Recently Closed"},
       {id: "recently_bookmarked", name: "Recently Bookmarked"},
-      {id: "read_it_later", name: "Read It Later"}
-      // {id: "top_sites", name: "Top Sites", min_width: 3}
-    ]
+      {id: "read_it_later", name: "Read It Later"},
+      {id: "top_sites", name: "Top Sites", min_width: 3}
+    ];
 
 
 
