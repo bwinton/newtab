@@ -176,11 +176,15 @@
       /* create new app_container */
       var $new_app_container = $("#templates>.app_container").clone(true, true);
       this.$app_group.append($new_app_container);
-      this.size += 1
+      this.size += 3;
 
     },
 
     remove_app: function(id){
+
+    },
+
+    size_apps: function(){
 
     }
   };

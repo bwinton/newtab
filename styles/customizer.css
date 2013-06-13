@@ -47,6 +47,11 @@ h1{
 
 }
 
+#slider_container{
+	overflow-x: scroll; 
+	overflow-y: hidden;
+}
+
 .slider_panel{
 	background-image:url('../images/new_tab_body_background.png');
 	position: relative;
@@ -54,12 +59,7 @@ h1{
 	user-select: none;
 	height: calc(100% - 60px);
 	box-shadow: 0px 1px 6px #CCC;
-	padding-top: 30px;
-}
-
-#slider_container{
-	overflow-x: scroll; 
-	overflow-y: hidden;
+	/*padding-top: 30px;*/
 }
 
 .panel_header{
@@ -105,13 +105,16 @@ h1{
 .app_group{
 	background-color: red;
 	width: calc(100% - 40px);
-	height: calc(100% - 50px);
+	height: calc(100% - 70px);
 	margin: 10px 20px;
 	text-align: center;
-	font-size: 0
+	font-size: 0px;
+	position: absolute;
+  	top: 30px;
 }
 
 .app_container{
+
 	width: 20%;
 	height: 100%;
 	/*margin: 0 auto;*/
@@ -120,6 +123,11 @@ h1{
 	display: inline-block;
 	font-size: 12px;
 	margin: 0px 10px;
+	overflow: hidden;
+}
+
+.app_container_content{
+	/*display: none;*/
 }
 
 .panel_footer{
