@@ -6,11 +6,17 @@
 
   function Customizer(){
     this.panels = 0;
+    this.apps={};
+
     this.init();
 
     /*
     Events
      */
+    
+  $("button.add_app").click(function(){
+    alert("add app");
+  });
     
   /* scroll left or right */
 
@@ -42,8 +48,7 @@
       this.create_panel();
       this.create_panel();
       this.create_panel();
-      this.create_app();
-      this.create_app();
+      this.populate_apps_list(available_apps);
 
     },
 
@@ -80,7 +85,8 @@
       $("#new_panel_button").before($new_panel);
     },
 
-    create_app: function(){
+    /* creates a new app in the list of available apps */
+    create_app: function(app_data){
       console.log("creating app");
       var $new_app = $("#templates .app_banner").clone(true, true);
 
@@ -94,7 +100,43 @@
       $new_app.find(".app_description").html(lorem);
 
       $("#apps_list").append($new_app);
+
+      /* add data to Customizier */
+      var app_data_copy = JSON.parse(JSON.stringify(app_data));
+      this.apps[app_data.id] = {
+        size: 1,
+        original_data: app_data_copy
+      }
+    },
+
+    /* adds a list of apps to the the list of available apps */
+    populate_apps_list: function(apps_list){
+      $(apps_list).each(function(i, app){
+        this.create_app(app);
+      }.bind(this));
+    },
+
+    /* adds an app to the new tab page */
+    add_app: function(app_id){
+      var app = this.apps[app_id];
+
+      /* hide app_banner */
+      // $(".app_banner")
+
+      /* find first panel with room for new app or create one */
+      var panel_found = false;
+      $(this.panels).each(function(i, panel){
+        if(panel.size<3){
+          panel.add(app);
+        }
+      });
+      if(panel_found) return;
+      else{
+        this.create_panel();
+        this.panels[this.panels.length-1].add_app(app);
+      }
     }
+
 
   };
 
@@ -103,6 +145,42 @@
   function prevent_drag(e){
     e.preventDefault();
   }
+
+
+  /*
+  helper classes
+   */
+  
+  /* for keeping track of the data
+  in each panel */
+  function Panel(){
+    this.size = 0; 
+  }
+
+  Panel.prototype = {
+
+    add_app: function(app){
+      app.panel = this;
+
+      /* create new app_container */
+      var $new_app_container = null;
+      this.$apps_container.append($new_app_container)
+
+    },
+
+    remove_app: function(id){
+
+    }
+  };
+
+    var available_apps =
+    [
+      {id: "recently_closed", name: "Recently Closed"},
+      {id: "recently_bookmarked", name: "Recently Bookmarked"},
+      {id: "read_it_later", name: "Read It Later"}
+      // {id: "top_sites", name: "Top Sites", min_width: 3}
+    ]
+
 
 
   /* run */

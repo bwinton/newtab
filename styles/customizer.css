@@ -106,13 +106,16 @@ h1{
 	width: calc(100% - 40px);
 	height: calc(100% - 50px);
 	margin: 10px 20px;
+	text-align: center;
 }
 
 .app_container{
-	width: 50%;
+	width: 49%;
 	height: 100%;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 	background-color: blue;
+	/*float: left;*/
+	display: inline-block;
 }
 
 .panel_footer{
