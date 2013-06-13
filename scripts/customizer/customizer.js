@@ -21,6 +21,15 @@
     $app_banner.hide();
     this.add_app(app_id);
   }.bind(this));
+
+  $("#new_panel_button")
+  .on('mouseenter',function(e){
+    $(e.target).attr('src', '../images/big_plus_shadow.png');
+  })
+  .on('mouseleave click',function(e){
+    $(e.target).attr('src', '../images/big_plus.png');
+  })
+
     
   /* scroll left or right */
 
@@ -50,8 +59,8 @@
   Customizer.prototype = {
     init: function(){
       this.create_panel();
-      this.create_panel();
-      this.create_panel();
+      // this.create_panel();
+      // this.create_panel();
       this.populate_apps_list(available_apps);
 
     },
@@ -111,9 +120,8 @@
       /* add data to Customizier */
       var app_data_copy = JSON.parse(JSON.stringify(app_data));
       this.apps[app_data.id] = {
-        size: 1,
         original_data: app_data_copy
-      }
+      };
     },
 
     /* adds a list of apps to the the list of available apps */
@@ -133,7 +141,7 @@
       /* find first panel with room for new app or create one */
       var panel_found = false;
       $(this.panels).each(function(i, panel){
-        if(panel.size<3){
+        if(panel.room_for_app(app)){
           panel.add_app(app);
           panel_found = true;
           return false;
@@ -164,8 +172,9 @@
   in each panel */
   function Panel($panel){
     this.$panel = $panel;
-    this.$app_group = $panel.find(".app_group")
+    this.$app_group = $panel.find(".app_group");
     this.size = 1;
+    this.apps = [];
   }
 
   Panel.prototype = {
@@ -173,10 +182,21 @@
     add_app: function(app){
       app.panel = this;
 
+      // this.resize_apps();
+      // app.size = (app.original_data.max_size || 6-this.get_size());
+
       /* create new app_container */
       var $new_app_container = $("#templates>.app_container").clone(true, true);
+      $new_app_container.addClass('app_'+app.size);
       this.$app_group.append($new_app_container);
-      this.size += 3;
+
+      app.$el = $new_app_container;
+
+      this.apps.push(app);
+      console.log("app:");
+      console.log(app);
+
+      this.resize_apps();
 
     },
 
@@ -184,8 +204,58 @@
 
     },
 
-    size_apps: function(){
+    resize_apps: function(){
+      var remaining_size = 6;
+      var non_fixed_apps = 0;
+      
+      /* walk through apps once looking for apps that have a fixed size
+      and subtract that from the remaining size */
 
+      $.each(this.apps, function(i, app){
+        if(app.fixed_size) remaining_size-= app.size;
+        else non_fixed_apps++;
+      });
+      console.log("non_fixed_apps: ", non_fixed_apps);
+      /* distribute remaining size evenly among other apps */
+      $.each(this.apps, function(i, app){
+          console.log("resizing");
+          app.$el.removeClass('app_1 app_2 app_3 app_6');
+          app.size = remaining_size/non_fixed_apps;
+          app.$el.addClass('app_'+app.size);
+        
+
+      // maintain all locked apps
+      // want to make all apps as big as possible
+
+      });
+    },
+
+    get_size: function(){
+      var total = 0;
+      $.each(this.apps, function(i, app){
+        total+=app.size;
+      });
+      return total;
+    },
+
+    room_for_app: function(app){
+      if(this.apps.length === 0) return true;
+      var app_size = (app.original_data.min_width || 1);
+
+      /* check if room exists */
+      // if(this.get_size() + app_size <= 3) return true;
+
+      /* check if we can resize apps that are already on the panel */
+      if(this.apps.length > 2) return false;
+      var can_make_room = false;
+      $.each(this.apps, function(i, app){
+        console.log("app.size: ", app.size);
+        if(!app.size_locked && (app.original_data.min_width || 1) < app.size ){
+          can_make_room = true;
+        }
+      });
+      console.log("make room: ", can_make_room);
+      return can_make_room;
     }
   };
 

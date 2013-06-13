@@ -115,15 +115,33 @@ h1{
 
 .app_container{
 
-	width: 20%;
 	height: 100%;
 	/*margin: 0 auto;*/
 	background-color: blue;
 	/*float: left;*/
 	display: inline-block;
 	font-size: 12px;
-	margin: 0px 10px;
 	overflow: hidden;
+}
+
+.app_2{
+	width: 32%;
+	margin: 0px 2px;
+
+}
+
+.app_3{
+	width: 49%;
+	margin: 0px 2px;
+}
+
+.app_4{
+	width: 65%;
+	margin: 0px 2px;
+}
+
+.app_6{
+	width: 100%;
 }
 
 .app_container_content{
@@ -186,6 +204,8 @@ h1{
 	margin: 0px 0px 120px 20px;
 	cursor: pointer;	
 }
+
+
 
 
 #apps{
