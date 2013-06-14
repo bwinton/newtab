@@ -74,12 +74,6 @@
       clearTimeout($target.data('timeout'));
     }.bind(this));
 
-    // $("button.cancel_app_changes").click(function(e){
-    //   console.log("cancel");
-    //   $target = $(e.target).closest(".app_container");
-    //   this.hide_app_settings($target);
-    // }.bind(this));
-
 
 
   }
@@ -183,11 +177,38 @@
     show_app_settings: function($app_container){
       if(!$app_container.hasClass('app_container')) return;
       var $settings_panel = $("#templates .app_settings_panel").clone(true, true).html();
+      var app_id = $app_container.data('app_id');
+      var app = this.apps[app_id];
+
       this.data.saved_app_contents = $app_container.html();
       $app_container.html($settings_panel);
+      $app_container.addClass("settings_panel");
+
+      var $dropdown = $app_container.find(".size_selector");
+
+      /* setup app size dropdown */
+      $dropdown.find('option').filter(function(){
+        console.log("app.size: ", app.size)
+        console.log("this.val: ", $(this).val())
+        return $(this).val() === ""+app.size;
+      }).attr('selected', true);
 
       /* setup close button */
       $app_container.find("button.cancel_app_changes").click(function(e){
+        this.hide_app_settings($app_container);
+      }.bind(this));
+
+      /* setup save button */
+      $app_container.find("button.save_app_changes").click(function(e){
+        var new_size = $dropdown.val();
+        // alert(new_size);
+
+        if(new_size > 0) this.change_app_size($app_container, new_size);
+        this.hide_app_settings($app_container);
+      }.bind(this));
+
+      /* setup remove_app button */
+      $app_container.find("button.remove_app").click(function(e){
         this.hide_app_settings($app_container);
       }.bind(this));
 
@@ -201,7 +222,19 @@
         return;
       }
       $app_container.html(saved_html);
+      $app_container.removeClass("settings_panel");
       delete(this.data.saved_app_contents);
+    },
+
+    change_app_size: function($app_container, size){
+      var app_id = $app_container.data('app_id');
+      var app = this.apps[app_id];
+
+      app.size = size;
+      app.fixed_size = true;
+
+      $app_container.removeClass('app_2 app_3 app_4 app_6');
+      $app_container.addClass('app_'+size);
     }
 
 
@@ -230,6 +263,7 @@
   Panel.prototype = {
 
     add_app: function(app){
+      console.log(app)
       app.panel = this;
 
       // this.resize_apps();
@@ -240,6 +274,8 @@
       this.$app_group.append($new_app_container);
 
       app.$el = $new_app_container;
+
+      $new_app_container.data('app_id', app.original_data.id);
 
       this.apps.push(app);
 
@@ -254,7 +290,7 @@
     resize_apps: function(){
       var remaining_size = 6;
       var non_fixed_apps = 0;
-      
+
       /* walk through apps once looking for apps that have a fixed size
       and subtract that from the remaining size */
 
@@ -265,8 +301,9 @@
       console.log("non_fixed_apps: ", non_fixed_apps);
       /* distribute remaining size evenly among other apps */
       $.each(this.apps, function(i, app){
+          if(app.fixed_size) return;
           console.log("resizing");
-          app.$el.removeClass('app_1 app_2 app_3 app_6');
+          app.$el.removeClass('app_2 app_3 app_4 app_6');
           app.size = remaining_size/non_fixed_apps;
           app.$el.addClass('app_'+app.size);
         
@@ -297,7 +334,7 @@
       var can_make_room = false;
       $.each(this.apps, function(i, app){
         console.log("app.size: ", app.size);
-        if(!app.size_locked && (app.original_data.min_width || 1) < app.size ){
+        if(!app.fixed_size && (app.original_data.min_width || 1) < app.size ){
           can_make_room = true;
         }
       });
