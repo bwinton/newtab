@@ -113,6 +113,12 @@ h1{
   	top: 30px;
 }
 
+.app_group :first-child{
+	margin-left: 0px;
+}
+.app_group :last-child{
+	margin-right: 0px;
+}
 .app_container{
 
 	height: 100%;
@@ -122,17 +128,18 @@ h1{
 	display: inline-block;
 	font-size: 12px;
 	overflow: hidden;
+	margin: 0px 2px;
 }
 
 .app_2{
 	width: 32%;
-	margin: 0px 2px;
+	/*margin: 0px 2px;*/
 
 }
 
 .app_3{
 	width: 49%;
-	margin: 0px 2px;
+	/*margin: 0px 2px;*/
 }
 
 .app_4{
@@ -285,11 +292,11 @@ h1{
 	border-bottom: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: #E6E6E7;
-	padding: 3px;
+	padding: 5px 3px 3px 5px;
 }
 
 .app_icon{
-	margin: 0px 5px 0px 2px;
+	margin: 0px 3px 0px 2px;
 }
 
 .app_body{

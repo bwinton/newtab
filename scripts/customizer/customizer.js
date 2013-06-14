@@ -7,6 +7,7 @@
   function Customizer(){
     this.panels = [];
     this.apps={};
+    this.data={};
 
     this.init();
 
@@ -14,44 +15,71 @@
     Events
      */
     
-  $("button.add_app").click(function(e){
-    $target = $(e.target);
-    var $app_banner = $target.parent().parent();
-    var app_id = $.data($app_banner.get(0), 'app_id');
-    $app_banner.hide();
-    this.add_app(app_id);
-  }.bind(this));
+    $("button.add_app").click(function(e){
+      $target = $(e.target);
+      var $app_banner = $target.parent().parent();
+      var app_id = $.data($app_banner.get(0), 'app_id');
+      $app_banner.hide();
+      this.add_app(app_id);
+    }.bind(this));
 
-  $("#new_panel_button")
-  .on('mouseenter',function(e){
-    $(e.target).attr('src', '../images/big_plus_shadow.png');
-  })
-  .on('mouseleave click',function(e){
-    $(e.target).attr('src', '../images/big_plus.png');
-  })
+    $("#new_panel_button")
+    .on('mouseenter',function(e){
+      $(e.target).attr('src', '../images/big_plus_shadow.png');
+    })
+    .on('mouseleave click',function(e){
+      $(e.target).attr('src', '../images/big_plus.png');
+    })
+    .on('mousedown',function(e){
+      $(e.target).attr('src', '../images/big_plus.png');
+    })
+    .on('mouseup',function(e){
+      $(e.target).attr('src', '../images/big_plus_shadow.png');
+    })
 
-    
-  /* scroll left or right */
+      
+    /* scroll left or right */
 
-  $(document).on('keydown',function(e){
-    $div = $("#slider_container")
-    switch(e.keyCode){
-      case(39): /* right */
-        $div.scrollTo("+=480px", "easeOutElastic");
-        console.log("right");
-        break;
-      case(37): /* left */
-        console.log("left");
-        $div.scrollTo("-=480px", "easeOutElastic");
-        break;
-    }
-  }.bind(this))
+    $(document).on('keydown',function(e){
+      $div = $("#slider_container")
+      switch(e.keyCode){
+        case(39): /* right */
+          $div.scrollTo("+=480px", "easeOutElastic");
+          console.log("right");
+          break;
+        case(37): /* left */
+          console.log("left");
+          $div.scrollTo("-=480px", "easeOutElastic");
+          break;
+      }
+    }.bind(this))
 
-  /* prevent dragging certain elements on panels */
-  $('.panel_header, .panel_footer').on('dragstart', prevent_drag);
-  $('#new_panel_button').click(function(){
-    this.create_panel();
-  }.bind(this));
+    /* prevent dragging certain elements on panels */
+    $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
+    $('#new_panel_button').click(function(){
+      this.create_panel();
+    }.bind(this));
+
+    /* app settings panel popup */
+    $(".app_container")
+    .on('mouseenter',function(e){
+      var $target = $(e.target);
+      var t = setTimeout(function() {
+        this.show_app_settings($(e.target));
+      }.bind(this), 1000);
+      $target.data('timeout', t);
+    }.bind(this))
+    .on('mouseleave',function(e){
+      $target = $(e.target).closest(".app_container");
+      clearTimeout($target.data('timeout'));
+    }.bind(this));
+
+    // $("button.cancel_app_changes").click(function(e){
+    //   console.log("cancel");
+    //   $target = $(e.target).closest(".app_container");
+    //   this.hide_app_settings($target);
+    // }.bind(this));
+
 
 
   }
@@ -59,8 +87,6 @@
   Customizer.prototype = {
     init: function(){
       this.create_panel();
-      // this.create_panel();
-      // this.create_panel();
       this.populate_apps_list(available_apps);
 
     },
@@ -152,6 +178,30 @@
         this.create_panel();
         this.panels[this.panels.length-1].add_app(app);
       }
+    },
+
+    show_app_settings: function($app_container){
+      if(!$app_container.hasClass('app_container')) return;
+      var $settings_panel = $("#templates .app_settings_panel").clone(true, true).html();
+      this.data.saved_app_contents = $app_container.html();
+      $app_container.html($settings_panel);
+
+      /* setup close button */
+      $app_container.find("button.cancel_app_changes").click(function(e){
+        this.hide_app_settings($app_container);
+      }.bind(this));
+
+    },
+
+    hide_app_settings: function($app_container){
+      console.log("exiting");
+      console.log($app_container);
+      var saved_html = this.data.saved_app_contents;
+      if(!saved_html){
+        return;
+      }
+      $app_container.html(saved_html);
+      delete(this.data.saved_app_contents);
     }
 
 
@@ -187,14 +237,11 @@
 
       /* create new app_container */
       var $new_app_container = $("#templates>.app_container").clone(true, true);
-      $new_app_container.addClass('app_'+app.size);
       this.$app_group.append($new_app_container);
 
       app.$el = $new_app_container;
 
       this.apps.push(app);
-      console.log("app:");
-      console.log(app);
 
       this.resize_apps();
 
