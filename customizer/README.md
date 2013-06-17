@@ -14,8 +14,11 @@ This is the page that lets the user customize their newtab page
 		* Panel
 			* panels have many applications
 			* each application isn't a class but rather a normal javascript object
-* method for expanding apps
+* method for expanding the size of an app
 	1. increase the size of app
-	2. if the new size of the app fits on the panel without resizing any apps before it, then leave the app alone
-	3. if the next app still fits on this panel without resizing any of the apps before it, leave it alone and quit
-	4. if the next app needs to go to a new panel then prepend
+	2. remove all apps from their panels
+	3. reinsert each app in the same order
+* app creation process
+	* a new "app banner" is created in the available apps section
+	* a new App object is created an added to the customizer's list of apps
+	* the app banner div referenced by the new app object so that it can later hidden or shown when the app is either on a panel or not
