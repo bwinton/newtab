@@ -157,6 +157,12 @@ h1{
 	/*display: none;*/
 }
 
+.drag_over{
+	border: dashed;
+	border-width: 3px;
+	box-shadow:inset 0px -2px 2px #CCC
+}
+
 .panel_footer{
 	width: 100%;
 	height: 30px;

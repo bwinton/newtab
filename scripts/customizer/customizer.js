@@ -116,7 +116,12 @@
       this.remove_app_from_active_apps(app);
       this.optimize_array();
       this.render_panels();
-      app.show_banner();
+      if(keep_size){
+        
+      }
+      else{
+        app.show_banner();
+      }
     },
 
     /* resizes an app on newtab page */
@@ -170,7 +175,6 @@
 
       var $app_group = $panel.find('.app_group');
 
-
       /* add apps to panel */
       $.each(arguments, function(i, app){
         var $app_container = app.$app_container;
@@ -179,6 +183,9 @@
         $app_container.addClass('app_'+ app.size);
 
         $app_group.append($app_container);
+
+        /* add id to app_container */
+        $app_container.data('app_id',app.id);
 
         /* setup active mode on click */
         $app_container.click(function(e){
@@ -193,13 +200,62 @@
              
              e.originalEvent.dataTransfer.setData('Text', app.id);
              $app_container.css('opacity', '0.4');
-          })
+             this.data.dragging_app = app;
+          }.bind(this))
           .on('dragend', function(e){
              console.log("dragend");
 
              $app_container.css('opacity', '1.0');
-          })
-      });
+             delete this.data.dragging_app;
+          }.bind(this))
+          .on('dragover', function(e){
+            e.preventDefault();
+
+            return false;
+          }.bind(this))
+          .on('dragenter', function(e){
+            /* make sure that we're dragging ono a different panel */
+            if(e.target === this.data.dragging_app.$app_container.get(0)) return false;
+
+            $(e.target).addClass('drag_over');
+
+            return false;
+          }.bind(this))
+          .on('dragleave', function(e){
+
+            $(e.target).removeClass('drag_over');
+
+            return false;
+          }.bind(this))
+          .on('drop', function(e){
+            e.preventDefault();
+            $target = $(e.target);
+
+            $target.removeClass('drag_over');
+            var destination_app_id = $target.data('app_id');
+            var destination_app;
+            var destination_index;
+            $.each(this.data.added_apps, function(i, app){
+              if(app.id === destination_app_id){
+                destination_app = app;
+                destination_index = i;
+                return false;
+              }
+            });
+            // alert(destination_index);
+
+            
+            var source_app = this.data.dragging_app;
+            var source_app_index;
+
+            this.move_app(source_app, destination_index);
+
+
+            return false;
+          }.bind(this))
+
+        ;
+      }.bind(this));
 
       /* add panel to the dom */
       $("#slider_div").append($panel);
@@ -252,7 +308,7 @@
 
       /* find the panel with smallest min_size */
       panels.sort(function(a, b){
-        return a.min_size - b.min_size
+        return a.min_size - b.min_size;
       });
       var best_panel = panels[0];
 
@@ -350,9 +406,9 @@
 
       /* fill in app details */
       var lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, itaque, magnam, accusamus.";
-      
+
       $banner.find(".app_icon").attr('src', '../4/newtab_apps/Recently_Bookmarked/logo.png');
-      
+
       $banner.find(".app_title").html(this.name);
       $banner.find(".app_description").html(lorem);
 
@@ -369,7 +425,7 @@
 
     create_app_container: function(){
       var $app_container = $("#templates>.app_container").clone(true, true);
-      $app_container.find(".app_container_content").html(this.id)
+      $app_container.find(".app_container_content").html(this.id);
       this.$app_container = $app_container;
     },
 
@@ -427,6 +483,7 @@
     {id: "recently_closed", name: "Recently Closed"},
     {id: "recently_bookmarked", name: "Recently Bookmarked"},
     {id: "read_it_later", name: "Read It Later"},
+    {id: "downloads", name: "Downloads", min_size: 4},
     {id: "top_sites", name: "Top Sites", min_size: 3}
   ];
 
