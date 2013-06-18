@@ -237,20 +237,19 @@
       var min_app_size = app.get_min_size();
 
       var panels = this.generate_app_groups();
-      var best_panel;
-      $.each(panels, function(i, panel){
-        if(min_app_size + panel.min_size <= 6){
-          best_panel = panel;
-          return false;
-        }
-      });
 
-      /* find the app that the given app should come immediately after
-      or if none was found in panel search then pick the last app */
+      /* find the panel with smallest min_size */
+      panels.sort(function(a, b){
+        return a.min_size - b.min_size
+      });
+      var best_panel = panels[0];
+
+      if(!best_panel || best_panel.min_size + min_app_size > 6) best_panel = undefined;
       if(best_panel){
         return this.data.added_apps.indexOf(best_panel.apps[best_panel.apps.length-1])+1;
       }
       else return this.data.added_apps.length;
+
     },
 
     /* returns a list of lists of apps from the
