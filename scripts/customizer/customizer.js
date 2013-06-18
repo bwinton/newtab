@@ -183,7 +183,7 @@
         var $app_container = app.$app_container
         $app_container.removeClass('app_2 app_3 app_4 app_6');
         console.log(app.size);
-        $app_container.addClass('app_'+ app.get_min_size());
+        $app_container.addClass('app_'+ app.size);
 
         $app_group.append($app_container);
       }
@@ -198,7 +198,22 @@
     the size of apps are maximized while minimizing the
     number of panels */
     optimize_array: function(){
+      var panels = this.generate_app_groups();
+      $.each(panels, function(i, panel){
+        /* find how much extra room exists on panel in minimized form */
+        var extra_room = 6;
+        var flexable_apps = 0; /* apps without a fixed size */
+        $.each(panel.apps, function(i, app){
+          if(!app.fixed_size) flexable_apps++;
+          else extra_room -= app.size;
+        });
 
+        /* distribute that extra room to all apps of non fixed size */
+        $.each(panel.apps, function(i, app){
+          if(app.fixed_size) return;
+          app.size = extra_room/flexable_apps;
+        });
+      });
     },
 
     /* finds a spot in the array for the given
