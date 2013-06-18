@@ -17,28 +17,6 @@
     Events
      */
 
-    // $("button.add_app").click(function(e){
-    //   $target = $(e.target);
-    //   var $app_banner = $target.parent().parent();
-    //   var app_id = $.data($app_banner.get(0), 'app_id');
-    //   $app_banner.hide();
-    //   this.add_app(app_id);
-    // }.bind(this));
-
-    // $("#new_panel_button")
-    // .on('mouseenter',function(e){
-    //   $(e.target).attr('src', '../images/big_plus_shadow.png');
-    // })
-    // .on('mouseleave click',function(e){
-    //   $(e.target).attr('src', '../images/big_plus.png');
-    // })
-    // .on('mousedown',function(e){
-    //   $(e.target).attr('src', '../images/big_plus.png');
-    // })
-    // .on('mouseup',function(e){
-    //   $(e.target).attr('src', '../images/big_plus_shadow.png');
-    // });
-
 
     /* scroll left or right */
 
@@ -58,23 +36,6 @@
 
     /* prevent dragging certain elements on panels */
     $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
-    // $('#new_panel_button').click(function(){
-    //   this.create_panel();
-    // }.bind(this));
-
-    /* app settings panel popup */
-    // $(".app_container")
-    // .on('mouseenter',function(e){
-    //   var $target = $(e.target);
-    //   var t = setTimeout(function() {
-    //     this.show_app_settings($(e.target));
-    //   }.bind(this), 1000);
-    //   $target.data('timeout', t);
-    // }.bind(this))
-    // .on('mouseleave',function(e){
-    //   $target = $(e.target).closest(".app_container");
-    //   clearTimeout($target.data('timeout'));
-    // }.bind(this));
 
     /* install clickjack */
     $(window).click(function(e){
@@ -91,6 +52,7 @@
       }.bind(this));
 
       this.render_panels();
+      $('#app_dropzone').hide();
 
     },
 
@@ -182,7 +144,6 @@
 
       /* add apps to panel */
       $.each(arguments, function(i, app){
-        // var app = arguments[x];
         var $app_container = app.$app_container;
         $app_container.removeClass('app_2 app_3 app_4 app_6');
         console.log(app.size);
@@ -234,7 +195,6 @@
     /* inserts the given app at the given index */
     insert_app_at_index: function(app, index){
       this.data.added_apps.splice(index, 0, app);
-      // this.data.added_apps.push(app);
     },
 
     /*
@@ -295,10 +255,10 @@
     },
 
     clickjack: function (e) {
-      console.log($(e.target).attr('class'))
       if( !$(e.target).hasClass('active_app') ){
         $(this.data.added_apps).each(function(i, app){
           app.set_not_active();
+          $('#app_dropzone').hide();
         }.bind(this));
       }
     },
@@ -380,6 +340,7 @@
 
       this.active = true;
       this.$app_container.addClass('active_app');
+      $('#app_dropzone').show();
     },
 
     set_not_active: function(){
