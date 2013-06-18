@@ -76,7 +76,10 @@
     //   clearTimeout($target.data('timeout'));
     // }.bind(this));
 
-
+    /* install clickjack */
+    $(window).click(function(e){
+      this.clickjack(e);
+    }.bind(this));
 
   }
 
@@ -156,7 +159,7 @@
       if(this.data.added_apps.length === 0) this.render_panel();
       else{
         var panels = this.generate_app_groups();
-        // alert(panels.length)
+
         $.each(panels, function(i, panel){
           this.render_panel.apply(this, panel.apps);
         }.bind(this));
@@ -178,15 +181,23 @@
 
 
       /* add apps to panel */
-      for(var x=0; x<arguments.length; x++){
-        var app = arguments[x];
-        var $app_container = app.$app_container
+      $.each(arguments, function(i, app){
+        // var app = arguments[x];
+        var $app_container = app.$app_container;
         $app_container.removeClass('app_2 app_3 app_4 app_6');
         console.log(app.size);
         $app_container.addClass('app_'+ app.size);
 
         $app_group.append($app_container);
-      }
+
+        // /* handle active app */
+        // if(app.active) $app_container.addClass('active_app');
+
+        /* setup active mode on click */
+        $app_container.click(function(e){
+          app.set_active();
+        });
+      });
 
       /* add panel to the dom */
       $("#new_panel_button").before($panel);
@@ -286,6 +297,15 @@
       $('#slider_div').css('width', width+'px');
     },
 
+    clickjack: function (e) {
+      console.log($(e.target).attr('class'))
+      if( !$(e.target).hasClass('active_app') ){
+        $(this.data.added_apps).each(function(i, app){
+          app.set_not_active();
+        }.bind(this));
+      }
+    },
+
     /* takes the array of apps and generates a JSON string
     which represents the configuration as a series of panels
     with apps on it */
@@ -353,6 +373,21 @@
     add_app: function(){
       this.parent.add_app(this);
       this.hide_banner();
+    },
+
+    set_active: function(){
+      /* set all other apps to not active */
+      $.each(this.parent.data.added_apps, function(i, app){
+        app.set_not_active();
+      });
+
+      this.active = true;
+      this.$app_container.addClass('active_app');
+    },
+
+    set_not_active: function(){
+      this.active = false;
+      this.$app_container.removeClass('active_app');
     },
 
     /*
