@@ -103,7 +103,7 @@ h1{
 }
 
 .app_group{
-	background-color: red;
+	/*background-color: red;*/
 	width: calc(100% - 40px);
 	height: calc(100% - 70px);
 	margin: 10px 20px;
@@ -129,6 +129,8 @@ h1{
 	font-size: 12px;
 	overflow: hidden;
 	margin: 0px 2px;
+
+	transition: transform .1s;
 }
 
 .app_2{
@@ -328,7 +330,12 @@ button.add_app:active{
 
 
 .active_app{
+	z-index: 20;
 	background-color: green;
+	box-shadow: 0px 20px 25px #666;
+	transform: translate3d(0px, -2px, 0px) scale(1.02, 1.02);
+
+
 }
 
 

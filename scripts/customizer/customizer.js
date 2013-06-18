@@ -25,19 +25,19 @@
     //   this.add_app(app_id);
     // }.bind(this));
 
-    $("#new_panel_button")
-    .on('mouseenter',function(e){
-      $(e.target).attr('src', '../images/big_plus_shadow.png');
-    })
-    .on('mouseleave click',function(e){
-      $(e.target).attr('src', '../images/big_plus.png');
-    })
-    .on('mousedown',function(e){
-      $(e.target).attr('src', '../images/big_plus.png');
-    })
-    .on('mouseup',function(e){
-      $(e.target).attr('src', '../images/big_plus_shadow.png');
-    });
+    // $("#new_panel_button")
+    // .on('mouseenter',function(e){
+    //   $(e.target).attr('src', '../images/big_plus_shadow.png');
+    // })
+    // .on('mouseleave click',function(e){
+    //   $(e.target).attr('src', '../images/big_plus.png');
+    // })
+    // .on('mousedown',function(e){
+    //   $(e.target).attr('src', '../images/big_plus.png');
+    // })
+    // .on('mouseup',function(e){
+    //   $(e.target).attr('src', '../images/big_plus_shadow.png');
+    // });
 
 
     /* scroll left or right */
@@ -58,9 +58,9 @@
 
     /* prevent dragging certain elements on panels */
     $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
-    $('#new_panel_button').click(function(){
-      this.create_panel();
-    }.bind(this));
+    // $('#new_panel_button').click(function(){
+    //   this.create_panel();
+    // }.bind(this));
 
     /* app settings panel popup */
     // $(".app_container")
@@ -190,9 +190,6 @@
 
         $app_group.append($app_container);
 
-        // /* handle active app */
-        // if(app.active) $app_container.addClass('active_app');
-
         /* setup active mode on click */
         $app_container.click(function(e){
           app.set_active();
@@ -200,7 +197,7 @@
       });
 
       /* add panel to the dom */
-      $("#new_panel_button").before($panel);
+      $("#slider_div").append($panel);
       this.adjust_slider_width();
 
     },
@@ -293,7 +290,7 @@
     adjust_slider_width: function(){
       var panel_width = 480;
       var panel_margin = 20;
-      var width = 110 + 10 + this.data.panels.length * (panel_width + panel_margin);
+      var width = this.data.panels.length * (panel_width + panel_margin);
       $('#slider_div').css('width', width+'px');
     },
 
