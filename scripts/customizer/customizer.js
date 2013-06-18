@@ -42,6 +42,33 @@
       this.clickjack(e);
     }.bind(this));
 
+    /* handle dragging on to dropzone */
+    $('#app_dropzone')
+      .on('dragover', function(e){
+        e.preventDefault();
+
+        return false;
+      })
+      .on('dragenter', function(e){
+        return false;
+      })
+      .on('drop', function(e){
+        if (e.stopPropagation) e.stopPropagation();
+        e.preventDefault();
+        var app_id = e.originalEvent.dataTransfer.getData('Text');
+        var app;
+        $.each(this.data.apps, function(i, a){
+          if(a.id === app_id) app=a;
+        });
+
+        app.$app_container.css('opacity', '1.0');
+        this.remove_app(app);
+
+        return false;
+
+      }.bind(this))
+    ;
+
   }
 
   Customizer.prototype = {
@@ -84,10 +111,12 @@
     if keep_size then doesn't delete the
     apps size if fixed size is also true*/
     remove_app: function(app, keep_size){
+      app.set_not_active();
+      $('#app_dropzone').hide();
       this.remove_app_from_active_apps(app);
       this.optimize_array();
       this.render_panels();
-
+      app.show_banner();
     },
 
     /* resizes an app on newtab page */
@@ -155,6 +184,21 @@
         $app_container.click(function(e){
           app.set_active();
         });
+
+        /* handle dragging */
+        $app_container
+          .on('dragstart', function(e){
+             app.set_active();
+             console.log("dragstart");
+             
+             e.originalEvent.dataTransfer.setData('Text', app.id);
+             $app_container.css('opacity', '0.4');
+          })
+          .on('dragend', function(e){
+             console.log("dragend");
+
+             $app_container.css('opacity', '1.0');
+          })
       });
 
       /* add panel to the dom */
@@ -244,6 +288,11 @@
       if(current_panel) panels.push(current_panel);
 
       return panels;
+    },
+
+    remove_app_from_active_apps: function(app){
+      var index = this.data.added_apps.indexOf(app);
+      this.data.added_apps.splice(index, 1);
     },
 
     /* adjusts the overall width of the slider to accomidate all panels */
