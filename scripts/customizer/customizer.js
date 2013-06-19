@@ -217,7 +217,8 @@
             /* make sure that we're dragging ono a different panel */
             if(e.target === this.data.dragging_app.$app_container.get(0)) return false;
 
-            $(e.target).addClass('drag_over');
+
+            $(e.target).closest('.app_container').addClass('drag_over');
 
             return false;
           }.bind(this))
@@ -232,7 +233,7 @@
             $target = $(e.target);
 
             $target.removeClass('drag_over');
-            var destination_app_id = $target.data('app_id');
+            var destination_app_id = $target.closest('.app_container').data('app_id');
             var destination_app;
             var destination_index;
             $.each(this.data.added_apps, function(i, app){
