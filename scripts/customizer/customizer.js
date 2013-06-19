@@ -207,6 +207,8 @@
              console.log("dragend");
 
              $app_container.css('opacity', '1.0');
+             $(e.target).removeClass('drag_over');
+
              delete this.data.dragging_app;
           }.bind(this))
           .on('dragover', function(e){
@@ -225,7 +227,7 @@
           }.bind(this))
           .on('dragleave', function(e){
 
-            $(e.target).removeClass('drag_over');
+            $(e.target).closest('.app_container').removeClass('drag_over');
 
             return false;
           }.bind(this))
@@ -233,7 +235,8 @@
             e.preventDefault();
             $target = $(e.target);
 
-            $target.removeClass('drag_over');
+            $(e.target).closest('.app_container').removeClass('drag_over');
+            
             var destination_app_id = $target.closest('.app_container').data('app_id');
             var destination_app;
             var destination_index;
