@@ -266,6 +266,11 @@
     /* changes the size of the apps in the array so that
     the size of apps are maximized while minimizing the
     number of panels */
+    /*
+    1. given fixed size apps their size
+    2. make every app it's min size
+    3. distribute extra room to all apps without fixed size
+     */
     optimize_array: function(){
       var panels = this.generate_app_groups();
       $.each(panels, function(i, panel){
@@ -277,10 +282,23 @@
           else extra_room -= app.size;
         });
 
-        /* distribute that extra room to all apps of non fixed size */
+        /* make all apps their minimum size */
         $.each(panel.apps, function(i, app){
           if(app.fixed_size) return;
-          app.size = extra_room/flexable_apps;
+          app.size = app.get_min_size();
+          extra_room -= app.size;
+        });
+
+        /* distribute that extra room to all apps of non fixed size */
+        /* sort the apps by smallest size and the distribute discrete sizes */
+        panel.apps.sort(function(a, b){
+          return a.size - b.size;
+        });
+        $.each(panel.apps, function(i, app){
+          if(app.fixed_size) return;
+          var amount_to_add = Math.ceil(extra_room/flexable_apps)
+          app.size += amount_to_add;
+          extra_room -= amount_to_add;
         });
       });
     },
