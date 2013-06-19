@@ -38,7 +38,9 @@
     $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
 
     /* install clickjack */
-    $(document).click(function(e){
+    $(document).on('click mouseover', function(e){
+      /* don't clickjack if its a mouseover but active was set by a click */
+      if(e.type === 'mouseover' && this.data.active_app) return;
       this.clickjack(e);
     }.bind(this));
 
@@ -200,22 +202,23 @@
 
         /* make apps look active on hover
         (only if no app is actually active) */
-        $app_container.on('mouseenter', function(e){
+        $app_container.on('mouseover', function(e){
           if(!this.data.active_app){
             var app_id = $(e.target).closest('.app_container').data('app_id');
             var app = find_app_by_id(this.data.added_apps, app_id);
-            app.set_active();
+            app.set_active(true);
             delete this.data.active_app;
           }
+          e.stopPropagation();
         }.bind(this));
 
-        $app_container.on('mouseleave', function(e){
-          if(!this.data.active_app){
-            var app_id = $(e.target).closest('.app_container').data('app_id');
-            var app = find_app_by_id(this.data.added_apps, app_id);
-            app.set_not_active();
-          }
-        }.bind(this));
+        // $app_container.on('mouseleave', function(e){
+        //   if(!this.data.active_app){
+        //     var app_id = $(e.target).closest('.app_container').data('app_id');
+        //     var app = find_app_by_id(this.data.added_apps, app_id);
+        //     app.set_not_active();
+        //   }
+        // }.bind(this));
 
         /* handle dragging */
         $app_container
@@ -493,14 +496,13 @@
       this.hide_banner();
     },
 
-    set_active: function(){
+    set_active: function(temporary){
       /* set all other apps to not active */
       $.each(this.parent.data.added_apps, function(i, app){
         app.set_not_active();
       });
 
       this.active = true;
-      this.parent.data.active_app = this;
       this.$app_container.addClass('active_app');
 
       var $app_container_content = this.$app_container.find('.app_container_content');
@@ -524,8 +526,10 @@
       // if(on_right) $active_app_content.find('.expand_right').css("display","none");
 
       this.$app_container.html($active_app_content);
-
-      $('#app_dropzone').show();
+      if(!temporary){
+        $('#app_dropzone').show();
+        this.parent.data.active_app = this;
+      }
     },
 
     set_not_active: function(){

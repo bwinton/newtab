@@ -389,6 +389,8 @@ button.add_app:active{
 	left: 5px;
 	top: 50%;
 	cursor: w-resize;
+
+	height: 20px;
 }
 
 .active_app .expand_right{
@@ -396,6 +398,8 @@ button.add_app:active{
 	right: 5px;
 	top: 50%;
 	cursor: e-resize;
+
+	height: 20px;
 
 }
 
