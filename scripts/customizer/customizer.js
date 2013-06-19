@@ -34,6 +34,12 @@
       }
     }.bind(this));
 
+    /* save mouse position for querying */
+    this.data.mouse_x = -1;
+    $(document).on('mousemove', function(e) {
+        this.data.mouse_x = e.pageX;
+    }.bind(this));
+
     /* prevent dragging certain elements on panels */
     $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
 
@@ -96,6 +102,7 @@
 
     /* adds an app to newtab page */
     add_app: function(app){
+      console.log('add_app');
       this.insert_app(app);
       this.optimize_array();
       this.render_panels();
@@ -103,6 +110,7 @@
 
     /* moves an app to a new spot on newtab page */
     move_app: function(app, new_index){
+      console.log('move_app');
       this.remove_app(app, true);
       this.insert_app_at_index(app, new_index);
       this.optimize_array();
@@ -113,6 +121,7 @@
     if keep_size then doesn't delete the
     apps size if fixed size is also true*/
     remove_app: function(app, keep_size){
+      console.log('remove_app');
       app.set_not_active();
       $('#app_dropzone').hide();
       this.remove_app_from_active_apps(app);
@@ -128,6 +137,7 @@
 
     /* resizes an app on newtab page */
     resize_app: function(app, new_size){
+      console.log('resize_app');
       app.size = new_size();
       app.fixed_size = true;
       this.optimize_array();
@@ -212,14 +222,6 @@
           e.stopPropagation();
         }.bind(this));
 
-        // $app_container.on('mouseleave', function(e){
-        //   if(!this.data.active_app){
-        //     var app_id = $(e.target).closest('.app_container').data('app_id');
-        //     var app = find_app_by_id(this.data.added_apps, app_id);
-        //     app.set_not_active();
-        //   }
-        // }.bind(this));
-
         /* handle dragging */
         $app_container
           .on('dragstart', function(e){
@@ -244,6 +246,9 @@
             return false;
           }.bind(this))
           .on('dragenter', function(e){
+            /* make sure that we are dragging a panel (not something like a drag handle) */
+            if(e.originalEvent.dataTransfer.getData('Text').indexOf('file://') > -1) return;;
+
             /* make sure that we're dragging ono a different panel */
             if(e.target === this.data.dragging_app.$app_container.get(0)) return false;
 
@@ -260,6 +265,11 @@
           }.bind(this))
           .on('drop', function(e){
             e.preventDefault();
+            
+            var source_app = this.data.dragging_app;
+            if(!source_app) return;
+
+
             $target = $(e.target);
 
             $(e.target).closest('.app_container').removeClass('drag_over');
@@ -276,7 +286,6 @@
             });
 
 
-            var source_app = this.data.dragging_app;
             var source_app_index;
 
             this.move_app(source_app, destination_index);
@@ -524,6 +533,27 @@
       /* hide drag handles on apps on the side */
       // if(on_left) $active_app_content.find('.expand_left').css("display","none");
       // if(on_right) $active_app_content.find('.expand_right').css("display","none");
+
+      /* handle resizing */
+      var $right_drag_handle = $active_app_content.find('.expand_right');
+      /* cancel propogation of all events */
+      $right_drag_handle.on('dragover dragenter', function(e){
+        e.stopPropagation();
+      });
+
+      $right_drag_handle.on('dragstart', function(e){
+        e.stopPropagation();
+        this.parent.data.original_x = this.parent.data.mouse_x;
+        console.log('down: '+this.parent.data.mouse_x);
+      }.bind(this));
+
+      $right_drag_handle.on('drag', function(e){
+        console.log(e);
+        var currentX = e.originalEvent.pageX;
+        var diff = currentX - this.parent.data.original_x
+        console.log('up: '+ currentX );
+        e.stopPropagation();
+      }.bind(this));
 
       this.$app_container.html($active_app_content);
       if(!temporary){
