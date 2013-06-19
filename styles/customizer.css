@@ -391,6 +391,8 @@ button.add_app:active{
 	cursor: w-resize;
 
 	height: 20px;
+
+	z-index: 100;
 }
 
 .active_app .expand_right{

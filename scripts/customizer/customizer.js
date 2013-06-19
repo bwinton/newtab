@@ -34,10 +34,25 @@
       }
     }.bind(this));
 
+    /* handle mouseup on document to get the end of a resize drag */
+
+    $(document).on('mouseup', function(){
+      var data = this.data.drag_app_info;
+      if(data){
+        // console.log('up');
+        var start_x = data.start_x;
+        var end_x = this.data.mouse_x;
+        var delta_x = end_x-start_x;
+        data.app.resize(delta_x);
+      }
+      delete this.data.drag_app_info;
+    }.bind(this));
+
     /* save mouse position for querying */
     this.data.mouse_x = -1;
     $(document).on('mousemove', function(e) {
         this.data.mouse_x = e.pageX;
+        // console.log('here')
     }.bind(this));
 
     /* prevent dragging certain elements on panels */
@@ -138,7 +153,7 @@
     /* resizes an app on newtab page */
     resize_app: function(app, new_size){
       console.log('resize_app');
-      app.size = new_size();
+      app.size = new_size;
       app.fixed_size = true;
       this.optimize_array();
       this.render_panels();
@@ -537,23 +552,29 @@
       /* handle resizing */
       var $right_drag_handle = $active_app_content.find('.expand_right');
       /* cancel propogation of all events */
-      $right_drag_handle.on('dragover dragenter', function(e){
+      $right_drag_handle.on('dragover dragenter drag dragstart', function(e){
         e.stopPropagation();
       });
 
-      $right_drag_handle.on('dragstart', function(e){
+      $right_drag_handle.on('mousedown', function(e){
         e.stopPropagation();
-        this.parent.data.original_x = this.parent.data.mouse_x;
+        e.preventDefault();
+        if(!this.parent.data.active_app) return;
+        // $(e.target).closest('.app_container').removeAttr('draggable')
+        this.parent.data.drag_app_info = {
+          start_x: this.parent.data.mouse_x,
+          app: this
+        };
         console.log('down: '+this.parent.data.mouse_x);
       }.bind(this));
 
-      $right_drag_handle.on('drag', function(e){
-        console.log(e);
-        var currentX = e.originalEvent.pageX;
-        var diff = currentX - this.parent.data.original_x
-        console.log('up: '+ currentX );
-        e.stopPropagation();
-      }.bind(this));
+      // $right_drag_handle.on('mouseup', function(e){
+      //   console.log(e);
+      //   var currentX = e.originalEvent.pageX;
+      //   var diff = currentX - this.parent.data.original_x
+      //   console.log('up: '+ currentX );
+      //   e.stopPropagation();
+      // }.bind(this));
 
       this.$app_container.html($active_app_content);
       if(!temporary){
@@ -575,6 +596,18 @@
       // var $app_container_content = this.$app_container.find('.app_container_content'); 
       // this.$app_container.empty();
       this.$app_container.html(normal_content);
+    },
+
+    resize: function(delta_x){
+      // alert("delta: "+delta_x);
+      switch(true){
+        case(delta_x>0):
+          this.parent.resize_app(this, 6);
+          break;
+        case(delta_x<0):
+          this.parent.resize_app(this, 2);
+          break;
+      }
     },
 
     /*
