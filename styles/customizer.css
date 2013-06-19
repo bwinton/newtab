@@ -4,7 +4,7 @@ body{
   font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
   background-color: #F7F7F7;
   color: #666;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/
 }
 
 #templates{
@@ -243,7 +243,7 @@ h1{
 /*where all of the apps live*/
 #apps_list{
 	/*layout*/
-	display: -webkit-box;
+/*	display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -270,17 +270,19 @@ h1{
     -moz-box-align: start;
     -webkit-align-items: flex-start;
     -ms-flex-align: start;
-    align-items: flex-start;
+    align-items: flex-start;*/
 
 	
 	/*background-color: blue;*/
 	margin-top: 10px;
+	/*text-align: center;*/
 }
 
 /*the wrapper for each app*/
 .app_banner{
 	/*layout*/
-	-webkit-box-ordinal-group: 1;
+
+/*	-webkit-box-ordinal-group: 1;
     -moz-box-ordinal-group: 1;
     -webkit-order: 0;
     -ms-flex-order: 0;
@@ -292,19 +294,27 @@ h1{
     flex: 0 1 auto;
     -webkit-align-self: auto;
     -ms-flex-item-align: auto;
-    align-self: auto;
+    align-self: auto;*/
 	
 
 	background-color: #FFF;
-	margin: 5px;
-	max-width: 400px;
-	min-width: 250px;
 
 	border-radius: 3px;
 
 	box-shadow: 0px 1px 4px #AAA;
 
 	color: #666;
+	
+	margin: 5px;
+	/*width: 300px;*/
+	width: 20%;
+	min-width: 250px;
+	max-width: 350px;
+	/*float: left;*/
+
+	display: inline-block;
+	text-align: left;
+
 }
 
 .app_header{
