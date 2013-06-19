@@ -165,7 +165,8 @@
 
     /* takes any number of apps and renders a panel from them */
     render_panel: function(){
-      console.log(arguments)
+      var args = arguments;
+      console.log(arguments);
       /* create panel */
       var $panel = $("#templates .panel_wrapper").clone(true, true);
       /* add to list of panels */
@@ -184,6 +185,10 @@
 
         $app_group.append($app_container);
 
+        /* tell the app if its on the edge of the panel */
+        app.on_left_side_of_panel = (i === 0);
+        app.on_right_side_of_panel = (i === args.length-1);
+
         /* add id to app_container */
         $app_container.data('app_id',app.id);
 
@@ -192,6 +197,25 @@
           app.set_active();
           e.stopPropagation();
         });
+
+        /* make apps look active on hover
+        (only if no app is actually active) */
+        $app_container.on('mouseenter', function(e){
+          if(!this.data.active_app){
+            var app_id = $(e.target).closest('.app_container').data('app_id');
+            var app = find_app_by_id(this.data.added_apps, app_id);
+            app.set_active();
+            delete this.data.active_app;
+          }
+        }.bind(this));
+
+        $app_container.on('mouseleave', function(e){
+          if(!this.data.active_app){
+            var app_id = $(e.target).closest('.app_container').data('app_id');
+            var app = find_app_by_id(this.data.added_apps, app_id);
+            app.set_not_active();
+          }
+        }.bind(this));
 
         /* handle dragging */
         $app_container
@@ -247,7 +271,6 @@
                 return false;
               }
             });
-            // alert(destination_index);
 
 
             var source_app = this.data.dragging_app;
@@ -477,6 +500,7 @@
       });
 
       this.active = true;
+      this.parent.data.active_app = this;
       this.$app_container.addClass('active_app');
 
       var $app_container_content = this.$app_container.find('.app_container_content');
@@ -491,6 +515,14 @@
       var $active_app_content = $("#templates .active_app_content").clone(true, true);
       $active_app_content.find('.active_app_name').html(this.name);
 
+      /* get rid of drag handles if app is on the side of panel */
+      var on_left = this.on_left_side_of_panel;
+      var on_right = this.on_right_side_of_panel;
+
+      /* hide drag handles on apps on the side */
+      // if(on_left) $active_app_content.find('.expand_left').css("display","none");
+      // if(on_right) $active_app_content.find('.expand_right').css("display","none");
+
       this.$app_container.html($active_app_content);
 
       $('#app_dropzone').show();
@@ -498,6 +530,8 @@
 
     set_not_active: function(){
       this.active = false;
+      delete this.parent.data.active_app;
+
       this.$app_container.removeClass('active_app');
 
       /* store app_container_content */
@@ -526,12 +560,24 @@
     hide_banner: function(){
       this.$banner.hide();
     }
+
   };
 
   /* helpers */
 
   function prevent_drag(e){
     e.preventDefault();
+  }
+
+  function find_app_by_id(app_list, id){
+    var found_app;
+    $(app_list).each(function(i, app){
+      if(app.id === id){
+        found_app = app;
+        return false;
+      }
+    });
+    return found_app;
   }
 
   var available_apps =
