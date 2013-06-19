@@ -38,7 +38,7 @@
     $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
 
     /* install clickjack */
-    $(window).click(function(e){
+    $(document).click(function(e){
       this.clickjack(e);
     }.bind(this));
 
@@ -190,6 +190,7 @@
         /* setup active mode on click */
         $app_container.click(function(e){
           app.set_active();
+          e.stopPropagation();
         });
 
         /* handle dragging */
@@ -245,7 +246,7 @@
             });
             // alert(destination_index);
 
-            
+
             var source_app = this.data.dragging_app;
             var source_app_index;
 
@@ -379,7 +380,15 @@
     },
 
     clickjack: function (e) {
-      if( !$(e.target).closest('.app_container').hasClass('active_app') ){
+      // alert( $(e.target).hasClass('.app_container') )
+      // alert( $(e.target).parent().attr('class') )
+
+      
+      // alert( $(e.target).hasClass('.active_app') || $(e.target).parents('.app_container').length > 0)
+      /* if we're not clicking on the active panel then clickjack */
+      // if( !$(e.target).closest('.app_container').hasClass('active_app') ){
+      // if( $(e.target).parent().attr('class') !== undefined && !$(e.target).closest('.app_container').hasClass('.active_app')  ){
+      if(true){
         $(this.data.added_apps).each(function(i, app){
           app.set_not_active();
           $('#app_dropzone').hide();
@@ -464,6 +473,16 @@
 
       this.active = true;
       this.$app_container.addClass('active_app');
+
+      var $app_container_content = this.$app_container.find('.app_container_content');
+      
+      /* store app_container_content */
+      this.parent.data.active_app_contents = $app_container_content.html();
+      
+      /* replace app_container_content with active_panel template */
+      // $app_container_content.html('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, quibusdam, rerum, atque cum sunt ipsa excepturi omnis expedita impedit facilis cupiditate error nihil similique eos harum ipsum molestias amet deserunt!')
+      $app_container_content.html('lorem')
+
       $('#app_dropzone').show();
     },
 
