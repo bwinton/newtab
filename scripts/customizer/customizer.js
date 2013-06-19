@@ -378,7 +378,7 @@
     },
 
     clickjack: function (e) {
-      if( !$(e.target).hasClass('active_app') ){
+      if( !$(e.target).closest('.app_container').hasClass('active_app') ){
         $(this.data.added_apps).each(function(i, app){
           app.set_not_active();
           $('#app_dropzone').hide();
@@ -443,7 +443,7 @@
 
     create_app_container: function(){
       var $app_container = $("#templates>.app_container").clone(true, true);
-      $app_container.find(".app_container_content").html(this.id);
+      $app_container.find(".app_name").html(this.id);
       this.$app_container = $app_container;
     },
 
