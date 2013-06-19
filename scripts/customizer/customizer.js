@@ -414,6 +414,8 @@
     this.min_size = data.min_size;
     this.max_size = data.max_size;
 
+    this.data = {};
+
     this.init();
   }
 
@@ -453,7 +455,7 @@
 
     create_app_container: function(){
       var $app_container = $("#templates>.app_container").clone(true, true);
-      $app_container.find(".app_name").html(this.id);
+      $app_container.find(".app_name").html(this.name);
       this.$app_container = $app_container;
     },
 
@@ -475,13 +477,18 @@
       this.$app_container.addClass('active_app');
 
       var $app_container_content = this.$app_container.find('.app_container_content');
-      
+
       /* store app_container_content */
-      this.parent.data.active_app_contents = $app_container_content.html();
-      
-      /* replace app_container_content with active_panel template */
-      // $app_container_content.html('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, quibusdam, rerum, atque cum sunt ipsa excepturi omnis expedita impedit facilis cupiditate error nihil similique eos harum ipsum molestias amet deserunt!')
-      $app_container_content.html('lorem')
+      this.data.normal_contents = this.$app_container.html();
+      // this.$app_container.empty();
+
+      // alert(this.$app_container.html());
+
+      /* replace app_container with active_app template */
+      var $active_app_content = $("#templates .active_app_content").clone(true, true);
+      $active_app_content.find('.active_app_name').html(this.name);
+
+      this.$app_container.html($active_app_content);
 
       $('#app_dropzone').show();
     },
@@ -489,6 +496,14 @@
     set_not_active: function(){
       this.active = false;
       this.$app_container.removeClass('active_app');
+
+      /* store app_container_content */
+      var normal_content = this.data.normal_contents;
+
+      /* replace app_container_content with active_app template */
+      // var $app_container_content = this.$app_container.find('.app_container_content'); 
+      // this.$app_container.empty();
+      this.$app_container.html(normal_content);
     },
 
     /*

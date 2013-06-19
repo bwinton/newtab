@@ -370,9 +370,37 @@ button.add_app:active{
 
 .active_app{
 	z-index: 20;
-	background-color: green;
+	/*background-color: #F9F9F9;*/
 	box-shadow: 0px 20px 25px #666;
 	transform: translate3d(0px, -2px, 0px) scale(1.02, 1.02);
 }
+
+.active_app_content{
+	width: calc(100% - 40px);
+	margin-left: 20px !important;
+}
+
+.active_app hr{
+	border-color: #DCE0E2;
+}
+
+.active_app .expand_left{
+	position: absolute;
+	left: 5px;
+	top: 50%;
+	cursor: w-resize;
+}
+
+.active_app .expand_right{
+	position: absolute;
+	right: 5px;
+	top: 50%;
+	cursor: e-resize;
+
+}
+
+
+
+
 
 
