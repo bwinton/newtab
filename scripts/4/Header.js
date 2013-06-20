@@ -1,7 +1,6 @@
 ;(function(){
     var Header = function(){
 
-      /* this comment is useless */
       /* 
       DATA
       */
