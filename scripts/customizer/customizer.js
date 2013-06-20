@@ -121,6 +121,7 @@
       this.insert_app(app);
       this.optimize_array();
       this.render_panels();
+      app.set_active();
     },
 
     /* moves an app to a new spot on newtab page */
@@ -199,7 +200,6 @@
     /* takes any number of apps and renders a panel from them */
     render_panel: function(){
       var args = arguments;
-      console.log(arguments);
       /* create panel */
       var $panel = $("#templates .panel_wrapper").clone(true, true);
       /* add to list of panels */
@@ -213,13 +213,11 @@
       $.each(arguments, function(i, app){
         var $app_container = app.$app_container;
         $app_container.removeClass('app_2 app_3 app_4 app_6');
-        console.log(app.size);
         $app_container.addClass('app_'+ app.size);
 
         $app_group.append($app_container);
 
         if(app.active){
-          // alert('yee');
         }
 
         /* tell the app if its on the edge of the panel */
@@ -231,8 +229,8 @@
 
         /* setup active mode on click */
         $app_container.click(function(e){
-          app.set_active();
           e.stopPropagation();
+          app.set_active();
         });
 
         /* make apps look active on hover
@@ -449,12 +447,11 @@
     },
 
     clickjack: function (e) {
-      if(true){
-        $(this.data.added_apps).each(function(i, app){
-          app.set_not_active();
-          $('#app_dropzone').hide();
-        }.bind(this));
-      }
+      console.log(e.type);
+      $(this.data.added_apps).each(function(i, app){
+        app.set_not_active();
+        $('#app_dropzone').hide();
+      }.bind(this));
     },
 
     /* takes the array of apps and generates a JSON string
@@ -472,6 +469,8 @@
     this.parent = parent;
     this.id = data.id;
     this.name = data.name;
+    this.desc = data.desc;
+    this.icon = data.icon;
     this.min_size = data.min_size;
     this.max_size = data.max_size;
 
@@ -496,12 +495,10 @@
       var $banner = $("#templates .app_banner").clone(true, true);
 
       /* fill in app details */
-      var lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, itaque, magnam, accusamus.";
-
-      $banner.find(".app_icon").attr('src', '../4/newtab_apps/Recently_Bookmarked/logo.png');
+      $banner.find(".app_icon").attr('src', this.icon);
 
       $banner.find(".app_title").html(this.name);
-      $banner.find(".app_description").html(lorem);
+      $banner.find(".app_description").html(this.desc);
 
       $("#apps_list").append($banner);
 
@@ -509,13 +506,15 @@
 
       /* setup events */
 
-      $banner.find('.add_app').click(function(){
+      $banner.find('.add_app').click(function(e){
+        e.stopPropagation();
         this.add_app();
       }.bind(this));
     },
 
     create_app_container: function(){
       var $app_container = $("#templates>.app_container").clone(true, true);
+      $app_container.find(".app_icon").attr('src', this.icon);
       $app_container.find(".app_name").html(this.name);
       this.$app_container = $app_container;
       this.data.normal_contents = this.$app_container.html();
@@ -533,10 +532,9 @@
     set_active: function(temporary){
       /* set all other apps to not active */
       if(this.active && temporary) return;
-      console.log('temporary: '+temporary)
+      console.log('temporary: '+ !!temporary)
       $.each(this.parent.data.added_apps, function(i, app){
         if(app.id !== this.id) app.set_not_active();
-        
       }.bind(this));
 
 
@@ -554,8 +552,20 @@
       /* replace app_container with active_app template */
       var $active_app_content = $("#templates .active_app_content").clone(true, true);
       $active_app_content.find('.active_app_name').html(this.name);
-      
+      $active_app_content.find(".app_icon").attr('src', this.icon);
+
+
       set_correct_size_to_active.call(this);
+
+      /* hide buttons that are outside of valid range for app sizes */
+
+      if(this.min_size > 4) $active_app_content.find('.resize_large').hide();
+      if(this.min_size > 3) $active_app_content.find('.resize_medium').hide();
+      if(this.min_size > 2) $active_app_content.find('.resize_small').hide();
+
+      if(this.max_size < 6) $active_app_content.find('.resize_extra_large').hide();
+      if(this.max_size < 4) $active_app_content.find('.resize_large').hide();
+      if(this.max_size < 3) $active_app_content.find('.resize_medium').hide();
 
       var resize_buttons = $active_app_content.find('.resize_buttons button');
       resize_buttons.on('click',function(e){
@@ -606,11 +616,13 @@
       /* hide drag handles on apps on the side */
 
       /* handle resizing */
+        console.log('here0');
 
       this.$app_container.html($active_app_content);
       if(!temporary){
         $('#app_dropzone').show();
         this.parent.data.active_app = this;
+        console.log('here');
       }
     },
 
@@ -627,7 +639,6 @@
       /* replace app_container_content with active_app template */
       // var $app_container_content = this.$app_container.find('.app_container_content'); 
       // this.$app_container.empty();
-      console.log(normal_contents);
       this.$app_container.html(normal_contents);
     },
 
@@ -682,11 +693,11 @@
 
   var available_apps =
   [
-    {id: "recently_closed", name: "Recently Closed"},
-    {id: "recently_bookmarked", name: "Recently Bookmarked"},
-    {id: "read_it_later", name: "Read It Later"},
-    {id: "downloads", name: "Downloads", min_size: 4},
-    {id: "top_sites", name: "Top Sites", min_size: 3}
+    {id: "recently_closed", name: "Recently Closed", desc: "A list of tabs that you've recently closed.", icon: "../4/newtab_apps/Recently_Closed/logo.png" },
+    {id: "recently_bookmarked", name: "Bookmarks", desc: "Web pages you've recently bookmarked.", icon: "../4/newtab_apps/Recently_Bookmarked/logo.png" },
+    // {id: "read_it_later", name: "Read It Later", desc: "Pages that you've saved for later review.", icon: "" },
+    {id: "downloads", name: "Downloads", min_size: 4, desc: "Files that you've recently downloaded from the web.", icon: "../4/newtab_apps/Downloads/logo.png" },
+    {id: "top_sites", name: "Top Sites", min_size: 6, desc: "The sites that you are most likely to want to return to.", icon: "../4/newtab_apps/TopSites/logo.png" }
   ];
 
 

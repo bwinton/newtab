@@ -167,6 +167,11 @@ h1{
 	/*display: none;*/
 }
 
+.app_container_content .app_icon{
+	margin-right: -5px;
+	margin-bottom: -2px;
+}
+
 .drag_over{
 /*	border: dashed;
 	border-width: 3px;*/
@@ -381,6 +386,12 @@ button.add_app:active{
 .active_app_content{
 	width: calc(100% - 10px);
 	margin-left: 5px !important;
+}
+
+.active_app_content .app_icon{
+	margin-right: 0px;
+	margin-left: -2px;
+	margin-bottom: -2px;
 }
 
 .active_app hr{
