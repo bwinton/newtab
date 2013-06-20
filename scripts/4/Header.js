@@ -65,6 +65,8 @@
         $logo.attr('alt', searchProvider.name);
         $logo.attr('src', getRealImageLoc(searchProvider.image));
 
+        interesting('searchChanged', searchProvider );
+
         /* set filler text in search input */
 
       },
@@ -125,6 +127,12 @@
     function getRealImageLoc(imageName){
       return "http://jackm321.github.io/newtab/images/SearchEngines/" +imageName+".png";
     }
+
+    /* Send a message to the add-on. */
+    var interesting = function (type, detail) {
+      var event = new CustomEvent('tpemit', {'detail': {'type': type, 'detail': detail}});
+      document.dispatchEvent(event);
+    };
 
     /* export */
     window.Header = Header;
