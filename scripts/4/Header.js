@@ -123,7 +123,7 @@
     }
 
     function getRealImageLoc(imageName){
-      return "http://jackm321.github.io/newtabimages/SearchEngines/" +imageName+".png";
+      return "http://jackm321.github.io/newtab/images/SearchEngines/" +imageName+".png";
     }
 
     /* export */
