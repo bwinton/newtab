@@ -132,6 +132,8 @@
     var interesting = function (type, detail) {
       var event = new CustomEvent('tpemit', {'detail': {'type': type, 'detail': detail}});
       document.dispatchEvent(event);
+      console.log("emit message:");
+      console.log(type, detail);
     };
 
     /* export */
