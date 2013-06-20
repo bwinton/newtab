@@ -463,6 +463,7 @@
       interesting('customizer-data', data);
     },
 
+
     /* takes the array of apps and generates a JSON string
     which represents the configuration as a series of panels
     with apps on it */
