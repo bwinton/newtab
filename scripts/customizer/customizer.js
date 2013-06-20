@@ -49,11 +49,11 @@
     }.bind(this));
 
     /* save mouse position for querying */
-    this.data.mouse_x = -1;
-    $(document).on('mousemove', function(e) {
-        this.data.mouse_x = e.pageX;
-        // console.log('here')
-    }.bind(this));
+    // this.data.mouse_x = -1;
+    // $(document).on('mousemove', function(e) {
+    //     this.data.mouse_x = e.pageX;
+    //     // console.log('here')
+    // }.bind(this));
 
     /* prevent dragging certain elements on panels */
     $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
@@ -84,7 +84,7 @@
           if(a.id === app_id) app=a;
         });
 
-        app.$app_container.addClass('app_being_dragged');
+        app.$app_container.removeClass('app_being_dragged');
         this.remove_app(app);
 
         return false;
@@ -153,8 +153,14 @@
     /* resizes an app on newtab page */
     resize_app: function(app, new_size){
       console.log('resize_app');
-      app.size = new_size;
-      app.fixed_size = true;
+      if(new_size < 0){
+        app.fixed_size = false;
+      }
+      else{
+        app.size = new_size;
+        app.fixed_size = true;
+      }
+
       this.optimize_array();
       this.render_panels();
     },
@@ -232,17 +238,19 @@
             var app_id = $(e.target).closest('.app_container').data('app_id');
             var app = find_app_by_id(this.data.added_apps, app_id);
             app.set_active(true);
-            delete this.data.active_app;
           }
           e.stopPropagation();
         }.bind(this));
 
         /* handle dragging */
         $app_container
+          .on('drag', function(e){
+            console.log("drag");
+          }.bind(this))
           .on('dragstart', function(e){
+            console.log("dragstart");
              app.set_active();
-             console.log("dragstart");
-             
+
              e.originalEvent.dataTransfer.setData('Text', app.id);
              $app_container.addClass('app_being_dragged');
              this.data.dragging_app = app;
@@ -257,10 +265,13 @@
           }.bind(this))
           .on('dragover', function(e){
             e.preventDefault();
+            console.log("dragover");
 
             return false;
           }.bind(this))
           .on('dragenter', function(e){
+            console.log("dragenter");
+            
             /* make sure that we are dragging a panel (not something like a drag handle) */
             if(e.originalEvent.dataTransfer.getData('Text').indexOf('file://') > -1) return;;
 
@@ -273,6 +284,7 @@
             return false;
           }.bind(this))
           .on('dragleave', function(e){
+            console.log("dragleave");
 
             $(e.target).closest('.app_container').removeClass('drag_over');
 
@@ -433,14 +445,6 @@
     },
 
     clickjack: function (e) {
-      // alert( $(e.target).hasClass('.app_container') )
-      // alert( $(e.target).parent().attr('class') )
-
-      
-      // alert( $(e.target).hasClass('.active_app') || $(e.target).parents('.app_container').length > 0)
-      /* if we're not clicking on the active panel then clickjack */
-      // if( !$(e.target).closest('.app_container').hasClass('active_app') ){
-      // if( $(e.target).parent().attr('class') !== undefined && !$(e.target).closest('.app_container').hasClass('.active_app')  ){
       if(true){
         $(this.data.added_apps).each(function(i, app){
           app.set_not_active();
@@ -510,6 +514,8 @@
       var $app_container = $("#templates>.app_container").clone(true, true);
       $app_container.find(".app_name").html(this.name);
       this.$app_container = $app_container;
+      this.data.normal_contents = this.$app_container.html();
+      
     },
 
     /* adds app to active apps on newtab */
@@ -522,9 +528,13 @@
 
     set_active: function(temporary){
       /* set all other apps to not active */
+      if(this.active && temporary) return;
+      console.log('temporary: '+temporary)
       $.each(this.parent.data.added_apps, function(i, app){
-        app.set_not_active();
-      });
+        if(app.id !== this.id) app.set_not_active();
+        
+      }.bind(this));
+
 
       this.active = true;
       this.$app_container.addClass('active_app');
@@ -532,9 +542,9 @@
       var $app_container_content = this.$app_container.find('.app_container_content');
 
       /* store app_container_content */
-      this.data.normal_contents = this.$app_container.html();
-      // this.$app_container.empty();
 
+      // this.$app_container.empty();
+// return;
       // alert(this.$app_container.html());
 
       /* replace app_container with active_app template */
@@ -546,7 +556,6 @@
       var resize_buttons = $active_app_content.find('.resize_buttons button');
       resize_buttons.on('click',function(e){
           var $target = $(e.target);
-          // alert($target.attr('class'))
           var size;
           switch(true){
             case($target.hasClass('resize_small')):
@@ -561,32 +570,36 @@
             case($target.hasClass('resize_extra_large')):
               size = 6;
               break;
+            case($target.hasClass('resize_fluid')):
+              size = -1;
+              break;
           }
           this.parent.resize_app(this, size);
         }.bind(this));
 
       function set_correct_size_to_active(){
         var button;
-        switch(this.size){
-          case(2):
-            button = $active_app_content.find('.resize_small');
-            break;
-          case(3):
-            button = $active_app_content.find('.resize_medium');
-            break;
-          case(4):
-            button = $active_app_content.find('.resize_large');
-            break;
-          case(6):
-            button = $active_app_content.find('.resize_extra_large');
-            break;
+        if(!this.fixed_size) button = $active_app_content.find('.resize_fluid');
+        else{
+          switch(this.size){
+            case(2):
+              button = $active_app_content.find('.resize_small');
+              break;
+            case(3):
+              button = $active_app_content.find('.resize_medium');
+              break;
+            case(4):
+              button = $active_app_content.find('.resize_large');
+              break;
+            case(6):
+              button = $active_app_content.find('.resize_extra_large');
+              break;
+          }
         }
         button.addClass('active');
       }
 
       /* hide drag handles on apps on the side */
-      // if(on_left) $active_app_content.find('.expand_left').css("display","none");
-      // if(on_right) $active_app_content.find('.expand_right').css("display","none");
 
       /* handle resizing */
 
@@ -598,18 +611,20 @@
     },
 
     set_not_active: function(){
+      console.log('set_not_active');
       this.active = false;
       delete this.parent.data.active_app;
 
       this.$app_container.removeClass('active_app');
 
       /* store app_container_content */
-      var normal_content = this.data.normal_contents;
+      var normal_contents = this.data.normal_contents;
 
       /* replace app_container_content with active_app template */
       // var $app_container_content = this.$app_container.find('.app_container_content'); 
       // this.$app_container.empty();
-      this.$app_container.html(normal_content);
+      console.log(normal_contents);
+      this.$app_container.html(normal_contents);
     },
 
     resize: function(delta_x){
