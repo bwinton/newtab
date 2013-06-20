@@ -84,7 +84,7 @@
           if(a.id === app_id) app=a;
         });
 
-        app.$app_container.css('opacity', '1.0');
+        app.$app_container.addClass('app_being_dragged');
         this.remove_app(app);
 
         return false;
@@ -244,13 +244,13 @@
              console.log("dragstart");
              
              e.originalEvent.dataTransfer.setData('Text', app.id);
-             $app_container.css('opacity', '0.4');
+             $app_container.addClass('app_being_dragged');
              this.data.dragging_app = app;
           }.bind(this))
           .on('dragend', function(e){
              console.log("dragend");
 
-             $app_container.css('opacity', '1.0');
+             $app_container.removeClass('app_being_dragged');
              $(e.target).removeClass('drag_over');
 
              delete this.data.dragging_app;
@@ -540,41 +540,55 @@
       /* replace app_container with active_app template */
       var $active_app_content = $("#templates .active_app_content").clone(true, true);
       $active_app_content.find('.active_app_name').html(this.name);
+      
+      set_correct_size_to_active.call(this);
 
-      /* get rid of drag handles if app is on the side of panel */
-      var on_left = this.on_left_side_of_panel;
-      var on_right = this.on_right_side_of_panel;
+      var resize_buttons = $active_app_content.find('.resize_buttons button');
+      resize_buttons.on('click',function(e){
+          var $target = $(e.target);
+          // alert($target.attr('class'))
+          var size;
+          switch(true){
+            case($target.hasClass('resize_small')):
+              size = 2;
+              break;
+            case($target.hasClass('resize_medium')):
+              size = 3;
+              break;
+            case($target.hasClass('resize_large')):
+              size = 4;
+              break;
+            case($target.hasClass('resize_extra_large')):
+              size = 6;
+              break;
+          }
+          this.parent.resize_app(this, size);
+        }.bind(this));
+
+      function set_correct_size_to_active(){
+        var button;
+        switch(this.size){
+          case(2):
+            button = $active_app_content.find('.resize_small');
+            break;
+          case(3):
+            button = $active_app_content.find('.resize_medium');
+            break;
+          case(4):
+            button = $active_app_content.find('.resize_large');
+            break;
+          case(6):
+            button = $active_app_content.find('.resize_extra_large');
+            break;
+        }
+        button.addClass('active');
+      }
 
       /* hide drag handles on apps on the side */
       // if(on_left) $active_app_content.find('.expand_left').css("display","none");
       // if(on_right) $active_app_content.find('.expand_right').css("display","none");
 
       /* handle resizing */
-      var $right_drag_handle = $active_app_content.find('.expand_right');
-      /* cancel propogation of all events */
-      $right_drag_handle.on('dragover dragenter drag dragstart', function(e){
-        e.stopPropagation();
-      });
-
-      $right_drag_handle.on('mousedown', function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        if(!this.parent.data.active_app) return;
-        // $(e.target).closest('.app_container').removeAttr('draggable')
-        this.parent.data.drag_app_info = {
-          start_x: this.parent.data.mouse_x,
-          app: this
-        };
-        console.log('down: '+this.parent.data.mouse_x);
-      }.bind(this));
-
-      // $right_drag_handle.on('mouseup', function(e){
-      //   console.log(e);
-      //   var currentX = e.originalEvent.pageX;
-      //   var diff = currentX - this.parent.data.original_x
-      //   console.log('up: '+ currentX );
-      //   e.stopPropagation();
-      // }.bind(this));
 
       this.$app_container.html($active_app_content);
       if(!temporary){
