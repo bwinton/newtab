@@ -58,6 +58,7 @@
     /* do export on save button click */
     $('.save_data').on('click', function(e){
       this.export_data();
+      window.location.href = "about:home";
     }.bind(this));
 
     /* prevent dragging certain elements on panels */
