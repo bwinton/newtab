@@ -27,6 +27,27 @@ h1{
 	color: #666;
 }
 
+button.save_data{
+	position: absolute;
+	top: 20px;
+	right: 30px;
+
+	font-size: 14px;
+	background: #FFF;
+	border: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	padding: 2px 4px;
+	border-color: #DBE0E1;
+	color: #000;
+	float: right;
+}
+
+button.save_data:hover{
+	box-shadow: 0px 2px 3px #CCC;
+	cursor: pointer;
+}
+
 #slider_div{
 	margin: 0px;
 	padding-top: 5px;

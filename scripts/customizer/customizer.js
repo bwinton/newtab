@@ -55,6 +55,11 @@
     //     // console.log('here')
     // }.bind(this));
 
+    /* do export on save button click */
+    $('.save_data').on('click', function(e){
+      this.export_data();
+    }.bind(this));
+
     /* prevent dragging certain elements on panels */
     $('.panel_header, .panel_footer, #new_panel_button').on('dragstart', prevent_drag);
 
@@ -454,11 +459,34 @@
       }.bind(this));
     },
 
+    export_data: function(){
+      var data = this.generate_json();
+      // alert(data);
+    },
+
     /* takes the array of apps and generates a JSON string
     which represents the configuration as a series of panels
     with apps on it */
     generate_json: function(){
+      // [ [ {id: "app1", size: 1}, {id: "app2", size: 1} ], [ {id: "app3", size: 1}, {id: "app4", size: 1} ]];
+      var raw_panels = this.generate_app_groups();
+      console.log(raw_panels);
 
+      var panels = [];
+
+      $.each(raw_panels, function(i, raw_panel){
+        var panel = [];
+        $.each(raw_panel.apps, function(i, raw_app){
+          var app = {
+            id: raw_app.id,
+            size: raw_app.size
+          };
+          panel.push(app);
+        });
+        panels.push(panel);
+      });
+
+      return JSON.stringify(panels);
     }
 
 
