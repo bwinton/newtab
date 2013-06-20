@@ -460,7 +460,7 @@
 
     export_data: function(){
       var data = this.generate_json();
-      interesting('panel_data', data);
+      interesting('customizer-data', data);
     },
 
     /* takes the array of apps and generates a JSON string
