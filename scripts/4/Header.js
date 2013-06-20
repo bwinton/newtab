@@ -34,13 +34,13 @@
 
         /* setup search providers */
         var searchProviders =  [
-          {'name': 'Google Demo', 'image': 'google_larger', 'searchURL': 'https://www.google.com/search?q=_searchTerms_&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:unofficial&client=firefox-a&channel=np&source=hp'},
-          {'name': 'Yahoo Demo', 'image': 'yahoo', 'searchURL': 'http://search.yahoo.com/search?p=_searchTerms_&ei=UTF-8&fr='},
-          {'name': 'Bing Demo', 'image': 'bing', 'searchURL': 'http://www.bing.com/search?q=_searchTerms_'},
-          {'name': 'Amazon.com Demo', 'image': 'amazon', 'searchURL': 'http://www.amazon.com/exec/obidos/external-search/?field-keywords=_searchTerms_&mode=blended&tag=mozilla-20&sourceid=Mozilla-search'},
-          {'name': 'eBay Demo', 'image': 'ebay', 'searchURL': 'http://rover.ebay.com/rover/1/711-47294-18009-3/4?mpre=http://shop.ebay.com/?_nkw=_searchTerms_'},
-          {'name': 'Twitter Demo', 'image': 'twitter', 'searchURL': 'https://twitter.com/search?q=_searchTerms_&partner=Firefox&source=desktop-search'},
-          {'name': 'Wikipedia (en) Demo', 'image': 'wikipedia', 'searchURL': 'http://en.wikipedia.org/wiki/Special:Search?search=_searchTerms_&sourceid=Mozilla-search'}
+          {'name': 'Google', 'image': 'google_larger', 'searchURL': 'https://www.google.com/search?q=_searchTerms_&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:unofficial&client=firefox-a&channel=np&source=hp'},
+          {'name': 'Yahoo', 'image': 'yahoo', 'searchURL': 'http://search.yahoo.com/search?p=_searchTerms_&ei=UTF-8&fr='},
+          {'name': 'Bing', 'image': 'bing', 'searchURL': 'http://www.bing.com/search?q=_searchTerms_'},
+          {'name': 'Amazon.com', 'image': 'amazon', 'searchURL': 'http://www.amazon.com/exec/obidos/external-search/?field-keywords=_searchTerms_&mode=blended&tag=mozilla-20&sourceid=Mozilla-search'},
+          {'name': 'eBay', 'image': 'ebay', 'searchURL': 'http://rover.ebay.com/rover/1/711-47294-18009-3/4?mpre=http://shop.ebay.com/?_nkw=_searchTerms_'},
+          {'name': 'Twitter', 'image': 'twitter', 'searchURL': 'https://twitter.com/search?q=_searchTerms_&partner=Firefox&source=desktop-search'},
+          {'name': 'Wikipedia (en)', 'image': 'wikipedia', 'searchURL': 'http://en.wikipedia.org/wiki/Special:Search?search=_searchTerms_&sourceid=Mozilla-search'}
         ];
 
         $.each(searchProviders, function(i, provider){
@@ -62,7 +62,7 @@
         var $logo = $("#searchEngineLogo");
 
         /* set logo etc */
-        $logo.attr('alt', searchProvider.name);
+        $logo.attr('alt', searchProvider.name + " Demo");
         $logo.attr('src', getRealImageLoc(searchProvider.image));
 
         interesting('searchChanged', searchProvider );
@@ -82,7 +82,7 @@
           $("<div>").addClass("engine").append(
             $("<img>")
             .attr("src", getRealImageLoc(provider.image))
-            .attr("alt", provider.name)
+            .attr("alt", provider.name + " Demo")
           )
           .click(function(e){
             this.setSearch(i);
