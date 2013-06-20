@@ -17,8 +17,6 @@
     Events
      */
 
-     /* useless comment */
-
     /* scroll left or right */
 
     $(document).on('keydown',function(e){
