@@ -416,7 +416,11 @@ button.add_app:active{
 }
 
 .active_app hr{
-	border-color: #DCE0E2;
+	display: block; height: 1px;
+    border: 0;
+    border-top: 1px solid #CCC;
+    margin: 10px 0px;
+    padding: 0;
 }
 
 .resize_buttons{

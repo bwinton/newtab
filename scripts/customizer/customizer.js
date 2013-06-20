@@ -452,7 +452,6 @@
     },
 
     clickjack: function (e) {
-      console.log(e.type);
       $(this.data.added_apps).each(function(i, app){
         app.set_not_active();
         $('#app_dropzone').hide();
@@ -461,7 +460,7 @@
 
     export_data: function(){
       var data = this.generate_json();
-      // alert(data);
+      interesting('panel_data', data);
     },
 
     /* takes the array of apps and generates a JSON string
@@ -560,7 +559,7 @@
     set_active: function(temporary){
       /* set all other apps to not active */
       if(this.active && temporary) return;
-      console.log('temporary: '+ !!temporary)
+      // console.log('temporary: '+ !!temporary)
       $.each(this.parent.data.added_apps, function(i, app){
         if(app.id !== this.id) app.set_not_active();
       }.bind(this));
@@ -644,18 +643,15 @@
       /* hide drag handles on apps on the side */
 
       /* handle resizing */
-        console.log('here0');
-
       this.$app_container.html($active_app_content);
       if(!temporary){
         $('#app_dropzone').show();
         this.parent.data.active_app = this;
-        console.log('here');
       }
     },
 
     set_not_active: function(){
-      console.log('set_not_active');
+      // console.log('set_not_active');
       this.active = false;
       delete this.parent.data.active_app;
 
@@ -717,6 +713,12 @@
       }
     });
     return found_app;
+  }
+
+  /* Send a message to the add-on. */
+  function interesting (type, detail) {
+    var event = new CustomEvent('tpemit', {'detail': {'type': type, 'detail': detail}});
+    document.dispatchEvent(event);
   }
 
   var available_apps =
