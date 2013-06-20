@@ -137,7 +137,6 @@
     apps size if fixed size is also true*/
     remove_app: function(app, keep_size){
       console.log('remove_app');
-      app.set_not_active();
       $('#app_dropzone').hide();
       this.remove_app_from_active_apps(app);
       this.optimize_array();
@@ -146,6 +145,7 @@
         
       }
       else{
+        app.set_not_active();
         app.show_banner();
       }
     },
@@ -217,6 +217,10 @@
         $app_container.addClass('app_'+ app.size);
 
         $app_group.append($app_container);
+
+        if(app.active){
+          // alert('yee');
+        }
 
         /* tell the app if its on the edge of the panel */
         app.on_left_side_of_panel = (i === 0);
@@ -515,7 +519,7 @@
       $app_container.find(".app_name").html(this.name);
       this.$app_container = $app_container;
       this.data.normal_contents = this.$app_container.html();
-      
+
     },
 
     /* adds app to active apps on newtab */
