@@ -10,20 +10,12 @@
 			"size": 1
 		},
 		{
-			"id": "Read_It_Later",
+			"id": "Top_Sites",
 			"size": 1
 		},
 		{
-			"id": "Recently_Closed",
+			"id": "Downloads",
 			"size": 3
-		},
-		{
-			"id": "app1",
-			"size": 2
-		},
-		{
-			"id": "app2",
-			"size": 1
 		}
 	]
 
