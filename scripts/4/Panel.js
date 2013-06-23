@@ -1,16 +1,24 @@
 ;(function(){
     /* start and end (inclusive-exclusive) are
     incices into the NewTabs array of app_data */
-    var Panel = function(Slider, start, end){
+    var Panel = function(Slider, $panel_div, apps){
 
-      this.$els = {};
+      this.$els = {
+        panel_div: $panel_div,
+        app_group: $panel_div.find('.app_group'),
+        window: $(window)
+      };
       this.parent = Slider;
       this.data = {
-        app_data_start: start,
-        app_data_end: end
+        apps: apps
       };
 
-      this.init();
+      /* init */
+      this.launch_apps();
+
+      window.setTimeout(function(){
+        this.fix_size();
+      }.bind(this), 0);
 
       /* 
       EVENTS
@@ -28,20 +36,43 @@
     */
     Panel.prototype = {
 
-      init: function(){
-        /* find elements */
-        this.$els = {
-          window: $(window)
-        };
+      /*
+      Primary Functions
+       */
+      launch_apps: function(){
+        $.each(this.data.apps, function(i, app_data){
+          console.log(app_data);
 
-        this.render();
-        window.setTimeout(function(){
-          this.fix_size();
-        }.bind(this), 0);
+          /* create div for app */
+          var $container = $('<div>')
+          .addClass("app_container")
+          .addClass("app_"+app_data.size)
+          .append(app_data.id);
+          this.$els.app_group.append($container);
+          /* get data to load into the app */
+        }.bind(this));
+
+
+      },
+      
+      /*
+      Secondary Functions
+       */
+      
+      /*
+      Helper Functions
+       */
+
+      fix_size: function(){
+        /* fix panel width */
+        var width = $(window).innerWidth();
+        this.$els.panel_div.css("width", width);
 
       },
 
-      fix_size: function(){
+      /* fixes the width of this panel and each app
+      to fit the window */
+      old_fix_size: function(){
         var panel_height = this.$els.panel.height();
         var panel_width = this.$els.panel.width();
         var apps_on_panel = this.$els.apps.length;

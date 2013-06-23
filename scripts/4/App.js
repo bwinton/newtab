@@ -15,7 +15,7 @@
         this.submods.footer = new Footer();
 
         load_apps_data(function(apps_data){
-          this.submods.slider = new Slider(this, apps_data.apps);
+          this.submods.slider = new Slider(this, apps_data.panels);
         }.bind(this));
 
     };

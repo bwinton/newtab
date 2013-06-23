@@ -1,22 +1,8 @@
 {
-	"apps":
+	"panels":
 	[
-		{
-			"id": "Recently_Closed",
-			"size": 1
-		},
-		{
-			"id": "Recently_Bookmarked",
-			"size": 1
-		},
-		{
-			"id": "Top_Sites",
-			"size": 1
-		},
-		{
-			"id": "Downloads",
-			"size": 3
-		}
+	[{"id":"recently_bookmarked","size":6}],
+	[{"id":"downloads","size":4}, {"id":"topsites","size":2}]
 	]
 
 }

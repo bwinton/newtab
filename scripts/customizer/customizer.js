@@ -460,6 +460,7 @@
 
     export_data: function(){
       var data = this.generate_json();
+      alert(data);
       interesting('customizer-data', data);
     },
 

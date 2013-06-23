@@ -68,75 +68,15 @@
       }
     }.bind(this));
 
-    /* handle app_container drag events */
-    $(".app_container").on("dragstart", function(e){
-      $target = $(e.target);
-      $target.css('opacity', '0.4');
-      this.$drag_src = $target;
-      e.originalEvent.dataTransfer.setData('text/html', $target.html);
-    }.bind(this))
-
-    .on("dragover", function(e){
-      if (e.preventDefault) {
-        e.preventDefault();
-      }
-
-      return false;
-    }.bind(this))
-
-    .on("dragenter", function(e){
-      $(e.target).addClass('drag_over');
-    }.bind(this))
-
-    .on("dragleave", function(e){
-      $(e.target).removeClass('drag_over');
-    }.bind(this))
-
-    .on("drop", function(e){
-
-        if (e.stopPropagation) {
-          e.stopPropagation(); /* stops the browser from redirecting. */
-        }
-
-        $target = $(e.target);
-
-        /* move container */
-
-
-        move_container(this.$drag_src, $target);
-
-        /* refind all panels */
-        $.map(this.submods.panels, function(panel){
-          panel.$els.apps = $(".app_container");
-        });
-
-        $(".app_container").removeClass('drag_over')
-        .css('opacity', '1.0');
-
-        this.$drag_src = undefined;
-
-        return false;
-    }.bind(this))
-
-    .on("dragend", function(e){
-      $(".app_container").removeClass('drag_over')
-      .css('opacity', '1.0');
-
-    }.bind(this));
-
-    $("#next_button").on("dragenter", function(){
-      this.next();
-    }.bind(this));
-
-    $("#prev_button").on("dragenter", function(){
-      this.prev();
-    }.bind(this));
-
-
 
   };
 
   Slider.prototype = {
+    
+    /*
+    Main functions
+     */
+
     init: function(){
       /* hide prev button */
       $("#prev_button").hide();
@@ -161,6 +101,30 @@
 
     },
 
+    /* create panel objects for each panel
+    on the page */
+    create_panels: function(){
+      $.each(this.data.apps_data, function(i, panel_data){
+        /* creae div */
+        var $panel_div = $("<div>").addClass('slider_panel')
+        .append(
+          $("<div>").addClass("app_group")
+        );
+
+        this.$els.slider_div.append($panel_div);
+        /* create Panel object and push it into submods */
+        this.submods.panels.push(
+          new Panel(this, $panel_div, panel_data)
+        );
+      }.bind(this));
+
+    },
+
+    /*
+    Secondary functions
+     */
+
+    /* go to prev panel */
     prev: function(){
       if(this.data.current_panel<=0) return;
       this.data.current_panel--;
@@ -173,6 +137,7 @@
       if(this.data.current_panel === 0) this.$els.prev_button.hide();
     },
 
+    /* go to next panel */
     next: function(){
       // alert("next");
       if(this.data.current_panel >= this.submods.panels.length - 1) return;
@@ -196,7 +161,9 @@
       });
     },
 
+    // todo: delete this
     fix_size: function(){
+      return;
       var height = this.$els.window.innerHeight() - this.$els.header.height() - this.$els.footer.height();
 
       this.data.height = height;
@@ -204,6 +171,7 @@
       this.do_shift(true);
     },
 
+    /* removes the panel slide transition */
     remove_transition: function(){
       // if(this.data.transition_on === false) return;
 
@@ -212,47 +180,12 @@
 
     },
 
+    /* adds the panel slide transition */
     add_transition: function(){
       // if(this.data.transition_on === true) return;
 
       this.data.transition_on = true;
       this.$els.slider_div.css("transition","transform 250ms ease-in-out");
-    },
-
-    /* walks through the list of apps and spawns new panels
-    as neccessary and assigns apps to each panel */
-    create_panels: function(apps_data){
-      var panel_width = 0;
-      var start = 0;
-      var end = 0;
-
-      if(apps_data.length<1) return;
-
-      $.each(apps_data, function(i, app){
-        var size = app.size || 1;
-        if(panel_width + size <= 3){
-          /* fits on this panel */
-          panel_width+=size;
-          end++;
-        }
-        else{
-          /* needs new panel */
-          this.submods.panels.push(
-            new Panel(this, start, end)
-          );
-
-          /* reset data */
-          panel_width = size;
-          start = end;
-          end++;
-        }
-
-        }.bind(this));
-
-        this.submods.panels.push(
-          new Panel(this, start, end)
-        );
-
     }
 
   };
