@@ -124,7 +124,8 @@
     }
 
     function getRealImageLoc(imageName){
-      return "http://jackm321.github.io/newtab/images/SearchEngines/" +imageName+".png";
+      return "../images/SearchEngines/" +imageName+".png";
+      // return "http://jackm321.github.io/newtab/images/SearchEngines/" +imageName+".png";
     }
 
     /* Send a message to the add-on. */

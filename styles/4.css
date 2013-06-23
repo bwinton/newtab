@@ -27,7 +27,7 @@ body{
   /*height: calc(100vh - 20px);*/
 /*  new_tab_body_background.png
 new_tab_footer_background.png*/
-	background-image:url('http://jackm321.github.io/newtab/images/new_tab_body_background.png');
+	background-image:url('../images/new_tab_body_background.png');
   overflow: hidden;
 }
 
@@ -69,7 +69,7 @@ new_tab_footer_background.png*/
     margin-left: 48px;
     padding: 0px;
     height: 20px;
-    background-image: url("http://jackm321.github.io/newtab/images/panel-arrowTop.png");
+    background-image: url("../images/panel-arrowTop.png");
     background-repeat: no-repeat;
     background-position: left top;
     z-index: 9999;
@@ -316,12 +316,12 @@ new_tab_footer_background.png*/
 }
 #prev_button{
 	left: 10px;
-  background-image:url('http://jackm321.github.io/newtab/images/left-arrow.png');
+  background-image:url('../images/left-arrow.png');
   
 }
 #next_button{
 	right: 10px;
-  background-image:url('http://jackm321.github.io/newtab/images/right-arrow.png');
+  background-image:url('../images/right-arrow.png');
 
 }
 
@@ -386,7 +386,7 @@ new_tab_footer_background.png*/
 /* footer styles */
 
 #footer{
-	background-image:url('http://jackm321.github.io/newtab/images/new_tab_footer_background.png');
+	background-image:url('../images/new_tab_footer_background.png');
 	background-repeat: repeat;
 	border-top: solid;
 	border-width: 1px;
