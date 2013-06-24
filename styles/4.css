@@ -241,31 +241,39 @@ new_tab_footer_background.png*/
 
 }
 
+/* fix lateral spacing for 1st and last apps */
+/*.app_group :first-child{
+  margin-left: 0px;
+}
+.app_group :last-child{
+  margin-right: 0px;
+}*/
+
 .app_container{
-	border-radius: 15px;
-	margin: 10px;
-	padding: 10px;
+	/*border-radius: 15px;*/
+	margin: 0px 5px;
+	/*padding: 10px;*/
   text-align: left;
 
   display: inline-block;
 
   background-color: red;
-  height: calc(100% - 40px);
 
+  height: 100%;
 }
 
-/*
-.slider_panel:nth-child(odd){
-	background:#eee;
+.app_2{
+  width: calc(33.333% - 10px);
 }
-.slider_panel:nth-child(even){
-	background:#ddd;
-} */
-
-.app_2{}
-.app_3{}
-.app_4{}
-.app_6{}
+.app_3{
+  width: calc(50% - 10px);
+}
+.app_4{
+  width: calc(66.666% - 10px);
+}
+.app_6{
+  width: calc(100% - 10px);
+}
 
 
 /* prev/next buttons */

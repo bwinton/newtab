@@ -2,7 +2,7 @@
 	"panels":
 	[
 	[{"id":"recently_bookmarked","size":6}],
-	[{"id":"downloads","size":4}, {"id":"topsites","size":2}]
+	[{"id":"downloads","size":3}, {"id":"topsites","size":3}]
 	]
 
 }

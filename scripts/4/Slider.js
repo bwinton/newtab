@@ -175,12 +175,6 @@
       var app_group_width = width - 100;
       this.$els.app_group_divs.css("width", app_group_width);
 
-      /* change what each app container size class should be */
-      $('.app_2').css('width', app_group_width * .33 - 40);
-      $('.app_3').css('width', app_group_width * .5 - 40)
-      $('.app_4').css('width', app_group_width * .66 - 40)
-      $('.app_6').css('width', app_group_width * 1 - 40)
-
       /* shift the slider to accomodate new sizes */
       this.do_shift(true);
     },
