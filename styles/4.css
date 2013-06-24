@@ -201,8 +201,9 @@ new_tab_footer_background.png*/
 /* panels */
 
 #middle{	
-	/*height: calc(100% - 64px - 20px - 34px); /* - header and footer */
-  height: 100%;
+  position: absolute;
+  top: 60px;
+  height: calc(100% - 120px);
 }
 
 #slider_div{
@@ -215,35 +216,28 @@ new_tab_footer_background.png*/
 
 .slider_panel{
 	background-color: green;
+  /*background-image:url('../images/new_tab_body_background.png');*/
 
-  /*width: 400px;*/
-	/*float:left;*/
 	text-align: center;
-	/*line-height: 100px;*/
+
 	display: inline-block;
 
-  /* styles from customizer */
-  /*background-image:url('../images/new_tab_body_background.png');*/
   position: relative;
-  -moz-user-select: none;
-  user-select: none;
-  height: calc(100% - 130px);
-  /*box-shadow: 0px 1px 6px #CCC;*/
-  /*padding-top: 30px;*/
+  height: 100%;
+
 }
 
 .app_group{
-	/*border: dotted;*/
 	border-radius: 0px;
-	margin: 0px 40px;
-	height: calc(100% - 20px);
-	width: 88%;
-  overflow: hidden;
+  /*overflow: hidden;*/
+
+  height: calc(100% - 20px);
 
   background-color: blue;
 
   position: absolute;
-  top: 10px; 
+  top: 10px;
+  left: 50px;
 
 }
 
@@ -258,8 +252,6 @@ new_tab_footer_background.png*/
   background-color: red;
   height: calc(100% - 40px);
 
-  /*height: 100%;*/
-
 }
 
 /*
@@ -270,24 +262,10 @@ new_tab_footer_background.png*/
 	background:#ddd;
 } */
 
-.app_2{
-  width: 25%;
-}
-
-.app_3{
-	width: 45%;
-
-}
-
-.app_4{
-  width: 60%;
-
-}
-
-.app_6{
-  width: 95%;
-
-}
+.app_2{}
+.app_3{}
+.app_4{}
+.app_6{}
 
 
 /* prev/next buttons */

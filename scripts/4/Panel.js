@@ -16,19 +16,6 @@
       /* init */
       this.launch_apps();
 
-      window.setTimeout(function(){
-        this.fix_size();
-      }.bind(this), 0);
-
-      /* 
-      EVENTS
-      */
-
-      /* window resize */
-      this.$els.window.resize(function(e) {
-        this.fix_size();
-      }.bind(this));
-
     };
 
     /* 
@@ -62,14 +49,7 @@
       /*
       Helper Functions
        */
-
-      fix_size: function(){
-        /* fix panel width */
-        var width = $(window).innerWidth();
-        this.$els.panel_div.css("width", width);
-
-      },
-
+      
       /* fixes the width of this panel and each app
       to fit the window */
       old_fix_size: function(){
