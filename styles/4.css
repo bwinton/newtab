@@ -214,61 +214,51 @@ new_tab_footer_background.png*/
 }
 
 .slider_panel{
-	/*width: 400px;*/
+	background-color: green;
+
+  /*width: 400px;*/
 	/*float:left;*/
 	text-align: center;
 	/*line-height: 100px;*/
 	display: inline-block;
-	height: 100%;
-	/*width: 100%;*/
-	/*height: calc(100% - 350px);*/
+
+  /* styles from customizer */
+  /*background-image:url('../images/new_tab_body_background.png');*/
+  position: relative;
+  -moz-user-select: none;
+  user-select: none;
+  height: calc(100% - 130px);
+  /*box-shadow: 0px 1px 6px #CCC;*/
+  /*padding-top: 30px;*/
 }
 
 .app_group{
 	/*border: dotted;*/
 	border-radius: 0px;
-	margin: 25px 40px;
-	height: calc(100% - 60px);
+	margin: 0px 40px;
+	height: calc(100% - 20px);
 	width: 88%;
-  overflow: hidden;	 
+  overflow: hidden;
 
+  background-color: blue;
 
-    display: -moz-box;
-    display: flex;
-    -moz-box-direction: normal;
-    -moz-box-orient: horizontal;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    -moz-box-pack: justify;
-    justify-content: space-around;
-    align-content: stretch;
-    -moz-box-align: stretch;
-    align-items: stretch;
-
-
+  position: absolute;
+  top: 10px; 
 
 }
 
 .app_container{
-	/*box-shadow: 0 0 5px #888;*/
-	/*border-width: 2px;*/
-	/*border: solid;*/
 	border-radius: 15px;
 	margin: 10px;
 	padding: 10px;
-  text-align: left;  
-	/*display: inline-block;*/
-	/*height: calc(100% - 60px);*/
-	/*width: 33%;*/
-	/*float: left;*/
-  /*overflow-y: scroll;*/
+  text-align: left;
 
+  display: inline-block;
 
-    -moz-box-ordinal-group: 1;
-    order: 0;
-    -moz-box-flex: 1;
-    flex: 1 1 auto;
-    align-self: auto;
+  background-color: red;
+  height: calc(100% - 40px);
+
+  /*height: 100%;*/
 
 }
 
@@ -280,20 +270,22 @@ new_tab_footer_background.png*/
 	background:#ddd;
 } */
 
-.app_1{
-	/*width: 30.5%;*/
-    -moz-box-flex: 1;
-}
-
 .app_2{
-	/*width: 10%;*/
-    -moz-box-flex: 2;
-
+  width: 25%;
 }
 
 .app_3{
-	/*width: 10%;*/
-    -moz-box-flex: 3;
+	width: 45%;
+
+}
+
+.app_4{
+  width: 60%;
+
+}
+
+.app_6{
+  width: 95%;
 
 }
 
