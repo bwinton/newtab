@@ -15,6 +15,16 @@ body,
   position: relative;
 }
 
+#templates{
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+
 body{
   font: 15px/16px Lucida Grande, Segoe UI, Verdana, sans-serif;
   /*background-color: #E5E5E5;*/
@@ -215,8 +225,8 @@ new_tab_footer_background.png*/
 }
 
 .slider_panel{
-	background-color: green;
-  /*background-image:url('../images/new_tab_body_background.png');*/
+  background-image:url('../images/new_tab_body_background.png');
+  /*background-color: green;*/
 
 	text-align: center;
 
@@ -233,7 +243,7 @@ new_tab_footer_background.png*/
 
   height: calc(100% - 20px);
 
-  background-color: blue;
+  /*background-color: blue;*/
 
   position: absolute;
   top: 10px;
@@ -249,7 +259,7 @@ new_tab_footer_background.png*/
   margin-right: 0px;
 }*/
 
-.app_container{
+.app_wrapper{
 	/*border-radius: 15px;*/
 	margin: 0px 5px;
 	/*padding: 10px;*/
@@ -257,9 +267,11 @@ new_tab_footer_background.png*/
 
   display: inline-block;
 
-  background-color: red;
+  /*background-color: red;*/
 
   height: 100%;
+
+  position: relative;
 }
 
 .app_2{
@@ -273,6 +285,67 @@ new_tab_footer_background.png*/
 }
 .app_6{
   width: calc(100% - 10px);
+}
+
+.app_container{
+  height: calc(100% - 30px);
+  width: 100%;
+  position: absolute;
+  top: 30px;
+  /*background-color: yellow;*/
+}
+
+/* Apps Styles */
+.app_title{
+  font-size: 18px;
+  color: #666;
+  /*margin-left: 10px;*/
+  position: absolute;
+  top: 5px;
+  left: 25px;
+}
+
+.app_logo{
+  height: 20px;
+}
+
+.app_line{
+  /*float: left;*/
+  margin: 0px 0px 0px 10px;
+  padding: 5px 0px;
+  color: #666;
+  /*background-color: red;*/
+  height: calc(10% - 10px);
+
+  border-style: solid;
+
+  border-top-width: .5px;
+  border-bottom-width: .5px;
+
+  border-top-color: #fff;
+  border-bottom-color: #ccc;
+}
+
+.line_text{
+  color: #666;
+  height: 100%;
+}
+
+.line_bigtext{
+  font-size: 18px;
+  display: block;
+  /*margin-top: 20%*/
+}
+.line_smalltext{
+  /*float: left;*/
+  /*margin-left: 50px;*/
+  font-size: 12px;
+  display: block;
+}
+
+.line_img{
+  float: left;
+  height: 100%;
 }
 
 
@@ -302,62 +375,6 @@ new_tab_footer_background.png*/
   background-image:url('../images/right-arrow.png');
 
 }
-
-/*drag and drop styles*/
-
-.drag_over{
-	border-radius: 20px;
-	border: dashed;
-}
-
-/* Apps Styles */
-.app_title{
-  font-size: 18px;
-  color: #666;
-  margin-left: 10px;
-
-}
-
-.app_logo{
-  height: 20px;
-}
-
-.app_list{
-  margin-top: 20px;
-  border: none;
-}
-
-.app_list_item{
-  padding: 10px 0px;
-  text-align: left;
-  border: none;
-  padding: 10px 0px;
-}
-
-.list_item_text{
-  float: left;
-  margin-left: 10px;
-  margin-top: 8px;
-  color: #666;
-}
-
-.app_item_text1{
-  font-size: 18px;
-}
-.app_item_text2{
-  /*float: left;*/
-  /*margin-left: 50px;*/
-  font-size: 12px;
-}
-
-.app_list_item img{
-  width: 45px;
-  height: 45px;
-  float: left;
-}
-
-
-
 
 
 

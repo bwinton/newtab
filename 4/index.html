@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../styles/reset.css">
     <link rel="stylesheet" href="../styles/4.css">
     <link rel="stylesheet" href="../styles/app_styles.css">
+    <link rel="import" href="try-importing-this.html">
   </head>
 
   <body>
@@ -14,7 +15,6 @@
     <div id="wrapper">
 
       <div id="header">
-        
         <div id='top'>
           <div id='search'>
             <form id="searchForm" name="searchForm">
@@ -82,11 +82,44 @@
     </div>
 
 
+    <div id="templates">
+      
+      <!-- the template for each individual app -->
+      <div class="app_wrapper">
+        <div class="app_header">
+          <img src="" alt="" class="app_icon">
+          <span class="app_title">App Title</span>
+        </div>
+        <div class="app_container"></div>
+      </div>
+
+      <!-- each line in the app -->
+      <div class="app_line">
+        <a href="" class="line_link">
+          <img src="" alt="" class="line_img">
+          <div class="line_text">
+            <span class="line_bigtext"></span>
+            <span class="line_smalltext"></span>
+          </div>
+        </a>
+        <div class="clearfix"></div>
+      </div>
+
+    </div>
+
+
   </body>
 
   <script type="text/javascript" src='../scripts/jquery.js'></script>
+  <script type="text/javascript" src='../scripts/easy-templates.js'></script>
 
   <script type='text/javascript;version=1.8' src='../scripts/snippets.js'></script>
+
+  <script>
+    window.addEventListener('HTMLImportsLoaded', function() {
+      // alert("done")
+    });
+  </script>
 
   <script type="text/javascript" src='../scripts/4/Header.js'></script>
   <script type="text/javascript" src='../scripts/4/Footer.js'></script>
@@ -94,7 +127,6 @@
   <script type="text/javascript" src='../scripts/4/Panel.js'></script>
   <script type="text/javascript" src='../scripts/4/App.js'></script>
   <script type="text/javascript" src='../scripts/4/main.js'></script>
-
 
 
 

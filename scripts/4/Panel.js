@@ -29,13 +29,21 @@
       launch_apps: function(){
         $.each(this.data.apps, function(i, app_data){
           console.log(app_data);
-
+          var display_data = this.get_app_display(app_data.id);
           /* create div for app */
-          var $container = $('<div>')
-          .addClass("app_container")
+          $("#templates .app_wrapper").render({
+            app_title: app_data.name,
+            app_container: function(container){
+              $.each(display_data, function(i, item){
+                /* render each line */
+                $(container).append(
+                  $("#templates .app_line").render(item)
+                )
+              })
+            }
+          })
           .addClass("app_"+app_data.size)
-          .append(app_data.id);
-          this.$els.app_group.append($container);
+          .appendTo(this.$els.app_group);
           /* get data to load into the app */
         }.bind(this));
 
@@ -46,94 +54,30 @@
       Secondary Functions
        */
       
+      /* asks the backend for the information
+      that the app is going to display */
+      get_app_display: function(app_id){
+        var img = "https://assets.mozillalabs.com/Brands-Logos/Firefox/logo-only/firefox_logo-only_RGB.png";
+
+        var arr = [];
+        for(var x=0; x< 10; x++){
+          arr.push({
+            line_bigtext: "this is text",
+            line_smalltext: "this is the subtext to the line",
+            line_img: function(){
+              $(this).attr('src', img);
+            },
+            line_link: function(){
+              $(this).attr('href', "http://www.google.com");
+            }
+          })
+        }
+        return arr;
+      },
+      
       /*
       Helper Functions
        */
-      
-      /* fixes the width of this panel and each app
-      to fit the window */
-      old_fix_size: function(){
-        var panel_height = this.$els.panel.height();
-        var panel_width = this.$els.panel.width();
-        var apps_on_panel = this.$els.apps.length;
-        var denom;
-
-        /* fix panel width */
-        var width = $(window).innerWidth();
-        this.$els.panel.css("width", width);
-
-        /* calculates how wide the given app should
-        be given its container, the number of apps
-        it must share the container with, and it's
-        min_width factor */
-        function calc_app_width($app_container){
-          var min_size;
-          if($app_container.hasClass("app_3")){
-            min_size = 1;
-          }
-          else if($app_container.hasClass("app_2")){
-            min_size = 2;
-          }
-          else{
-            min_size = 3;
-          }
-          denom = Math.min(min_size, apps_on_panel);
-          return (panel_width-300)/denom;
-        }
-
-        /* app_group */
-
-        /* apps */
-        this.$els.apps.each(function(i,app_container){
-          var $app_container = $(app_container);
-          var width = calc_app_width($app_container);
-        });
-
-
-      },
-
-      render: function(){
-        /* create panel div */
-        var panel = $("<div>").addClass('slider_panel');
-        var app_group = $("<div>").addClass("app_group");
-        panel.append(app_group);
-        panel.appendTo(this.parent.$els.slider_div);
-        this.$els.panel = panel;
-        this.$els.app_group = app_group;
-
-        /* generate each app */
-        for(var x=this.data.app_data_start;
-          x<this.data.app_data_end; x++){
-
-          var app_data = this.parent.data.apps_data[x];
-          var app_container = $("<div>").addClass("app_container").attr('draggable','true');
-          /* set app size factor */
-          if(app_data.size === 1)
-            app_container.addClass("app_1");
-          else if(app_data.size === 2)
-            app_container.addClass("app_2");
-          else if(app_data.size === 3)
-            app_container.addClass("app_3");
-
-          app_group.append(app_container);
-
-          /* inject app script */
-          app_content_loader(app_data.id, app_container);
-
-
-        }
-
-        /* insert clearfix */
-        app_group.append($("<div>").addClass('clearfix'));
-        this.$els.apps = $(".app_container");
-
-        /* init sizes */
-        window.setTimeout(function(){
-          this.fix_size();
-        }.bind(this), 0);
-
-
-      }
 
     };
 
@@ -141,44 +85,45 @@
     Helpers
     */
 
-    function app_content_loader(app_id, $app_container){
+
+    function app_content_loader(app_id, $app_wrapper){
       /* get package.json */
       console.log("app_id: "+ app_id);
       var app_location = "./newtab_apps/"+app_id+"/";
 
-      // $app_container.load(app_location + "index.html", function(data){
+      // $app_wrapper.load(app_location + "index.html", function(data){
       //   console.log(typeof(data));
       // });
 
       $.getJSON(app_location+"package.json")
       .done(function(json){
-        display_logo(json, $app_container, app_location);
-        display_title(json, $app_container);
-        display_list(json, $app_container, app_location);
+        display_logo(json, $app_wrapper, app_location);
+        display_title(json, $app_wrapper);
+        display_list(json, $app_wrapper, app_location);
       })
       .fail(function(e){
         console.log("not found");
-        $app_container.append("not found");
+        $app_wrapper.append("not found");
       });
 
     }
 
 
-    function display_title(json, $app_container){
-        $app_container.append(
+    function display_title(json, $app_wrapper){
+        $app_wrapper.append(
           $('<span class="app_title">').html(json.name)
         );
     }
 
-    function display_logo(json, $app_container, app_location){
+    function display_logo(json, $app_wrapper, app_location){
         var logo_loc = app_location + (json.logo || "logo.png");
-        $app_container.append(
+        $app_wrapper.append(
           $('<img class="app_logo">').attr('src', logo_loc)
         );
     }
 
-    function display_list(json, $app_container, app_location){
-        var ul = $('<ul class="app_list">').appendTo($app_container);
+    function display_list(json, $app_wrapper, app_location){
+        var ul = $('<ul class="app_list">').appendTo($app_wrapper);
         $.getJSON(app_location + "app.json")
         .done(function(list){
           $(list).each(function(i, item){
@@ -207,17 +152,7 @@
         });
     }
 
-    function temporary_app_generator(){
-      var app = $('<div class="app">');
-      var ul = $('<ul class="app_list">').appendTo(app);
-      // for(var x=0; x<50; x++){
-      //   var li = $('<li class="app_list_item">').appendTo(ul);
-      //   var text = 'abcde fghi jklmnop qrstu vwxyz abcde fghi jklmnop qrstu vwxyz abcde fghi jklmnop qrstu vwxyz abcde fghi jklmnop qrstu vwxyz'
-      //   li.html(text);
-      // }
 
-      return app;
-    }
 
     /* export */
     window.Panel = Panel;
