@@ -308,23 +308,30 @@ new_tab_footer_background.png*/
 .app_logo{
   height: 20px;
 }
-
 .app_line{
   /*float: left;*/
   margin: 0px 0px 0px 10px;
   padding: 5px 0px;
   color: #666;
   /*background-color: red;*/
-  height: calc(10% - 10px);
+  height: calc(10% - 12px);
 
   border-style: solid;
 
-  border-top-width: .5px;
-  border-bottom-width: .5px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
 
   border-top-color: #fff;
   border-bottom-color: #ccc;
 }
+
+.app_container>:first-child{
+  border-top-width: 0px; 
+}
+.app_container>:last-child{
+  border-bottom-width: 0px; 
+}
+
 
 .line_text{
   color: #666;
