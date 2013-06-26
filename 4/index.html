@@ -3,23 +3,24 @@
 <html snippetsURL='https://snippets.mozilla.com/3/newtab-mockup/19.0a1/20121203143002/Darwin_x86_64-gcc3/en-US/default/Darwin%2012.2.0/default/default/'>
   
   <head>
+    
+    <script type="text/javascript" src='../scripts/jquery.js'></script>
+    <script>
+      alert(document.URL)
+      /* if being served then add base tag to head */
+      // alert(document.URL)
+      if(document.URL.indexOf('file://') === -1){
+        alert('changing base');
+        $('head').append('<base href="http://jackm321.github.io/newtab/4/">')
+      }
+    </script>
+
     <meta charset="UTF-8">
     <!-- <base href="http://jackm321.github.io/newtab/4/"> -->
     <link rel="stylesheet" href="../styles/reset.css">
     <link rel="stylesheet" href="../styles/4.css">
     <link rel="stylesheet" href="../styles/app_styles.css">
     <link rel="import" href="try-importing-this.html">
-    <script>
-      // alert(document.URL)
-      /* if being served then add base tag to head */
-      // alert(document.URL)
-      if(document.URL.indexOf('file://') === -1){
-        alert(document.URL);
-        document.getElementsByTagName('head')[0].appendChild(
-          '<base href="http://jackm321.github.io/newtab/4/">'
-        );
-      }
-    </script>
   </head>
 
   <body>
@@ -122,7 +123,6 @@
 
   </body>
 
-  <script type="text/javascript" src='../scripts/jquery.js'></script>
   <script type="text/javascript" src='../scripts/easy-templates.js'></script>
 
   <script type='text/javascript;version=1.8' src='../scripts/snippets.js'></script>
