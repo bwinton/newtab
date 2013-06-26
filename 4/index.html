@@ -4,11 +4,21 @@
   
   <head>
     <meta charset="UTF-8">
-    <base href="http://jackm321.github.io/newtab/4/">
+    <!-- <base href="http://jackm321.github.io/newtab/4/"> -->
     <link rel="stylesheet" href="../styles/reset.css">
     <link rel="stylesheet" href="../styles/4.css">
     <link rel="stylesheet" href="../styles/app_styles.css">
     <link rel="import" href="try-importing-this.html">
+    <script>
+      // alert(document.URL)
+      /* if being served then add base tag to head */
+      // alert(document.URL)
+      if(document.URL.indexOf('file://') === -1){
+        document.getElementsByTagName('head')[0].appendChild(
+          '<base href="http://jackm321.github.io/newtab/4/">'
+        );
+      }
+    </script>
   </head>
 
   <body>
