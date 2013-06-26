@@ -340,24 +340,25 @@ new_tab_footer_background.png*/
 
 .line_text{
   color: #666;
-  height: 100%;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .line_bigtext{
   font-size: 18px;
-  display: block;
+  /*display: block;*/
   /*margin-top: 20%*/
 }
 .line_smalltext{
   /*float: left;*/
   /*margin-left: 50px;*/
   font-size: 12px;
-  display: block;
+  /*display: block;*/
 }
 
 .line_img{
-  float: left;
   height: 100%;
+  vertical-align: middle;
 }
 
 
