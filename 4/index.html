@@ -3,14 +3,11 @@
 <html snippetsURL='https://snippets.mozilla.com/3/newtab-mockup/19.0a1/20121203143002/Darwin_x86_64-gcc3/en-US/default/Darwin%2012.2.0/default/default/'>
   
   <head>
-    <!-- useless comment -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script>
-      alert(document.URL)
       /* if being served then add base tag to head */
       // alert(document.URL)
       if(document.URL.indexOf('file://') === -1){
-        alert('changing base');
         $('head')
         .append('<base">')
         .attr('href="http://jackm321.github.io/newtab/4/"');
