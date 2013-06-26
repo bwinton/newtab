@@ -14,6 +14,7 @@
       /* if being served then add base tag to head */
       // alert(document.URL)
       if(document.URL.indexOf('file://') === -1){
+        alert('here');
         document.getElementsByTagName('head')[0].appendChild(
           '<base href="http://jackm321.github.io/newtab/4/">'
         );
