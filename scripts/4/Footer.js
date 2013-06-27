@@ -2,8 +2,10 @@
     var Footer = function(){
 
       /* go to customizer on click */
-      $('#settings').on('click', function(){
-        document.location.href = 'http://jackm321.github.io/newtab/customizer/index.html';
+      $('#settings').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        document.location.href = 'about:newtab-config';
       });
     };
 
