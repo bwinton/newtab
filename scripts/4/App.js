@@ -33,24 +33,17 @@
 
     /* local helpers */
 
-    // function load_apps_data(cb){
-    //   $.getJSON('./settings.json', function(data) {
-    //     cb(data);
-    //   });
-
-    // }
-
     /* Send a message to the add-on. */
-    var interesting = function (type, detail) {
+    window.interesting = function interesting (type, detail) {
       var event = new CustomEvent('tpemit', {'detail': {'type': type, 'detail': detail}});
-      console.log("emit message:");
-      console.log(type, detail);
+      // console.log("emit message:");
+      // console.log(type, detail);
       document.dispatchEvent(event);
     };
 
     /* run */
     $(function(){
       new NewTab();
-    })
+    });
 
 })();
