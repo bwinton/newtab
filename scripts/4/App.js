@@ -18,8 +18,9 @@
         /* listen for the apps_layout event */
         window.addEventListener('message', function (event){
           var data = event.data;
-
-          if (data.type === 'newtab-layout') {
+          console.log('data: ');
+          console.log(data);
+          if (data.type === 'apps_layout') {
             this.submods.slider = new Slider(this, data.apps_layout);
           }
         });
