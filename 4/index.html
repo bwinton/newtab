@@ -9,8 +9,10 @@
       // alert(document.URL)
       if(document.URL.indexOf('file://') === -1){
         $('head')
-        .append('<base">')
-        .attr('href', 'http://jackm321.github.io/newtab/4/');
+        .append(
+          $('<base>')
+          .attr('href', 'http://jackm321.github.io/newtab/4/')
+        );
       }
     </script>
 
