@@ -3,10 +3,25 @@
 <html>
     <head>
         <meta charset="UTF-8">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script>
+          /* if being served then add base tag to head */
+          // alert(document.URL)
+          if(document.URL.indexOf('file://') === -1){
+            $('head')
+            .append(
+              $('<base>')
+              .attr('href', 'http://jackm321.github.io/newtab/customizer/')
+            );
+          }
+        </script>
+
         <link rel="stylesheet" href="../styles/reset.css">
         <link rel="stylesheet" href="../styles/customizer.css">
 
-        <script type="text/javascript" src='../scripts/jquery.js'></script>
+        <!-- <script type="text/javascript" src='../scripts/jquery.js'></script> -->
+
         <script type="text/javascript" src='../scripts/jquery.scrollTo.min.js'></script>
 
         <script type="text/javascript" src='../scripts/customizer/customizer.js'></script>
