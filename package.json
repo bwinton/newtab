@@ -6,11 +6,6 @@
     "type": "git",
     "url": "https://github.com/jackm321/newtab.git"
   },
-  "author": "Jack Montgomery",
-  "license": "BSD",
-  "bugs": {
-    "url": "https://github.com/jackm321/newtab/issues"
-  },
   "devDependencies": {
     "grunt": "*",
     "grunt-ssh": "*"
