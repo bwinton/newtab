@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "grunt": "*",
-    "grunt-ssh": "*"
+    "grunt-ssh": "*",
+    "grunt-exec": "*"
   }
 }

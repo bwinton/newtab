@@ -29,16 +29,39 @@ module.exports = function(grunt){
         ],
         options: standard_sftp_options
       }
+    },
+
+    exec:{
+      run: {
+        cmd: "cfx run --pkgdir=./addon"
+      },
+      xpi: {
+        cmd: "cfx xpi --pkgdir=./addon"
+      }
     }
   });
 
-  /* load sftp task */
+  /* load npm tasks */
   grunt.loadNpmTasks('grunt-ssh');
+  grunt.loadNpmTasks('grunt-exec');
 
   /* pushes just 4 and customizer */
   grunt.registerTask('push', ['sftp:new_stuff']);
 
   /* pushes just 1, 2, 3, 4, and customizer */
   grunt.registerTask('deploy', ['sftp:new_stuff', 'sftp:other_files']);
+
+  /* execs cfx run to load and runt he plugin */
+  grunt.registerTask('run', ['exec:run']);
+
+  /* execs cfx xpi to bundle up the plugin */
+  grunt.registerTask('xpi', ['exec:xpi']);
+
+  /* runs deploy task and exports the xpi file and uploads it */
+  grunt.registerTask('export', ['sftp:new_stuff', 'sftp:other_files']);
+
+  /* updates package.json files and git
+  with new version number and runs export */
+  grunt.registerTask('release', ['sftp:new_stuff', 'sftp:other_files']);
 
 };
