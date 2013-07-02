@@ -2,6 +2,7 @@ module.exports = function(grunt){
 
   standard_sftp_options = {
     path: '/home/jmontgomery/public_html/newtab/',
+    srcBasePath: "./website/",
     host: '<%= secret.host %>',
     createDirectories: true,
     passphrase: '<%= secret.passphrase %>',
@@ -16,19 +17,18 @@ module.exports = function(grunt){
     sftp: {
 
       new_stuff: {
-        files: {
-          "./": ["4/**", "customizer/**", "scripts/**", "styles/**"]
-        },
+        files: [
+          {src: ["./website/4/**", "./website/customizer/**", "./website/scripts/**", "./website/styles/**"] }
+        ],
         options: standard_sftp_options
       },
 
       other_files: {
-        files: {
-          "./": ["1/**", "2/**",
-          "3/**", "images/**"]
-        },
+        files: [
+          {src: ["./website/1/**", "./website/2/**", "./website/3/**", "./website/images/**"] }
+        ],
         options: standard_sftp_options
-      },
+      }
     }
   });
 
