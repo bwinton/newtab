@@ -1,0 +1,13 @@
+{
+  "name": "newtab_pages",
+  "version": "0.0.1",
+  "description": "the html content part of newtab",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jackm321/newtab.git"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-ssh": "*"
+  }
+}

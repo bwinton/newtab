@@ -1,0 +1,8 @@
+.DS_Store
+newtab.xpi
+www-built
+
+node_modules/
+
+id_rsa
+secret.json
