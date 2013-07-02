@@ -310,6 +310,8 @@ $(function () {
   /* Send a message to the add-on. */
   var interesting = function (type, detail) {
     var event = new CustomEvent('tpemit', {'detail': {'type': type, 'detail': detail}});
+    console.log("emit message:");
+    console.log(type, detail);
     document.dispatchEvent(event);
   };
 
