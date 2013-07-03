@@ -51,6 +51,10 @@ module.exports = function(grunt){
       xpi: {
         cmd: "cfx xpi --pkgdir=./addon"
       },
+      test_cfx: {
+        cmd: "cfx --version",
+        stdout: false
+      },
       rm_xpi: {
         cmd: "rm newtab.xpi"
       },
@@ -112,13 +116,14 @@ module.exports = function(grunt){
   with new version number and runs export */
   grunt.registerTask('release', function(version){
     if(version === undefined){
-      grunt.log.writeln('no version specified');
+      grunt.log.error('no version specified');
       return false;
     }
     else{
-      /* update package version */
-      update_version('version', version);
-      grunt.tasks.run(['exec:git_tag:'+version, 'export', 'exec:git_push']);
+      /* update package.json version */
+      if(!update_version(version)) return false;
+      /* tag git, push to central repo, export */
+      grunt.task.run(['export']); //exec:git_push 'exec:git_tag:'+version
     }
   });
 
@@ -132,7 +137,10 @@ module.exports = function(grunt){
    }
 
   /* updates the version number */
-  (function(){update_version = writeJSON('./addon/package.json');})();
+  function update_version(num){
+    return writeJSON('./addon/package.json')('version',num) &&
+           writeJSON('./package.json')('version',num);
+  }
 
   /* changes the given key's value in the given json file */
   function writeJSON(file_path){
@@ -140,7 +148,7 @@ module.exports = function(grunt){
       try{
         var obj = grunt.file.readJSON(file_path);
         obj[key] = value;
-        grunt.file.write(file_path, JSON.stringify(obj));
+        grunt.file.write(file_path, JSON.stringify(obj, null, 4));
       }
       catch(e){
         grunt.log.writeln(e);
