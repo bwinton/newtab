@@ -13,6 +13,7 @@
 * grunt export
 	* runs xpi and deploy
 * grunt release:release_number
-	* updates package.json files and git with new version number and runs export
+	* updates package.json files and git with new version number and runs export and
+	pushes to the central repository
 * grunt version
 	* gets the current version of the plugin
