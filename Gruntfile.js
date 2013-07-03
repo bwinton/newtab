@@ -47,11 +47,12 @@ module.exports = function(grunt){
     exec:{
       cfx: {
         cmd: function(){
-          str = "cfx --pkgdir=./addon"
+          str = "cfx";
           for(var x=0; x<arguments.length; x++){
             str += " "+arguments[x];
           }
-          return str;
+          /* have the command echo itself and add the correct pkgdir */
+          return 'echo \'running: "' + str + '"\' && ' + str + ' --pkgdir=./addon';
         }
       },
       test_cfx: {
@@ -209,6 +210,6 @@ module.exports = function(grunt){
       }
       return true;
     };
-  };
+  }
 
 };
