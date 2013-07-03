@@ -45,11 +45,14 @@ module.exports = function(grunt){
 
 
     exec:{
-      run: {
-        cmd: "cfx run --pkgdir=./addon"
-      },
-      xpi: {
-        cmd: "cfx xpi --pkgdir=./addon"
+      cfx: {
+        cmd: function(){
+          str = "cfx --pkgdir=./addon"
+          for(var x=0; x<arguments.length; x++){
+            str += " "+arguments[x];
+          }
+          return str;
+        }
       },
       test_cfx: {
         cmd: "cfx --version",
@@ -73,16 +76,6 @@ module.exports = function(grunt){
       }
     },
 
-
-    release: {
-      options: {
-        file: "./addon/package.json",
-        push: false,
-        pushTags: false,
-        npm: false
-      }
-    }
-
   });
 
   /* load npm tasks */
@@ -98,12 +91,6 @@ module.exports = function(grunt){
 
   /* pushes just 1, 2, 3, 4, and customizer */
   grunt.registerTask('deploy', ['sftp:new_stuff', 'sftp:other_files']);
-
-  /* execs cfx run to load and runt he plugin */
-  grunt.registerTask('run', ['exec:run']);
-
-  /* execs cfx xpi to bundle up the plugin */
-  grunt.registerTask('xpi', ['exec:xpi']);
 
   /* runs deploy task and exports the xpi file and uploads it */
   grunt.registerTask('export', ['xpi', 'deploy', 'sftp:upload_xpi']);
@@ -127,6 +114,71 @@ module.exports = function(grunt){
     }
   });
 
+  /* a multitask (kinda) for running the cfx tool */
+  grunt.registerTask('cfx', function(){
+    if(!arguments.length){
+      grunt.log.error('must specify arguments like "grunt cfx:run" for example');
+      return false;
+    }
+    var args = Array.prototype.slice.call(arguments);
+    grunt.task.run('exec:cfx:'+args.join(':'));
+  });
+
+
+  grunt.registerTask('release', function(type, version){
+
+    if(type === 'custom'){
+      var valid_version = true;
+      /* check that the version exists */
+      if(arguments === undefined) valid_version = false;
+
+      /* if string, validate the string */
+      if(typeof(version) === 'string'){
+        /* check that format is of xx.yy or xx where
+        x and y are any numbers*/
+        if(!(/^(\d+)(\.\d+)?$/).test(version)) valid_version = false;
+      }
+
+      /* if number, validate the number */
+      else if(typeof(version) === 'number'){
+        if(version<=0) valid_version = false;
+      }
+
+      /* version is not a number or string, it's not valid */
+      else valid_version = false;
+
+      if(!valid_version){
+        grunt.log.error('you must provide a valid version number');
+        return false;
+      }
+    }
+
+    /* get and/or parse version */
+    if(version === undefined) version = get_version();
+    version = parseFloat(version);
+
+    /* increment the mantissa */
+    if(type === 'minor'){
+      version += 0.1;
+    }
+    /* increment the characteristic */
+    if(type === 'major'){
+      version += 1;
+    }
+
+    /* update the package.json version numbers */
+    update_version(version);
+
+    /* tag version in git */
+    grunt.task.run('exec:git_tag:'+version);
+
+    /* push update to central repo */
+    // grunt.task.run('exec:git_push:');
+
+    /* export the files to the remote server */
+    grunt.task.run('export');
+  });
+
   /*
   HELPERS
    */
@@ -138,6 +190,7 @@ module.exports = function(grunt){
 
   /* updates the version number */
   function update_version(num){
+    num = parseFloat(num);
     return writeJSON('./addon/package.json')('version',num) &&
            writeJSON('./package.json')('version',num);
   }
