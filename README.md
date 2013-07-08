@@ -5,9 +5,7 @@
 * grunt version
 	* gets the current version of the plugin
 * grunt push
-	* pushs all prototypes to the mozilla people server
-* grunt push:n
-	* pushs only prototype number n to the mozilla people server
+	* pushs prototype to the mozilla people server
 * grunt cfx:arg0:arg1:…:argn
 	* runs the the mozilla sdk cfx command with all of the arguments specified at once
 	* examples: grunt cfx:xpi, grunt cfx:run:--force-mobile

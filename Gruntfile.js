@@ -47,12 +47,12 @@ module.exports = function(grunt){
     exec:{
       cfx: {
         cmd: function(){
-          str = "cfx";
+          str = "";
           for(var x=0; x<arguments.length; x++){
             str += " "+arguments[x];
           }
           /* have the command echo itself and add the correct pkgdir */
-          return 'echo \'running: "' + str + '"\' && ' + str + ' --pkgdir=./addon';
+          return 'echo \'running: cfx "' + str + '"\' && cfx --pkgdir=./addon ' + str;
         }
       },
       test_cfx: {
@@ -82,7 +82,6 @@ module.exports = function(grunt){
   /* load npm tasks */
   grunt.loadNpmTasks('grunt-ssh');
   grunt.loadNpmTasks('grunt-exec');
-  // grunt.loadNpmTasks('grunt-release');
 
   /* cleans up the working directory */
   grunt.registerTask('clean', ['exec:rm_xpi']);
@@ -126,52 +125,46 @@ module.exports = function(grunt){
   });
 
 
-  grunt.registerTask('release', function(type, version){
+  grunt.registerTask('release', function(type){
 
-    if(type === 'custom'){
-      var valid_version = true;
-      /* check that the version exists */
-      if(arguments === undefined) valid_version = false;
+    /* get the current version (always stored as a string) */
+    var version = parseFloat(get_version());
 
-      /* if string, validate the string */
-      if(typeof(version) === 'string'){
-        /* check that format is of xx.yy or xx where
-        x and y are any numbers*/
-        if(!(/^(\d+)(\.\d+)?$/).test(version)) valid_version = false;
-      }
+    /* handle case when type is a valid number */
+    if(/^\d+(\.\d{1,2})?$/.test(type)){
+      new_version = parseFloat(type);
 
-      /* if number, validate the number */
-      else if(typeof(version) === 'number'){
-        if(version<=0) valid_version = false;
-      }
-
-      /* version is not a number or string, it's not valid */
-      else valid_version = false;
-
-      if(!valid_version){
-        grunt.log.error('you must provide a valid version number');
+      if(new_version <= version){
+        grunt.log.error('you must provide a version number that is greater than the current version');
         return false;
       }
+      else version = new_version;
     }
 
-    /* get and/or parse version */
-    if(version === undefined) version = get_version();
-    version = parseFloat(version);
-
-    /* increment the mantissa */
-    if(type === 'minor'){
-      version += 0.1;
-    }
-    /* increment the characteristic */
-    if(type === 'major'){
-      version += 1;
+    /* handle major release */
+    else if(/^major$/i.test(type)){
+      version = Math.floor(version + 1);
     }
 
-    /* update the package.json version numbers */
-    update_version(version);
+    /* handle minor release */
+    else if(/^minor$/i.test(type)){
+      version = version + 0.01;
+    }
 
-    /* tag version in git */
-    grunt.task.run('exec:git_tag:'+version);
+    /* handle invalid type string */
+    /* having not type specified is valid though */
+    else if(type){
+      grunt.log.error('you must either specify a major or minor release or a valid version number');
+      return false;
+    }
+
+    if(type){
+      /* update the package.json version numbers */
+      update_version(version);
+
+      /* tag version in git */
+      grunt.task.run('exec:git_tag:'+version);
+    }
 
     /* push update to central repo */
     // grunt.task.run('exec:git_push:');
