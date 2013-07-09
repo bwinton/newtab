@@ -1,11 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/. */
+* License, v. 2.0. If a copy of the MPL was not distributed with this file,
+* You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true,
-  strict:true, undef:true, curly:true, browser:true, es5:true,
-  indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
-  globalstrict:true, nomen:false, newcap:true*/
+strict:true, undef:true, curly:true, browser:true, es5:true,
+indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
+globalstrict:true, nomen:false, newcap:true*/
 
 /*global self:true, addon:true, protocol:true, NewTabUtils:true, Services:true */
 
@@ -38,9 +38,19 @@ Cu.import('resource://gre/modules/NewTabUtils.jsm', this);
 Cu.import('resource://gre/modules/PageThumbs.jsm', this);
 timeStamp("Imported");
 
+/* given a worker, creates a function
+which emits messages to the front end */
+var emitter_maker = function(worker){
+  return function (type, data) {
+    worker.port.emit('emit', {type:type, data:data});
+  }
+};
+
 if (!Geolocation.allowed) {
   Geolocation.allowed = true;
 }
+/* set prototype 4 as default */
+simpleprefs.prefs.version = 4;
 
 if (isFirefox) {
 
@@ -48,6 +58,7 @@ if (isFirefox) {
   var pageMod = require('page-mod');
 
   var pageInitted = function pageInitted(worker) {
+    var emit = emitter_maker(worker);
     if (storage.links) {
       worker.port.emit('tabs', storage.links);
     }
@@ -63,6 +74,10 @@ if (isFirefox) {
     if (storage.historylist) {
       worker.port.emit('historylist', storage.historylist);
     }
+    /* emit newtab layout */
+    emit("apps_layout", storage.apps_layout || {});
+    timeStamp("apps_layout Data Emitted");
+      
 
     worker.port.emit('geolocation', {
       coords: {
@@ -139,24 +154,72 @@ if (isFirefox) {
     });
   };
 
+  /* this takes in a JSON object representing the layout
+of the apps on the newtab page and stores it as a js
+object using simplestorage */
+  var set_layout = function(json){
+    var data = JSON.parse(json);
+    storage.apps_layout = data;
+  }
+
+  /* this gets the data that is stored in simplestorage
+that describes how the newtab apps should be layed out */
+  var get_layout = function(){
+    return storage.apps_layout;
+  }
+
   var workerFunction = function (worker) {
     timeStamp("In Worker Function");
     start = Date.now();
     worker.port.on('tpemit', function (data) {
-      timeStamp("tpemit got data!!!  " + data.type);
-      if (data.type === 'initialized') {
-        pageInitted(worker);
-      } else if (data.type === 'searchChanged') {
-        Services.search.currentEngine = Services.search.getEngineByName(data.detail.name);
-      } else if (data.type === 'telemetry') {
-        if (data.detail.type === 'sure') {
-          prefs.set(PREF_TELEMETRY_ENABLED, true);
-        } else if (data.detail.type === 'no') {
-          prefs.set(PREF_TELEMETRY_ENABLED, false);
-        } else if (data.detail.type === 'undo') {
-          prefs.reset(PREF_TELEMETRY_ENABLED);
-        }
+      timeStamp("tpemit got data!!! " + data.type);
+      switch(data.type){
+        
+        case 'initialized':
+          pageInitted(worker);
+          break;
+        
+        case 'customizer-data':
+          set_layout(data.detail);
+          break;
+        
+        case 'searchChanged':
+          Services.search.currentEngine = Services.search.getEngineByName(data.detail.name);
+          break;
+        
+        case 'page-switch':
+          console.log(data.detail);
+          worker.Page.contentURL = data.detail;
+          break;
+        
+        case 'telemetry':
+          if (data.detail.type === 'sure') {
+            prefs.set(PREF_TELEMETRY_ENABLED, true);
+          } else if (data.detail.type === 'no') {
+            prefs.set(PREF_TELEMETRY_ENABLED, false);
+          } else if (data.detail.type === 'undo') {
+            prefs.reset(PREF_TELEMETRY_ENABLED);
+          }
+          break;
       }
+
+      // if (data.type === 'initialized') {
+      // pageInitted(worker);
+      // } else if (data.type === 'customizer-data') {
+      // set_layout(data.detail);
+      // } else if (data.type === 'searchChanged') {
+      // console.log("engine name: " + data.detail.name);
+      // Services.search.currentEngine = Services.search.getEngineByName(data.detail.name);
+      // } else if (data.type === 'telemetry') {
+      // if (data.detail.type === 'sure') {
+      // prefs.set(PREF_TELEMETRY_ENABLED, true);
+      // } else if (data.detail.type === 'no') {
+      // prefs.set(PREF_TELEMETRY_ENABLED, false);
+      // } else if (data.detail.type === 'undo') {
+      // prefs.reset(PREF_TELEMETRY_ENABLED);
+      // }
+      // }
+
     });
   };
 
@@ -169,6 +232,12 @@ if (isFirefox) {
   });
   pageMod.PageMod({
     include: 'about:newtab',
+    contentScriptWhen: 'ready',
+    contentScriptFile: data.url('content.js'),
+    onAttach: workerFunction
+  });
+  pageMod.PageMod({
+    include: 'about:newtab-config',
     contentScriptWhen: 'ready',
     contentScriptFile: data.url('content.js'),
     onAttach: workerFunction
@@ -196,8 +265,19 @@ if (isFirefox) {
 
   var home_override = function home_override(request, response) {
     response.contentType = 'text/html';
-    url.readURI('http://people.mozilla.com/~bwinton/newtab/' +
-                simpleprefs.prefs.version + '/index.html')
+    url.readURI('http://people.mozilla.com/~jmontgomery/newtab/' +
+                 simpleprefs.prefs.version /*"4"*/ + '/index.html')
+      .then(function success(value) {
+        response.end(value);
+      }, function failure(reason) {
+        var rv = '<h1>Error!!!</h1><p>' + reason + '</p>';
+        response.end(rv);
+      });
+  };
+
+  var newtab_config_override = function newtab_config_override(request, response) {
+    response.contentType = 'text/html';
+    url.readURI('http://jackm321.github.io/newtab/customizer/index.html')
       .then(function success(value) {
         response.end(value);
       }, function failure(reason) {
@@ -212,10 +292,13 @@ if (isFirefox) {
   exports.newtab = protocol.about('newtab', {
     onRequest: home_override
   });
+  exports.newtab_config = protocol.about('newtab-config', {
+    onRequest: newtab_config_override
+  });
 
 } else {
   // Do some Fennec- (or Thunderbird-, or SeaMonkey-) specific stuff here.
-  console.log('In Fennec!!!  Skipping for now…');
+  console.log('In Fennec!!! Skipping for now…');
   var init = function fennec_init() {};
   exports.home = {
     register: function fennec_home_register() {},
@@ -232,6 +315,7 @@ exports.main = function (options, callbacks) {
   init();
   exports.home.register(); // start listening
   exports.newtab.register(); // start listening
+  exports.newtab_config.register(); // start listening
   unload.when(function () {
     exports.home.unregister(); // stop listening
     exports.newtab.unregister(); // stop listening
