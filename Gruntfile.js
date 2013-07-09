@@ -1,19 +1,30 @@
 module.exports = function(grunt){
 
-  standard_sftp_options = {
-    path: '/home/jmontgomery/public_html/newtab/',
-    srcBasePath: "./website/",
-    host: '<%= secret.host %>',
-    createDirectories: true,
-    passphrase: '<%= secret.passphrase %>',
-    privateKey: grunt.file.read("../secrets/id_rsa"),
-    username: '<%= secret.username %>'
-  };
+  var settings = grunt.file.readJSON('grunt-settings.json');
+
+  var ssh_settings = (function(){
+    var obj = {
+      path: settings.path,
+      srcBasePath: "./website/",
+      host: settings.host,
+      createDirectories: true,
+      username: settings.username
+    };
+    /* handle privateKey ssh or password based ssh */
+    if(settings.privateKey){
+      obj.privateKey = grunt.file.read(settings.privateKey);
+      obj.passphrase = settings.passphrase;
+    }
+    else{
+      obj.password = settings.password;
+    }
+    return obj;
+  })();
+
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    secret: grunt.file.readJSON('../secrets/secret.json'),
-
+    // secret: grunt.file.readJSON('../secrets/secret.json'),
 
     sftp: {
 
@@ -21,25 +32,18 @@ module.exports = function(grunt){
         files: [
           {src: ["./website/4/**", "./website/customizer/**", "./website/scripts/**", "./website/styles/**"] }
         ],
-        options: standard_sftp_options
+        options: ssh_settings
       },
 
       other_files: {
         files: [
           {src: ["./website/1/**", "./website/2/**", "./website/3/**", "./website/images/**"] }
         ],
-        options: standard_sftp_options
-      },
+        options: ssh_settings
+      },  
       upload_xpi: {
         files: [ {src: ["./newtab.xpi"] } ],
-        options: {
-          path: '/home/jmontgomery/public_html/newtab/',
-          host: '<%= secret.host %>',
-          createDirectories: true,
-          passphrase: '<%= secret.passphrase %>',
-          privateKey: grunt.file.read("../secrets/id_rsa"),
-          username: '<%= secret.username %>'
-        }
+        options: ssh_settings
       }
     },
 
@@ -75,7 +79,7 @@ module.exports = function(grunt){
           return 'echo '+m+"!";
         }
       }
-    },
+    }
 
   });
 
