@@ -20,7 +20,7 @@ module.exports = function(grunt){
     else{
       obj.password = settings.password;
     }
-    return obj; 
+    return obj;
   })();
 
 
@@ -152,21 +152,13 @@ module.exports = function(grunt){
   grunt.registerTask('version', function(){
     grunt.log.writeln('version: '+get_version());
   });
-  // grunt.registerTask('start', ['exec:start_server', 'exec:start_cfx']);
+  
   grunt.registerTask('start', function(){
-    //var done = this.async();
     process.on('SIGINT', function(){
-      console.log('heere2')
-      //grunt.task.run('shell');
       grunt.tasks(['shell'], {}, function() {
-        console.log('sup');
       });
     })
-    grunt.tasks(['bgShell:start_server', 'bgShell:start_cfx'], {}, function() {
-       
-      });
-    //grunt.task.run('exec:start_server');
-    //grunt.task.run('exec:start_cfx');
+    grunt.tasks(['bgShell:start_server', 'bgShell:start_cfx'], {}, function() {});
   }); 
 
   grunt.registerTask('stop', ['exec:stop_all']);
