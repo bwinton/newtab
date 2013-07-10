@@ -83,7 +83,7 @@ module.exports = function(grunt){
       },
       start_server: {
         cmd: function(vers){
-          return"node node_modules/forever/bin/forever -s start node_modules/.bin/http-server website -s -d false -p 3456 -c -1";
+          return"node node_modules/forever/bin/forever -s start node_modules/.bin/http-server website -s -d false -p 3456 -c-1";
         }
       },
       stop_all:{

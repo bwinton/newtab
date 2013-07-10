@@ -281,9 +281,7 @@ that describes how the newtab apps should be layed out */
 
   var home_override = function home_override(request, response) {    
     response.contentType = 'text/html';
-    var new_url = content_url + '/newtab/index.html'
-    console.log(new_url);
-    url.readURI(new_url)
+    url.readURI(content_url + '/newtab/index.html')
       .then(function success(value) {
         response.end(value);
       }, function failure(reason) {

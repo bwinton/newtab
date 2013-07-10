@@ -3,23 +3,12 @@
 <html snippetsURL='https://snippets.mozilla.com/3/newtab-mockup/19.0a1/20121203143002/Darwin_x86_64-gcc3/en-US/default/Darwin%2012.2.0/default/default/'>
   
   <head>
+    <base href="http://localhost:3456">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script>
-      /* if being served then add base tag to head */
-      // alert(document.URL)
-      if(document.URL.indexOf('file://') === -1){
-        $('head')
-        .append(
-          $('<base>')
-          .attr('href', 'http://people.mozilla.com/~jmontgomery/newtab/4/')
-        );
-      }
-    </script>
-
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../shared/styles/reset.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="../shared//styles/app_styles.css">
+    <link rel="stylesheet" href="shared/styles/reset.css">
+    <link rel="stylesheet" href="newtab/styles/styles.css">
+    <link rel="stylesheet" href="shared/styles/app_styles.css">
   </head>
 
   <body>
@@ -129,12 +118,12 @@
   <!--<script type='text/javascript;version=1.8' src='../scripts/snippets.js'></script> -->
 
 
-  <script type="text/javascript" src='scripts/Header.js'></script>
-  <script type="text/javascript" src='scripts/Footer.js'></script>
-  <script type="text/javascript" src='scripts/Slider.js'></script>
-  <script type="text/javascript" src='scripts/Panel.js'></script>
-  <script type="text/javascript" src='scripts/App.js'></script>
-  <script type="text/javascript" src='scripts/main.js'></script>
+  <script type="text/javascript" src='newtab/scripts/Header.js'></script>
+  <script type="text/javascript" src='newtab/scripts/Footer.js'></script>
+  <script type="text/javascript" src='newtab/scripts/Slider.js'></script>
+  <script type="text/javascript" src='newtab/scripts/Panel.js'></script>
+  <script type="text/javascript" src='newtab/scripts/App.js'></script>
+  <script type="text/javascript" src='newtab/scripts/main.js'></script>
 
 
 
