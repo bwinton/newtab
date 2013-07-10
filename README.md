@@ -1,23 +1,29 @@
 # newtab
 ## Grunt tasks
-* grunt clean
-	* cleans up the working directory by deleting files like newtab.xpi
-* grunt version
+* `grunt version`
 	* gets the current version of the plugin
-* grunt push **warning: this will permanently delete all contents of the destination folder**
-	* pushs prototype to the mozilla people server
-* grunt cfx:arg0:arg1:…:argn
-	* runs the the mozilla sdk cfx command with all of the arguments specified at once
-	* examples: grunt cfx:xpi, grunt cfx:run:--force-mobile
-* grunt release
+	* **warning: this will permanently delete all contents of the destination folder**
+* `grunt clean`
+	* cleans up the working directory by deleting files like newtab.xpi
+* `grunt clean:remote`
+	* deletes all newtab related files from the remote server
+* `grunt run:arg0:arg1:…:argn`
+	* runs the the mozilla sdk cfx run command with all of the arguments specified
+	* examples: `grunt run` or `grunt run:--force-mobile`
+* `grunt xpi:arg0:arg1:…:argn`
+	* runs the the mozilla sdk cfx xpi command with all of the arguments specified and puts the xpi in the project's main directory
+	* example: `grunt xpi:--strip-sdk:--force-mobile`
+* `grunt push`
+	* pushs just prototype to the mozilla people server (does not push the .xpi)
+* `grunt release`
 	* this will generate the xpi file and upload it to the remote server, call grunt push, and push to the central git repo
 	* this will not make a git tag or update the package.json version numbers
-* grunt release:major
+* `grunt release:major`
 	* this will increment the version number to the next whole number, make a git tag, update the package.json version numbers, generate the xpi file and upload it to the remote server, call grunt push, and push all code to the central git repo
-	* example: 1 &#8594; 2, 1.5 &#8594; 2
-* grunt release:minor
+	* for instance: 1 &#8594; 2, 1.5 &#8594; 2
+* `grunt release:minor`
 	* this will bump up the version number to the next 1/100 , make a git tag, update the package.json version numbers, generate the xpi file and upload it to the remote server, call grunt push, and push all code to the central git repo
-	* examples: 1 &#8594; 1.01, 1.61 &#8594; 1.62, 1.5 &#8594; 1.51 1.99 &#8594; 2
-* grunt release:x
+	* for instance: 1 &#8594; 1.01, 1.61 &#8594; 1.62, 1.5 &#8594; 1.51 1.99 &#8594; 2
+* `grunt release:x`
 	* this will set the version number to x , make a git tag, update the package.json version numbers, generate the xpi file and upload it to the remote server, call grunt push, and push all code to the central git repo
-	* example: grunt release:2.3
+	* example: `grunt release:2.3`
