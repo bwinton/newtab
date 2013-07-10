@@ -20,14 +20,21 @@ module.exports = function(grunt){
     else{
       obj.password = settings.password;
     }
-    return obj;
+    return obj; 
   })();
 
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     // secret: grunt.file.readJSON('../secrets/secret.json'),
-
+    shell: {
+      kill: {
+        command: 'node node_modules/forever/bin/forever stopall',
+        options: {
+          stdout: true
+        }
+      }
+    },
     sftp: {
 
       push: {
@@ -49,7 +56,7 @@ module.exports = function(grunt){
       }
     },
 
-    exec:{
+    bgShell:{
       cfx: {
         cmd: function(){
           str = "";
@@ -58,7 +65,8 @@ module.exports = function(grunt){
           }
           /* have the command echo itself and add the correct pkgdir */
           return 'echo \'running: cfx "' + str + '"\' && cfx --pkgdir=./addon ' + str;
-        }
+        },
+        bg: true
       },
       test_cfx: {
         cmd: "cfx --version",
@@ -78,13 +86,15 @@ module.exports = function(grunt){
       start_cfx: {
         cmd: function(vers){
           // return "node ./website/cfx_runner.js";
-          return"node node_modules/forever/bin/forever start ./website/cfx_runner.js";
-        }
+          return "node ./website/cfx_runner.js";
+        },
+        bg: true,
       },
       start_server: {
         cmd: function(vers){
           return"node node_modules/forever/bin/forever -s start node_modules/.bin/http-server website -s -d false -p 3456 -c-1";
-        }
+        },
+        bg: true
       },
       stop_all:{
         cmd: function(vers){
@@ -108,20 +118,15 @@ module.exports = function(grunt){
             to: 'http://localhost:3456'
           }
         ]
-      }
+      },
       deploy: {
-        src: ['./website/**', './addon/**'],
-        replacements:[
-          {
+        src: ['website/**', 'addon/**'],
+        overwrite: true,
+        replacements:[{
             from: 'http://localhost:3456',
             to: settings.path
-          }
-        ]
+        }]
       }
-
-      // plugin: {
-      //   src: ['']
-      // }
     }
 
   });
@@ -129,6 +134,11 @@ module.exports = function(grunt){
   /* load npm tasks */
   grunt.loadNpmTasks('grunt-ssh');
   grunt.loadNpmTasks('grunt-exec');
+
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-bg-shell');
+  grunt.loadNpmTasks('grunt-text-replace');
+
 
   /* cleans up the working directory */
   grunt.registerTask('clean', ['exec:rm_xpi']);
@@ -142,7 +152,23 @@ module.exports = function(grunt){
   grunt.registerTask('version', function(){
     grunt.log.writeln('version: '+get_version());
   });
-  grunt.registerTask('start', ['exec:start_server', 'exec:start_cfx']);
+  // grunt.registerTask('start', ['exec:start_server', 'exec:start_cfx']);
+  grunt.registerTask('start', function(){
+    //var done = this.async();
+    process.on('SIGINT', function(){
+      console.log('heere2')
+      //grunt.task.run('shell');
+      grunt.tasks(['shell'], {}, function() {
+        console.log('sup');
+      });
+    })
+    grunt.tasks(['bgShell:start_server', 'bgShell:start_cfx'], {}, function() {
+       
+      });
+    //grunt.task.run('exec:start_server');
+    //grunt.task.run('exec:start_cfx');
+  }); 
+
   grunt.registerTask('stop', ['exec:stop_all']);
 
   /* updates package.json files and git
