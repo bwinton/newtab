@@ -47,8 +47,11 @@ const content_url = (
   /* determines base location of content based on
   whether or not cfx was run or not */
   function(){
-    if(cfx_ran) return 'http://localhost:3456';
-    else return remote_url;
+    // return remote_url;
+    if(system.pathFor("ProfD").indexOf('.mozrunner') > 0)
+      return 'http://localhost:3456';
+    else
+      return remote_url;
   })();
 
 /* given a worker, creates a function
@@ -278,7 +281,9 @@ that describes how the newtab apps should be layed out */
 
   var home_override = function home_override(request, response) {    
     response.contentType = 'text/html';
-    url.readURI(self.data.url(content_url + '/newtab/index.html'))
+    var new_url = content_url + '/newtab/index.html'
+    console.log(new_url);
+    url.readURI(new_url)
       .then(function success(value) {
         response.end(value);
       }, function failure(reason) {
@@ -328,9 +333,9 @@ HELPERS
 
 /* determines if this is being run with
 cfx run */
-function cfx_ran(){
-  return system.pathFor("ProfD").indexOf('.mozrunner') > 0;
-}
+// function cfx_ran(){
+//   return system.pathFor("ProfD").indexOf('.mozrunner') > 0;
+// }
 
 
 exports.main = function (options, callbacks) {

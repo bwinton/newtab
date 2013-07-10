@@ -78,20 +78,12 @@ module.exports = function(grunt){
       start_cfx: {
         cmd: function(vers){
           // return "node ./website/cfx_runner.js";
-          return"node node_modules/forever/bin/forever -s start ./website/cfx_runner.js";
-        },
-        callback: function(vers){
-          return "echo yo";
+          return"node node_modules/forever/bin/forever start ./website/cfx_runner.js";
         }
       },
       start_server: {
         cmd: function(vers){
           return"node node_modules/forever/bin/forever -s start node_modules/.bin/http-server website -s -d false -p 3456 -c -1";
-        }
-      },
-      sigint_listener: {
-        cmd: function(vers){
-          return "node ./website/sigint_listener.js";
         }
       },
       stop_all:{
