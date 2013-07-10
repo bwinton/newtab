@@ -96,6 +96,32 @@ module.exports = function(grunt){
           return 'echo '+m+"!";
         }
       }
+    },
+
+
+    replace: {
+      reset: {
+        src: ['./website/**', './addon/**'],
+        replacements:[
+          {
+            from: settings.path,
+            to: 'http://localhost:3456'
+          }
+        ]
+      }
+      deploy: {
+        src: ['./website/**', './addon/**'],
+        replacements:[
+          {
+            from: 'http://localhost:3456',
+            to: settings.path
+          }
+        ]
+      }
+
+      // plugin: {
+      //   src: ['']
+      // }
     }
 
   });

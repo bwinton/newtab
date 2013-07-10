@@ -10,7 +10,8 @@
         "grunt-ssh": "*",
         "grunt-exec": "*",
         "http-server": "*",
-        "forever": "*"
+        "forever": "*",
+        "grunt-text-replace": "*"
     },
     "version": "0.0.5"
 }

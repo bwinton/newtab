@@ -41,18 +41,19 @@ Cu.import('resource://gre/modules/PageThumbs.jsm', this);
 timeStamp("Imported");
 
 /* the location of the html content */
-const remote_url = "http://people.mozilla.com/~jmontgomery/newtab"
+const content_url = 'http://localhost:3456'
+// const remote_url = "{{remote_url}}"
 
-const content_url = (
-  /* determines base location of content based on
-  whether or not cfx was run or not */
-  function(){
-    // return remote_url;
-    if(system.pathFor("ProfD").indexOf('.mozrunner') > 0)
-      return 'http://localhost:3456';
-    else
-      return remote_url;
-  })();
+// const content_url = (
+//   /* determines base location of content based on
+//   whether or not cfx was run or not */
+//   function(){
+//     // return remote_url;
+//     if(system.pathFor("ProfD").indexOf('.mozrunner') > 0)
+//       return 'http://localhost:3456';
+//     else
+//       return remote_url;
+//   })();
 
 /* given a worker, creates a function
 which emits messages to the front end */
