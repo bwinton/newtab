@@ -88,7 +88,7 @@ module.exports = function(grunt){
           // return "node ./website/cfx_runner.js";
           return "node ./website/cfx_runner.js";
         },
-        bg: true,
+        bg: true
       },
       start_server: {
         cmd: function(vers){
@@ -108,36 +108,52 @@ module.exports = function(grunt){
       }
     },
 
+    sed:{
 
-    replace: {
-      reset: {
-        src: ['./website/**', './addon/**'],
-        replacements:[
-          {
-            from: settings.path,
-            to: 'http://localhost:3456'
-          }
-        ]
-      },
       deploy: {
-        src: ['website/**', 'addon/**'],
-        overwrite: true,
-        replacements:[{
-            from: 'http://localhost:3456',
-            to: settings.path
-        }]
+          path: ['./addon', './website'],
+          pattern: 'http://localhost:3456',
+          replacement: settings.path,
+          recursive: true
+      },
+      reset: {
+          path: ['./addon', './website'],
+          pattern: settings.path,
+          replacement: 'http://localhost:3456',
+          recursive: true
       }
+
     }
+
+    // replace: {
+    //   reset: {
+    //     src: ['./website/**', './addon/**'],
+    //     replacements:[
+    //       {
+    //         from: settings.path,
+    //         to: 'http://localhost:3456'
+    //       }
+    //     ]
+    //   },
+    //   deploy: {
+    //     src: ['website/**', 'addon/**'],
+    //     overwrite: true,
+    //     replacements:[{
+    //         from: 'http://localhost:3456',
+    //         to: settings.path
+    //     }]
+    //   }
+    // }
 
   });
 
   /* load npm tasks */
   grunt.loadNpmTasks('grunt-ssh');
   grunt.loadNpmTasks('grunt-exec');
-
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-text-replace');
+  grunt.loadNpmTasks('grunt-sed');
 
 
   /* cleans up the working directory */

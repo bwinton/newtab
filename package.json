@@ -11,7 +11,8 @@
         "grunt-exec": "*",
         "http-server": "*",
         "forever": "*",
-        "grunt-text-replace": "*"
+        "grunt-text-replace": "*",
+        "grunt-sed": "*"
     },
     "version": "0.0.5"
 }
