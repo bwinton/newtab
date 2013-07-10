@@ -30,6 +30,8 @@ var simpleprefs = require('simple-prefs');
 var storage = require('simple-storage').storage;
 var unload = require('sdk/system/unload');
 var url = require('sdk/net/url');
+var self = require('self');
+var system = require('system')
 
 const PREF_TELEMETRY_ENABLED = "toolkit.telemetry.enabled";
 const {Cu} = require('chrome');
@@ -37,6 +39,17 @@ Cu.import("resource://gre/modules/Services.jsm", this);
 Cu.import('resource://gre/modules/NewTabUtils.jsm', this);
 Cu.import('resource://gre/modules/PageThumbs.jsm', this);
 timeStamp("Imported");
+
+/* the location of the html content */
+const remote_url = "http://people.mozilla.com/~jmontgomery/newtab"
+
+const content_url = (
+  /* determines base location of content based on
+  whether or not cfx was run or not */
+  function(){
+    if(cfx_ran) return 'http://localhost:3456';
+    else return remote_url;
+  })();
 
 /* given a worker, creates a function
 which emits messages to the front end */
@@ -263,10 +276,9 @@ that describes how the newtab apps should be layed out */
     setAndResetPref('layout.css.flexbox.enabled', true);
   };
 
-  var home_override = function home_override(request, response) {
+  var home_override = function home_override(request, response) {    
     response.contentType = 'text/html';
-    url.readURI('http://people.mozilla.com/~jmontgomery/newtab/' +
-                 simpleprefs.prefs.version /*"4"*/ + '/index.html')
+    url.readURI(self.data.url(content_url + '/newtab/index.html'))
       .then(function success(value) {
         response.end(value);
       }, function failure(reason) {
@@ -277,7 +289,7 @@ that describes how the newtab apps should be layed out */
 
   var newtab_config_override = function newtab_config_override(request, response) {
     response.contentType = 'text/html';
-    url.readURI('http://jackm321.github.io/newtab/customizer/index.html')
+    url.readURI(content_url + '/customizer/index.html')
       .then(function success(value) {
         response.end(value);
       }, function failure(reason) {
@@ -308,6 +320,16 @@ that describes how the newtab apps should be layed out */
     register: function fennec_newtab_register() {},
     unregister: function fennec_newtab_unregister() {}
   };
+}
+
+/*
+HELPERS
+ */
+
+/* determines if this is being run with
+cfx run */
+function cfx_ran(){
+  return system.pathFor("ProfD").indexOf('.mozrunner') > 0;
 }
 
 

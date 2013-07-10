@@ -50,7 +50,3 @@ self.port.on('geolocation', function (position) {
 self.port.on('search', function (defaultEngine, engines) {
   document.defaultView.postMessage({'type': 'search', 'defaultEngine': defaultEngine, 'engines': engines}, '*');
 });
-
-// self.port.on('apps_layout', function (layout) {
-// document.defaultView.postMessage({'type': 'apps_layout', 'layout': layout}, '*');
-// });

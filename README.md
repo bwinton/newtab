@@ -4,7 +4,7 @@
 	* cleans up the working directory by deleting files like newtab.xpi
 * grunt version
 	* gets the current version of the plugin
-* grunt push
+* grunt push **warning: this will permanently delete all contents of the destination folder**
 	* pushs prototype to the mozilla people server
 * grunt cfx:arg0:arg1:…:argn
 	* runs the the mozilla sdk cfx command with all of the arguments specified at once

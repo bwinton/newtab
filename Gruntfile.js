@@ -1,3 +1,5 @@
+    var terminal = require('child_process').spawn('bash',[],{detached:false});
+
 module.exports = function(grunt){
 
   var settings = grunt.file.readJSON('grunt-settings.json');
@@ -28,25 +30,24 @@ module.exports = function(grunt){
 
     sftp: {
 
-      new_stuff: {
+      push: {
         files: [
-          {src: ["./website/4/**", "./website/customizer/**", "./website/scripts/**", "./website/styles/**"] }
+          {src: ["./website/**"] }
         ],
         options: ssh_settings
       },
-
-      other_files: {
-        files: [
-          {src: ["./website/1/**", "./website/2/**", "./website/3/**", "./website/images/**"] }
-        ],
-        options: ssh_settings
-      },  
       upload_xpi: {
         files: [ {src: ["./newtab.xpi"] } ],
         options: ssh_settings
       }
     },
 
+    sshexec: {
+      clean: {
+        command: 'rm -rf '+ ssh_settings.path + '/**',
+        options: ssh_settings
+      }
+    },
 
     exec:{
       cfx: {
@@ -74,6 +75,30 @@ module.exports = function(grunt){
           return "git tag v"+vers;
         }
       },
+      start_cfx: {
+        cmd: function(vers){
+          // return "node ./website/cfx_runner.js";
+          return"node node_modules/forever/bin/forever -s start ./website/cfx_runner.js";
+        },
+        callback: function(vers){
+          return "echo yo";
+        }
+      },
+      start_server: {
+        cmd: function(vers){
+          return"node node_modules/forever/bin/forever -s start node_modules/.bin/http-server website -s -d false -p 3456 -c -1";
+        }
+      },
+      sigint_listener: {
+        cmd: function(vers){
+          return "node ./website/sigint_listener.js";
+        }
+      },
+      stop_all:{
+        cmd: function(vers){
+          return"node node_modules/forever/bin/forever stopall";
+        }
+      },
       echo: {
         cmd: function(m){
           return 'echo '+m+"!";
@@ -90,11 +115,8 @@ module.exports = function(grunt){
   /* cleans up the working directory */
   grunt.registerTask('clean', ['exec:rm_xpi']);
 
-  /* pushes just 4 and customizer */
-  grunt.registerTask('push', ['sftp:new_stuff']);
-
-  /* pushes just 1, 2, 3, 4, and customizer */
-  grunt.registerTask('deploy', ['sftp:new_stuff', 'sftp:other_files']);
+  /* cleans the remote directory and pushes all html files */
+  grunt.registerTask('deploy', ['sshexec', 'sftp:push']);
 
   /* runs deploy task and exports the xpi file and uploads it */
   grunt.registerTask('export', ['xpi', 'deploy', 'sftp:upload_xpi']);
@@ -102,6 +124,8 @@ module.exports = function(grunt){
   grunt.registerTask('version', function(){
     grunt.log.writeln('version: '+get_version());
   });
+  grunt.registerTask('start', ['exec:start_server', 'exec:start_cfx']);
+  grunt.registerTask('stop', ['exec:stop_all']);
 
   /* updates package.json files and git
   with new version number and runs export */

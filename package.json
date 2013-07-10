@@ -8,7 +8,9 @@
     "devDependencies": {
         "grunt": "*",
         "grunt-ssh": "*",
-        "grunt-exec": "*"
+        "grunt-exec": "*",
+        "http-server": "*",
+        "forever": "*"
     },
     "version": "0.0.5"
 }
