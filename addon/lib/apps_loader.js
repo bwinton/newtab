@@ -13,10 +13,10 @@
 
     var code = data.url('apps/'+id+'/app.js');
     console.log(code);
-    var scope = sandbox(null, {sandboxPrototype: {console: console, exports: exports}});
+    var scope = sandbox(null, {sandboxPrototype: {console: console, exports: {}}});
  
     load(scope, code);
-    result = evaluate(scope, 'run()');
+    result = evaluate(scope, 'exports.run()');
     console.log('da result: '+result);
 
   }
