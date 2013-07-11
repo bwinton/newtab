@@ -26,7 +26,7 @@ module.exports = function(grunt){
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    // secret: grunt.file.readJSON('../secrets/secret.json'),
+
     shell: {
       kill: {
         command: 'node node_modules/forever/bin/forever stopall',
@@ -51,7 +51,11 @@ module.exports = function(grunt){
 
     sshexec: {
       clean: {
-        command: 'rm -rf '+ ssh_settings.path + '/**',
+        command: 'rm -rf '+ ssh_settings.path + 'customizer '+
+                  ssh_settings.path + 'newtab '+
+                  ssh_settings.path + 'shared '+
+                  ssh_settings.path + 'newtab.xpi '+
+                  ssh_settings.path + 'index.html ',
         options: ssh_settings
       }
     },
@@ -84,7 +88,7 @@ module.exports = function(grunt){
       },
       start_cfx: {
         cmd: function(vers){
-          return "node ./website/cfx_runner.js";
+          return "node ./cfx_runner.js";
         },
         bg: true
       },
@@ -124,10 +128,19 @@ module.exports = function(grunt){
 
 
   /* cleans up the working directory */
-  grunt.registerTask('clean', ['bgShell:rm_xpi']);
+  grunt.registerTask('clean', function(arg){
+    if(!arg)
+      grunt.task.run('bgShell:rm_xpi');
+    else if(arg === 'remote')
+      grunt.task.run('sshexec:clean');
+    else{
+      grunt.log.error('clean:'+arg+' is not recognized');
+      return false;
+    }
+  });
 
   /* cleans the remote directory and pushes all html files */
-  grunt.registerTask('deploy', ['sed:deploy', 'sshexec:clean', 'sftp:push', 'sed:reset']);
+  grunt.registerTask('deploy', ['sed:deploy', 'sftp:push', 'sed:reset']);
 
   /* runs deploy task and exports the xpi file and uploads it */
   grunt.registerTask('export', ['sshexec:clean', 'sed:deploy', 'bgShell:mk_xpi', 'sftp:upload_xpi', 'sftp:push', 'sed:reset']);
@@ -140,9 +153,9 @@ module.exports = function(grunt){
     process.on('SIGINT', function(){
       grunt.tasks(['shell'], {}, function() {
       });
-    })
+    });
     grunt.tasks(['bgShell:start_server', 'bgShell:start_cfx'], {}, function() {});
-  }); 
+  });
 
   /* updates package.json files and git
   with new version number and runs export */
