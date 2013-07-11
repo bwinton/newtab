@@ -68,7 +68,7 @@ module.exports = function(grunt){
             str += " "+arguments[x];
           }
           /* have the command echo itself and add the correct pkgdir */
-          return 'echo \'running: cfx "' + str + '"\' && cfx --pkgdir=./addon ' + str;
+          return 'echo \'running: cfx "' + str + '"\' && node ./cfx_runner.js ' + str;
         },
         bg: true
       },
@@ -87,13 +87,16 @@ module.exports = function(grunt){
         }
       },
       start_cfx: {
-        cmd: function(vers){
-          return "node ./cfx_runner.js";
+        cmd: function(){
+          str = "node ./cfx_runner.js run";
+          if(settings.binary)
+            str += " --binary="+settings.binary;
+          return str;
         },
         bg: true
       },
       start_server: {
-        cmd: function(vers){
+        cmd: function(){
           return"node node_modules/forever/bin/forever -s start node_modules/.bin/http-server website -s -d false -p 3456 -c-1";
         },
         bg: true
