@@ -31,7 +31,8 @@ var storage = require('simple-storage').storage;
 var unload = require('sdk/system/unload');
 var url = require('sdk/net/url');
 var self = require('self');
-var system = require('system')
+var system = require('system');
+var apps_loader = require('./apps_loader');
 
 const PREF_TELEMETRY_ENABLED = "toolkit.telemetry.enabled";
 const {Cu} = require('chrome');
@@ -41,6 +42,8 @@ Cu.import('resource://gre/modules/PageThumbs.jsm', this);
 timeStamp("Imported");
 
 /* the location of the html content */
+/* this value is string replaced grunt during
+the deployment process to match the remote location */
 const content_url = 'http://localhost:3456'
 
 /* given a worker, creates a function
@@ -82,7 +85,7 @@ if (isFirefox) {
     /* emit newtab layout */
     emit("apps_layout", storage.apps_layout || {});
     timeStamp("apps_layout Data Emitted");
-      
+
 
     worker.port.emit('geolocation', {
       coords: {
@@ -181,6 +184,10 @@ that describes how the newtab apps should be layed out */
       switch(data.type){
         
         case 'initialized':
+          // just testing
+          var dat = apps_loader.query_app('bookmarks');
+          // console.log(file.exists('stuff.js'))
+          // console.log('should be 6: '+dat);
           pageInitted(worker);
           break;
         
@@ -207,23 +214,6 @@ that describes how the newtab apps should be layed out */
           }
           break;
       }
-
-      // if (data.type === 'initialized') {
-      // pageInitted(worker);
-      // } else if (data.type === 'customizer-data') {
-      // set_layout(data.detail);
-      // } else if (data.type === 'searchChanged') {
-      // console.log("engine name: " + data.detail.name);
-      // Services.search.currentEngine = Services.search.getEngineByName(data.detail.name);
-      // } else if (data.type === 'telemetry') {
-      // if (data.detail.type === 'sure') {
-      // prefs.set(PREF_TELEMETRY_ENABLED, true);
-      // } else if (data.detail.type === 'no') {
-      // prefs.set(PREF_TELEMETRY_ENABLED, false);
-      // } else if (data.detail.type === 'undo') {
-      // prefs.reset(PREF_TELEMETRY_ENABLED);
-      // }
-      // }
 
     });
   };
