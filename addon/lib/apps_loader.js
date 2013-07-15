@@ -15,10 +15,20 @@
     console.log(code);
     var scope = sandbox(null, {sandboxPrototype: {console: console, exports: {}}});
  
-    load(scope, code);
-    result = evaluate(scope, 'exports.run()');
-    console.log('da result: '+result);
+    var result;
+    var success = true;
+    try{
+      load(scope, code);
+      result = evaluate(scope, 'exports.run()');
+    }
+    catch(e){
+      console.error('error getting app data');
+      result = [];
+      success = false;
+    }
 
+    console.log('da result: '+result);
+    return [success, result];
   }
 
   exports.query_app = query_app;

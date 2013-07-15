@@ -32,7 +32,7 @@ var unload = require('sdk/system/unload');
 var url = require('sdk/net/url');
 var self = require('self');
 var system = require('system');
-var apps_loader = require('./apps_loader');
+var query_app = require('./apps_loader').query_app;
 
 const PREF_TELEMETRY_ENABLED = "toolkit.telemetry.enabled";
 const {Cu} = require('chrome');
@@ -83,7 +83,8 @@ if (isFirefox) {
       worker.port.emit('historylist', storage.historylist);
     }
     /* emit newtab layout */
-    emit("apps_layout", storage.apps_layout || {});
+    emit('apps', get_apps_data())
+    // emit("apps", storage.apps_layout || {});
     timeStamp("apps_layout Data Emitted");
 
 
@@ -185,9 +186,7 @@ that describes how the newtab apps should be layed out */
         
         case 'initialized':
           // just testing
-          var dat = apps_loader.query_app('bookmarks');
-          // console.log(file.exists('stuff.js'))
-          // console.log('should be 6: '+dat);
+          get_available_apps();
           pageInitted(worker);
           break;
         
@@ -307,7 +306,41 @@ that describes how the newtab apps should be layed out */
 /*
 HELPERS
  */
+/* gets the apps layout data from storage
+then gets the data for each app anc combines
+the the two to be sent to the front end */
+function get_apps_data(){
+  var layout = storage.apps_layout || [];
+  layout.forEach(function(page){
+    page.forEach(function(app){
+      console.log(JSON.stringify(app));
+      [app.valid, app.contents] = query_app(app.id);
+    });
+  });
+  return layout;
+}
 
+/* returns a lits of all available apps for use
+in the customizer */
+function get_available_apps(){
+  let apps = [];
+  let apps_dir = pwd()+'/data/apps';
+  file.list(apps_dir).forEach(function(app_id){
+    let json_path = file.join(apps_dir, app_id, 'settings.json');
+    let app = JSON.parse(file.read(json_path));
+    apps.push(app);  
+  });
+  return apps;
+}
+
+/* gets the directory of the addon */
+function pwd(){
+  var {Cc, Ci} = require("chrome");
+  var currDir = Cc["@mozilla.org/file/directory_service;1"]
+                .getService(Ci.nsIDirectoryServiceProvider)
+                .getFile("CurWorkD", {}).path;
+  return currDir+'/addon'  
+}
 /* determines if this is being run with
 cfx run */
 // function cfx_ran(){

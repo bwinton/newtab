@@ -20,7 +20,7 @@
           var data = event.data;
           console.log('data: ');
           console.log(data);
-          if (data.type === 'apps_layout') {
+          if (data.type === 'apps') {
             this.submods.slider = new Slider(this, data.data);
           }
         });

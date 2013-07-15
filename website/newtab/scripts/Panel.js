@@ -28,13 +28,17 @@
        */
       launch_apps: function(){
         $.each(this.data.apps, function(i, app_data){
+          console.log('app data');
           console.log(app_data);
-          var display_data = this.get_app_display(app_data.id);
+          if(!app_data.valid){
+            alert(app_data.id + ' failed!');
+            return;
+          }
           /* create div for app */
           $("#templates .app_wrapper").render({
-            app_title: app_data.name,
+            app_title: app_data.id,
             app_container: function(container){
-              $.each(display_data, function(i, item){
+              $.each(app_data.contents, function(i, item){
                 /* render each line */
                 $(container).append(
                   $("#templates .app_line").render(item)
@@ -53,27 +57,7 @@
       /*
       Secondary Functions
        */
-      
-      /* asks the backend for the information
-      that the app is going to display */
-      get_app_display: function(app_id){
-        var img = "https://assets.mozillalabs.com/Brands-Logos/Firefox/logo-only/firefox_logo-only_RGB.png";
 
-        var arr = [];
-        for(var x=0; x< 10; x++){
-          arr.push({
-            line_bigtext: "this is text",
-            line_smalltext: "this is the subtext to the line",
-            line_img: function(){
-              $(this).attr('src', img);
-            },
-            line_link: function(){
-              $(this).attr('href', "http://www.google.com");
-            }
-          })
-        }
-        return arr;
-      },
       
       /*
       Helper Functions
