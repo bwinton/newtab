@@ -2,7 +2,6 @@
 ## Grunt tasks
 * `grunt version`
 	* gets the current version of the plugin
-	* **warning: this will permanently delete all contents of the destination folder**
 * `grunt clean`
 	* cleans up the working directory by deleting files like newtab.xpi
 * `grunt clean:remote`
