@@ -123,10 +123,10 @@ module.exports = function(grunt){
 
   /* load npm tasks */
   grunt.loadNpmTasks('grunt-ssh');
-  grunt.loadNpmTasks('grunt-exec');
+  // grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bg-shell');
-  grunt.loadNpmTasks('grunt-text-replace');
+  // grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-sed');
 
 

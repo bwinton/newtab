@@ -8,10 +8,11 @@
     "devDependencies": {
         "grunt": "*",
         "grunt-ssh": "*",
-        "grunt-exec": "*",
         "http-server": "*",
         "forever": "*",
-        "grunt-sed": "*"
+        "grunt-sed": "*",
+        "grunt-shell": "*",
+        "grunt-bg-shell": "*"
     },
     "version": "0.0.5"
 }
