@@ -27,3 +27,18 @@
 * `grunt release:x`
 	* this will set the version number to x , make a git tag, update the package.json version numbers, generate the xpi file and upload it to the remote server, call grunt push, and push all code to the central git repo
 	* example: `grunt release:2.3`
+
+## grunt-settings.json
+This contains all of your settings for running and deploying the addon.  
+The expected format is as follows:
+
+	{
+		"host": "example.com",
+		"username": "jsmith",
+		"path": "/home/jsmith/public_html/newtab/",
+		"privateKey": "../secrets/id_rsa",
+		"passphrase": "hunter2",
+		"base_url": "http://example.com/~jsmith/newtab",
+		"binary": "/Applications/FirefoxuUX.app/Contents/MacOS/firefox-bin"
+	}
+"binary" is firefox binary to run the addon with and is not required.
