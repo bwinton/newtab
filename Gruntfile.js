@@ -27,6 +27,14 @@ module.exports = function(grunt){
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    exec: {
+      git_tag: {
+        cmd: function(vers){
+          return "git tag v"+vers;
+        }
+      },
+    },
+
     shell: {
       kill: {
         command: 'node node_modules/forever/bin/forever stopall',
@@ -81,11 +89,6 @@ module.exports = function(grunt){
       git_push: {
         cmd: "git push origin master --tags"
       },
-      git_tag: {
-        cmd: function(vers){
-          return "git tag v"+vers;
-        }
-      },
       start_cfx: {
         cmd: function(){
           str = "node ./cfx_runner.js run";
@@ -123,7 +126,7 @@ module.exports = function(grunt){
 
   /* load npm tasks */
   grunt.loadNpmTasks('grunt-ssh');
-  // grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bg-shell');
   // grunt.loadNpmTasks('grunt-text-replace');
@@ -246,6 +249,7 @@ module.exports = function(grunt){
   /* updates the version number */
   function update_version(num){
     num = parseFloat(num);
+    num = '0.0.0';
     return writeJSON('./addon/package.json')('version',num) &&
            writeJSON('./package.json')('version',num);
   }

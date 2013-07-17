@@ -34,6 +34,23 @@
             alert(app_data.id + ' failed!');
             return;
           }
+          /* find text truncate size */
+          var max_text_len;
+          switch (app_data.size){
+            case 2:
+              max_text_len = 25;
+              break;
+            case 3:
+              max_text_len = 45;
+              break;
+            case 4:
+              max_text_len = 65;
+              break;
+            case 6:
+              max_text_len = 100;
+              break;
+
+          }
           /* create div for app */
           $("#templates .app_wrapper").render({
             app_title: app_data.id,
@@ -41,7 +58,16 @@
               $.each(app_data.contents, function(i, item){
                 /* render each line */
                 $(container).append(
-                  $("#templates .app_line").render(item)
+                  $("#templates .app_line").render({
+                    line_bigtext: truncate_text(item.title, max_text_len),
+                    line_smalltext: item.subtitle,
+                    line_img: function(){
+                      $(this).attr('src', item.image);
+                    },
+                    line_link: function(){
+                      $(this)..attr('href', item.link);
+                    }
+                  })
                 )
               })
             }
@@ -68,6 +94,17 @@
     /* 
     Helpers
     */
+   
+   function truncate_text(text, chars){
+    var length = text.length;
+    if(length > chars){
+      var start = text.substring(0,chars-6);
+      var middle = '...';
+      var end = text.substring(text.length-3);
+      return "".concat(start, middle, end);
+    }
+    else return(text)
+   }
 
 
     function app_content_loader(app_id, $app_wrapper){

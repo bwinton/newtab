@@ -20,7 +20,7 @@ timeStamp("Starting");
 var base64 = require('sdk/base64');
 var data = require('self').data;
 var file = require('sdk/io/file');
-var Geolocation = require('geolocation').Geolocation;
+// var Geolocation = require('geolocation').Geolocation;
 var getMostRecentBrowserWindow = require('window/utils').getMostRecentBrowserWindow;
 var History = require('./history').History;
 var isFirefox = require('sdk/system/xul-app').is('Firefox');
@@ -44,7 +44,7 @@ timeStamp("Imported");
 /* the location of the html content */
 /* this value is string replaced grunt during
 the deployment process to match the remote location */
-const content_url = 'http://localhost:3456'
+const content_url = 'http://people.mozilla.org/~jmontgomery/newtab'
 
 /* given a worker, creates a function
 which emits messages to the front end */
@@ -54,9 +54,9 @@ var emitter_maker = function(worker){
   }
 };
 
-if (!Geolocation.allowed) {
-  Geolocation.allowed = true;
-}
+// if (!Geolocation.allowed) {
+//   Geolocation.allowed = true;
+// }
 /* set prototype 4 as default */
 simpleprefs.prefs.version = 4;
 
@@ -88,12 +88,12 @@ if (isFirefox) {
     timeStamp("apps_layout Data Emitted");
 
 
-    worker.port.emit('geolocation', {
-      coords: {
-        latitude: Geolocation.coords.latitude,
-        longitude: Geolocation.coords.longitude
-      }
-    });
+    // worker.port.emit('geolocation', {
+    //   coords: {
+    //     latitude: Geolocation.coords.latitude,
+    //     longitude: Geolocation.coords.longitude
+    //   }
+    // });
     timeStamp("Saved Data Emitted");
 
     NewTabUtils.links.populateCache(function () {
@@ -185,23 +185,17 @@ that describes how the newtab apps should be layed out */
       switch(data.type){
         
         case 'initialized':
-          // just testing
-          get_available_apps();
           pageInitted(worker);
-          break;
-        
-        case 'customizer-data':
-          set_layout(data.detail);
           break;
         
         case 'searchChanged':
           Services.search.currentEngine = Services.search.getEngineByName(data.detail.name);
           break;
         
-        case 'page-switch':
-          console.log(data.detail);
-          worker.Page.contentURL = data.detail;
-          break;
+        // case 'page-switch':
+        //   console.log(data.detail);
+        //   worker.Page.contentURL = data.detail;
+        //   break;
         
         case 'telemetry':
           if (data.detail.type === 'sure') {
@@ -211,6 +205,26 @@ that describes how the newtab apps should be layed out */
           } else if (data.detail.type === 'undo') {
             prefs.reset(PREF_TELEMETRY_ENABLED);
           }
+          break;
+      }
+
+    });
+  };
+
+  var configWorkerFunction = function (worker) {
+    timeStamp("In Config Worker Function");
+    start = Date.now();
+    worker.port.on('tpemit', function (data) {
+      timeStamp("tpemit got data!!! " + data.type);
+      switch(data.type){
+        
+        case 'initialized':
+          send_available_apps(worker);
+          break;
+
+
+        case 'customizer-data':
+          set_layout(data.detail);
           break;
       }
 
@@ -234,7 +248,7 @@ that describes how the newtab apps should be layed out */
     include: 'about:newtab-config',
     contentScriptWhen: 'ready',
     contentScriptFile: data.url('content.js'),
-    onAttach: workerFunction
+    onAttach: configWorkerFunction
   });
 
   // Do some Firefox-specific stuff here.
@@ -318,6 +332,12 @@ function get_apps_data(){
     });
   });
   return layout;
+}
+
+function send_available_apps(worker){
+  let apps = get_available_apps();
+  let emit = emitter_maker(worker);
+  emit('available_apps', apps);
 }
 
 /* returns a lits of all available apps for use

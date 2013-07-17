@@ -2,6 +2,8 @@
   const { sandbox, evaluate, load } = require("sdk/loader/sandbox");
   const data = require('self').data;
   const file = require('sdk/io/file');
+  const chrome = require('chrome');
+
   /**
    * requires: an app's id
    * description: will find the app's app.js
@@ -13,7 +15,7 @@
 
     var code = data.url('apps/'+id+'/app.js');
     console.log(code);
-    var scope = sandbox(null, {sandboxPrototype: {console: console, exports: {}}});
+    var scope = sandbox(null, {sandboxPrototype: {chrome:chrome, console:console, require:require, exports: {}}});
  
     var result;
     var success = true;
@@ -22,7 +24,8 @@
       result = evaluate(scope, 'exports.run()');
     }
     catch(e){
-      console.error('error getting app data');
+      console.error('error getting app data from '+id);
+      console.error(e);
       result = [];
       success = false;
     }

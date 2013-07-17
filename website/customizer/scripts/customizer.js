@@ -460,7 +460,7 @@
 
     export_data: function(){
       var data = this.generate_json();
-      alert(data);
+      // alert(data);
       interesting('customizer-data', data);
     },
 
@@ -736,7 +736,15 @@
 
   /* run */
   $(function(){
-    new Customizer(available_apps);
+    window.addEventListener('message', function(event){
+      var data = event.data;
+      if (data.type === 'available_apps') {
+        // console.log(data.data);
+        new Customizer(data.data);    
+      }
+    });
+    
+    interesting('initialized');
   });
 
 })();

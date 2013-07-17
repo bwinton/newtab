@@ -11,14 +11,10 @@ function get_app_display(){
   var arr = [];
   for(var x=0; x< 10; x++){
     arr.push({
-      line_bigtext: "this is text",
-      line_smalltext: "this is the subtext to the line"
-      // line_img: function(){
-      //   $(this).attr('src', img);
-      // },
-      // line_link: function(){
-      //   $(this).attr('href', "http://www.google.com");
-      // }
+      title: "this is text",
+      subtitle: "this is the subtext to the line",
+      image: img,
+      link: "http://www.google.com"
     });
   }
   return arr;
