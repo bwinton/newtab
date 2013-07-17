@@ -44,7 +44,7 @@ timeStamp("Imported");
 /* the location of the html content */
 /* this value is string replaced grunt during
 the deployment process to match the remote location */
-const content_url = 'http://people.mozilla.org/~jmontgomery/newtab'
+const content_url = 'http://localhost:3456'
 
 /* given a worker, creates a function
 which emits messages to the front end */
