@@ -10,6 +10,7 @@ module.exports = function(grunt){
       srcBasePath: "./website/",
       host: settings.host,
       createDirectories: true,
+      directoryPermissions: '0754',
       username: settings.username
     };
     /* handle privateKey ssh or password based ssh */
@@ -129,7 +130,6 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bg-shell');
-  // grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-sed');
 
 
