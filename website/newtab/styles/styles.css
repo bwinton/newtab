@@ -37,7 +37,7 @@ body{
   /*height: calc(100vh - 20px);*/
 /*  new_tab_body_background.png
 new_tab_footer_background.png*/
-	background-image:url('/shared/images/new_tab_body_background.png');
+	background-image:url('../../shared/images/new_tab_body_background.png');
   overflow: hidden;
 }
 
@@ -79,7 +79,7 @@ new_tab_footer_background.png*/
     margin-left: 48px;
     padding: 0px;
     height: 20px;
-    background-image: url("/shared/images/panel-arrowTop.png");
+    background-image: url("../../shared/images/panel-arrowTop.png");
     background-repeat: no-repeat;
     background-position: left top;
     z-index: 9999;
@@ -226,7 +226,7 @@ new_tab_footer_background.png*/
 }
 
 .slider_panel{
-  background-image:url('/shared/images/new_tab_body_background.png');
+  background-image:url('../../shared/images/new_tab_body_background.png');
   /*background-color: green;*/
 
 	text-align: center;
@@ -380,12 +380,12 @@ new_tab_footer_background.png*/
 }
 #prev_button{
 	left: 10px;
-  background-image:url('/shared/images/left-arrow.png');
+  background-image:url('../../shared/images/left-arrow.png');
   
 }
 #next_button{
 	right: 10px;
-  background-image:url('/shared/images/right-arrow.png');
+  background-image:url('../../shared/images/right-arrow.png');
 
 }
 
@@ -394,7 +394,7 @@ new_tab_footer_background.png*/
 /* footer styles */
 
 #footer{
-	background-image:url('/shared/images/new_tab_footer_background.png');
+	background-image:url('../../shared/images/new_tab_footer_background.png');
 	background-repeat: repeat;
 	border-top: solid;
 	border-width: 1px;

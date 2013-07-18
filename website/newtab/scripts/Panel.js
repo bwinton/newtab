@@ -65,11 +65,11 @@
                       $(this).attr('src', item.image);
                     },
                     line_link: function(){
-                      $(this)..attr('href', item.link);
+                      $(this).attr('href', item.link);
                     }
                   })
-                )
-              })
+                );
+              });
             }
           })
           .addClass("app_"+app_data.size)
@@ -79,7 +79,7 @@
 
 
       },
-      
+
       /*
       Secondary Functions
        */

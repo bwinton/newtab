@@ -74,7 +74,7 @@ button.save_data:hover{
 }
 
 .slider_panel{
-	background-image:url('/shared/images/new_tab_body_background.png');
+	background-image:url('../../shared/images/new_tab_body_background.png');
 	position: relative;
 	-moz-user-select: none;
 	user-select: none;
@@ -205,7 +205,7 @@ button.save_data:hover{
 	background-color: blue;
 	position: absolute;
   	bottom: 0px;
-  	background-image:url('/shared/images/new_tab_footer_background.png');
+  	background-image:url('../../shared/images/new_tab_footer_background.png');
 	background-repeat: repeat;
 	border-top: solid;
 	border-width: 1px;
