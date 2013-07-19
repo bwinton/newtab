@@ -35,6 +35,8 @@
             return;
           }
           /* find text truncate size */
+          /* this needs to be made dependent
+          on page width instead */
           var max_text_len;
           switch (app_data.size){
             case 2:
@@ -47,7 +49,7 @@
               max_text_len = 65;
               break;
             case 6:
-              max_text_len = 100;
+              max_text_len = 75;
               break;
 
           }

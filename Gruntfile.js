@@ -1,4 +1,4 @@
-    var terminal = require('child_process').spawn('bash',[],{detached:false});
+var terminal = require('child_process').spawn('bash',[],{detached:false});
 
 module.exports = function(grunt){
 
@@ -19,6 +19,14 @@ module.exports = function(grunt){
       if (path[path.length-1] !== '/') path+='/';
       settings.path = path;
     }
+  })();
+
+  var httpsBase = (function(){
+    var base = settings.base_url;
+    if (base.indexOf('http') === 0){
+      base = 'https'+base.substring(4);
+    }
+    return base;
   })();
 
   var ssh_settings = (function(){
@@ -70,7 +78,7 @@ module.exports = function(grunt){
         options: ssh_settings
       },
       upload_xpi: {
-        files: [ {src: ["./newtab.xpi"] } ],
+        files: [ {src: ["./newtab.xpi", "./newtab.update.rdf"] } ],
         options: ssh_settings
       }
     },
@@ -78,9 +86,10 @@ module.exports = function(grunt){
     sshexec: {
       clean: {
         command: 'rm -rf '+ ssh_settings.path + 'customizer '+
-                  ssh_settings.path + 'newtab '+
+                  ssh_settings.path + 'main '+
                   ssh_settings.path + 'shared '+
                   ssh_settings.path + 'newtab.xpi '+
+                  ssh_settings.path + 'newtab.update.rdf '+
                   ssh_settings.path + 'index.html ',
         options: ssh_settings
       }
@@ -99,10 +108,11 @@ module.exports = function(grunt){
         bg: true
       },
       rm_xpi: {
-        cmd: "rm newtab.xpi"
+        cmd: "rm newtab.xpi newtab.update.rdf"
       },
       mk_xpi: {
-        cmd: "cfx xpi --pkgdir=./addon"
+        // cmd: "cfx xpi --pkgdir=./addon"
+        cmd: "cfx xpi --pkgdir=./addon --update-link="+httpsBase+" --update-url="+httpsBase
       },
       git_push: {
         cmd: "git push origin master --tags"
@@ -178,21 +188,6 @@ module.exports = function(grunt){
       });
     });
     grunt.tasks(['bgShell:start_server', 'bgShell:start_cfx'], {}, function() {});
-  });
-
-  /* updates package.json files and git
-  with new version number and runs export */
-  grunt.registerTask('release', function(version){
-    if(version === undefined){
-      grunt.log.error('no version specified');
-      return false;
-    }
-    else{
-      /* update package.json version */
-      if(!update_version(version)) return false;
-      /* tag git, push to central repo, export */
-      grunt.task.run(['export']); //exec:git_push 'exec:git_tag:'+version
-    }
   });
 
   /* a multitask (kinda) for running the cfx tool */

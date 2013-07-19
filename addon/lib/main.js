@@ -44,7 +44,7 @@ timeStamp("Imported");
 /* the location of the html content */
 /* this value is string replaced grunt during
 the deployment process to match the remote location */
-const content_url = 'http://localhost:3456'
+var content_url = 'http://localhost:3456'
 
 /* given a worker, creates a function
 which emits messages to the front end */
@@ -273,7 +273,7 @@ that describes how the newtab apps should be layed out */
 
   var home_override = function home_override(request, response) {    
     response.contentType = 'text/html';
-    url.readURI(content_url + '/newtab/index.html')
+    url.readURI(content_url + '/main/index.html')
       .then(function success(value) {
         response.end(value);
       }, function failure(reason) {
