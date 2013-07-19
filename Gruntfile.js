@@ -105,7 +105,7 @@ module.exports = function(grunt){
       mk_xpi: {
         // cmd: "cfx xpi --pkgdir=./addon"
         cmd: function(){
-          var cmd = "cfx xpi --pkgdir=./addon;"
+          var cmd = "cfx xpi --pkgdir=./addon";
           var base = settings.base_url;
           if (base.indexOf('https') === 0){
             cmd += " --update-link=" + base + "newtab.xpi --update-url=" + base + "newtab.update.rdf"
