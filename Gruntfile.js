@@ -21,14 +21,6 @@ module.exports = function(grunt){
     }
   })();
 
-  var httpsBase = (function(){
-    var base = settings.base_url;
-    if (base.indexOf('http') === 0){
-      base = 'https'+base.substring(4);
-    }
-    return base;
-  })();
-
   var ssh_settings = (function(){
     var obj = {
       path: settings.path,
@@ -111,7 +103,15 @@ module.exports = function(grunt){
         cmd: "rm newtab.xpi newtab.update.rdf"
       },
       mk_xpi: {
-        cmd: "cfx xpi --pkgdir=./addon --update-link=" + httpsBase + "newtab.xpi --update-url=" + httpsBase + "newtab.update.rdf"
+        // cmd: "cfx xpi --pkgdir=./addon"
+        cmd: function(){
+          var cmd = "cfx xpi --pkgdir=./addon;"
+          var base = settings.base_url;
+          if (base.indexOf('https') === 0){
+            cmd += " --update-link=" + base + "newtab.xpi --update-url=" + base + "newtab.update.rdf"
+          }
+          return cmd;
+        }
       },
       git_push: {
         cmd: "git push origin master --tags"
