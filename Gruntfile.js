@@ -111,8 +111,7 @@ module.exports = function(grunt){
         cmd: "rm newtab.xpi newtab.update.rdf"
       },
       mk_xpi: {
-        // cmd: "cfx xpi --pkgdir=./addon"
-        cmd: "cfx xpi --pkgdir=./addon --update-link="+httpsBase+" --update-url="+httpsBase
+        cmd: "cfx xpi --pkgdir=./addon --update-link=" + httpsBase + "newtab.xpi --update-url=" + httpsBase + "newtab.update.rdf"
       },
       git_push: {
         cmd: "git push origin master --tags"
