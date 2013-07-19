@@ -3,6 +3,23 @@
 module.exports = function(grunt){
 
   var settings = grunt.file.readJSON('grunt-settings.json');
+  
+  /* adds a '/' to the end of base url and path if it doesn't
+  already have one  */
+  (function(){
+    var base = settings.base_url;
+    var path = settings.path;
+
+    if (base !== undefined){
+      if (base[base.length-1] !== '/') base+='/';
+      settings.base_url = base;
+    }
+
+    if (path !== undefined){
+      if (path[path.length-1] !== '/') path+='/';
+      settings.path = path;
+    }
+  })();
 
   var ssh_settings = (function(){
     var obj = {
