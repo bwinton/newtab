@@ -117,10 +117,14 @@ module.exports = function(grunt){
         cmd: "git push origin master --tags"
       },
       start_cfx: {
-        cmd: function(){
-          str = "node ./cfx_runner.js run";
-          if(settings.binary)
-            str += " --binary="+settings.binary;
+        cmd: function () {
+          var str = "node ./cfx_runner.js run";
+          if (settings.binary) {
+            str += " --binary=" + settings.binary;
+          }
+          if (settings.profile) {
+            str += " --profiledir=profile." + settings.profile;
+          }
           return str;
         },
         bg: true
