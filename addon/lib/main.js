@@ -3,11 +3,11 @@
 * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true,
-strict:true, undef:true, curly:true, browser:true, es5:true,
+strict:true, undef:true, curly:true, browser:true, moz:true,
 indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
-globalstrict:true, nomen:false, newcap:true*/
+globalstrict:true, nomen:false, newcap:true */
 
-/*global self:true, addon:true, protocol:true, NewTabUtils:true, Services:true */
+/*global Services:false, NewTabUtils:false, PageThumbsStorage:false */
 
 "use strict";
 
@@ -18,25 +18,26 @@ var timeStamp = function timeStamp(message) {
 timeStamp("Starting");
 
 var base64 = require('sdk/base64');
-var data = require('self').data;
 var file = require('sdk/io/file');
 // var Geolocation = require('geolocation').Geolocation;
-var getMostRecentBrowserWindow = require('window/utils').getMostRecentBrowserWindow;
+var getMostRecentBrowserWindow = require('sdk/window/utils').getMostRecentBrowserWindow;
 var History = require('./history').History;
 var isFirefox = require('sdk/system/xul-app').is('Firefox');
-var prefs = require('preferences-service');
+var prefs = require('sdk/preferences/service');
 var SyncTabs = require('./synctabs').SyncTabs;
-var simpleprefs = require('simple-prefs');
-var storage = require('simple-storage').storage;
+var simpleprefs = require('sdk/simple-prefs');
+var storage = require('sdk/simple-storage').storage;
 var unload = require('sdk/system/unload');
 var url = require('sdk/net/url');
-var self = require('self');
-var system = require('system');
+var self = require('sdk/self');
+// I think we don't need data…
+var data = self.data;
+var system = require('sdk/system');
 var query_app = require('./apps_loader').query_app;
 
 const PREF_TELEMETRY_ENABLED = "toolkit.telemetry.enabled";
-const {Cu} = require('chrome');
-Cu.import("resource://gre/modules/Services.jsm", this);
+const {Cc, Ci, Cu} = require('chrome');
+Cu.import('resource://gre/modules/Services.jsm', this);
 Cu.import('resource://gre/modules/NewTabUtils.jsm', this);
 Cu.import('resource://gre/modules/PageThumbs.jsm', this);
 timeStamp("Imported");
@@ -44,15 +45,67 @@ timeStamp("Imported");
 /* the location of the html content */
 /* this value is string replaced grunt during
 the deployment process to match the remote location */
-var content_url = 'http://localhost:3456'
+var content_url = 'http://localhost:3456';
 
 /* given a worker, creates a function
 which emits messages to the front end */
-var emitter_maker = function(worker){
+var emitter_maker = function (worker) {
   return function (type, data) {
-    worker.port.emit('emit', {type:type, data:data});
-  }
+    worker.port.emit('emit', {'type': type, 'data': data});
+  };
 };
+
+/*
+HELPERS
+ */
+/* gets the apps layout data from storage
+   then gets the data for each app anc combines
+   the the two to be sent to the front end */
+function get_apps_data() {
+  var layout = storage.apps_layout || [];
+  layout.forEach(function (page) {
+    page.forEach(function (app) {
+      console.log(JSON.stringify(app));
+      [app.valid, app.contents] = query_app(app.id);
+    });
+  });
+  return layout;
+}
+
+/* gets the directory of the addon */
+function pwd() {
+  var currDir = Cc["@mozilla.org/file/directory_service;1"]
+                .getService(Ci.nsIDirectoryServiceProvider)
+                .getFile("CurWorkD", {}).path;
+  return currDir + '/addon';
+}
+
+/* returns a lits of all available apps for use
+in the customizer */
+function get_available_apps() {
+  let apps = [];
+  let apps_dir = pwd() + '/data/apps';
+  file.list(apps_dir).forEach(function (app_id) {
+    let json_path = file.join(apps_dir, app_id, 'settings.json');
+    let app = JSON.parse(file.read(json_path));
+    apps.push(app);
+  });
+  return apps;
+}
+
+function send_available_apps(worker) {
+  let apps = get_available_apps();
+  let emit = emitter_maker(worker);
+  console.log("Emitting " + apps.length + " app(s)");
+  emit('available_apps', apps);
+}
+
+/* determines if this is being run with
+cfx run */
+// function cfx_ran(){
+//   return system.pathFor("ProfD").indexOf('.mozrunner') > 0;
+// }
+
 
 // if (!Geolocation.allowed) {
 //   Geolocation.allowed = true;
@@ -63,7 +116,7 @@ simpleprefs.prefs.version = 4;
 if (isFirefox) {
 
   // Import the page-mod API
-  var pageMod = require('page-mod');
+  var pageMod = require('sdk/page-mod');
 
   var pageInitted = function pageInitted(worker) {
     var emit = emitter_maker(worker);
@@ -164,48 +217,48 @@ if (isFirefox) {
   };
 
   /* this takes in a JSON object representing the layout
-of the apps on the newtab page and stores it as a js
-object using simplestorage */
-  var set_layout = function(json){
+     of the apps on the newtab page and stores it as a js
+     object using simplestorage */
+  var set_layout = function (json) {
     var data = JSON.parse(json);
     storage.apps_layout = data;
-  }
+  };
 
   /* this gets the data that is stored in simplestorage
-that describes how the newtab apps should be layed out */
-  var get_layout = function(){
+     that describes how the newtab apps should be layed out */
+  var get_layout = function () {
     return storage.apps_layout;
-  }
+  };
 
   var workerFunction = function (worker) {
     timeStamp("In Worker Function");
     start = Date.now();
     worker.port.on('tpemit', function (data) {
       timeStamp("tpemit got data!!! " + data.type);
-      switch(data.type){
+      switch (data.type) {
         
-        case 'initialized':
-          pageInitted(worker);
-          break;
+      case 'initialized':
+        pageInitted(worker);
+        break;
         
-        case 'searchChanged':
-          Services.search.currentEngine = Services.search.getEngineByName(data.detail.name);
-          break;
+      case 'searchChanged':
+        Services.search.currentEngine = Services.search.getEngineByName(data.detail.name);
+        break;
         
         // case 'page-switch':
         //   console.log(data.detail);
         //   worker.Page.contentURL = data.detail;
         //   break;
         
-        case 'telemetry':
-          if (data.detail.type === 'sure') {
-            prefs.set(PREF_TELEMETRY_ENABLED, true);
-          } else if (data.detail.type === 'no') {
-            prefs.set(PREF_TELEMETRY_ENABLED, false);
-          } else if (data.detail.type === 'undo') {
-            prefs.reset(PREF_TELEMETRY_ENABLED);
-          }
-          break;
+      case 'telemetry':
+        if (data.detail.type === 'sure') {
+          prefs.set(PREF_TELEMETRY_ENABLED, true);
+        } else if (data.detail.type === 'no') {
+          prefs.set(PREF_TELEMETRY_ENABLED, false);
+        } else if (data.detail.type === 'undo') {
+          prefs.reset(PREF_TELEMETRY_ENABLED);
+        }
+        break;
       }
 
     });
@@ -216,16 +269,16 @@ that describes how the newtab apps should be layed out */
     start = Date.now();
     worker.port.on('tpemit', function (data) {
       timeStamp("tpemit got data!!! " + data.type);
-      switch(data.type){
+      switch (data.type) {
         
-        case 'initialized':
-          send_available_apps(worker);
-          break;
+      case 'initialized':
+        send_available_apps(worker);
+        break;
 
 
-        case 'customizer-data':
-          set_layout(data.detail);
-          break;
+      case 'customizer-data':
+        set_layout(data.detail);
+        break;
       }
 
     });
@@ -271,7 +324,7 @@ that describes how the newtab apps should be layed out */
     setAndResetPref('layout.css.flexbox.enabled', true);
   };
 
-  var home_override = function home_override(request, response) {    
+  var home_override = function home_override(request, response) {
     response.contentType = 'text/html';
     url.readURI(content_url + '/main/index.html')
       .then(function success(value) {
@@ -316,57 +369,6 @@ that describes how the newtab apps should be layed out */
     unregister: function fennec_newtab_unregister() {}
   };
 }
-
-/*
-HELPERS
- */
-/* gets the apps layout data from storage
-then gets the data for each app anc combines
-the the two to be sent to the front end */
-function get_apps_data(){
-  var layout = storage.apps_layout || [];
-  layout.forEach(function(page){
-    page.forEach(function(app){
-      console.log(JSON.stringify(app));
-      [app.valid, app.contents] = query_app(app.id);
-    });
-  });
-  return layout;
-}
-
-function send_available_apps(worker){
-  let apps = get_available_apps();
-  let emit = emitter_maker(worker);
-  emit('available_apps', apps);
-}
-
-/* returns a lits of all available apps for use
-in the customizer */
-function get_available_apps(){
-  let apps = [];
-  let apps_dir = pwd()+'/data/apps';
-  file.list(apps_dir).forEach(function(app_id){
-    let json_path = file.join(apps_dir, app_id, 'settings.json');
-    let app = JSON.parse(file.read(json_path));
-    apps.push(app);  
-  });
-  return apps;
-}
-
-/* gets the directory of the addon */
-function pwd(){
-  var {Cc, Ci} = require("chrome");
-  var currDir = Cc["@mozilla.org/file/directory_service;1"]
-                .getService(Ci.nsIDirectoryServiceProvider)
-                .getFile("CurWorkD", {}).path;
-  return currDir+'/addon'  
-}
-/* determines if this is being run with
-cfx run */
-// function cfx_ran(){
-//   return system.pathFor("ProfD").indexOf('.mozrunner') > 0;
-// }
-
 
 exports.main = function (options, callbacks) {
   init();

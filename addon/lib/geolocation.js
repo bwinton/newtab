@@ -150,7 +150,7 @@ const Geolocation = EventEmitter.compose({
   constructor : function GeolocationModule() {
 
     if (GEO_API_V1) {
-      var PrefSvc = require("preferences-service");
+      var PrefSvc = require("sdk/preferences/service");
       for (var [p,v] in Iterator({ "geo.wifi.protocol" : 0, "geo.wifi.uri" : "https://www.google.com/loc/json" })) {
         if (!PrefSvc.isSet(p)) {
           PrefSvc.set(p, v);

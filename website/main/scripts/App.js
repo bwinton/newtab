@@ -27,7 +27,6 @@
 
         /* emit init event */
         interesting('initialized');
-
     };
 
 

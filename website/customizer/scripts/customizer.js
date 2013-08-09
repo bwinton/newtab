@@ -739,7 +739,6 @@
     window.addEventListener('message', function(event){
       var data = event.data;
       if (data.type === 'available_apps') {
-        // console.log(data.data);
         new Customizer(data.data);    
       }
     });
