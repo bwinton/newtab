@@ -121,30 +121,30 @@ if (isFirefox) {
   var pageInitted = function pageInitted(worker) {
     var emit = emitter_maker(worker);
     if (storage.links) {
-      worker.port.emit('tabs', storage.links);
+      emit('tabs', storage.links);
     }
     if (storage.sites) {
-      worker.port.emit('sites', storage.sites);
+      emit('sites', storage.sites);
     }
     if (storage.readinglist) {
-      worker.port.emit('readinglist', storage.readinglist);
+      emit('readinglist', storage.readinglist);
     }
     if (storage.bookmarklist) {
-      worker.port.emit('bookmarklist', storage.bookmarklist);
+      emit('bookmarklist', storage.bookmarklist);
     }
     if (storage.historylist) {
-      worker.port.emit('historylist', storage.historylist);
+      emit('historylist', storage.historylist);
     }
     /* emit newtab layout */
-    emit('apps', get_apps_data())
+    emit('apps', get_apps_data());
     // emit("apps", storage.apps_layout || {});
     timeStamp("apps_layout Data Emitted");
 
 
-    // worker.port.emit('geolocation', {
-    //   coords: {
-    //     latitude: Geolocation.coords.latitude,
-    //     longitude: Geolocation.coords.longitude
+    // emit('geolocation', {
+    //   'coords': {
+    //     'latitude': Geolocation.coords.latitude,
+    //     'longitude': Geolocation.coords.longitude
     //   }
     // });
     timeStamp("Saved Data Emitted");
@@ -161,7 +161,7 @@ if (isFirefox) {
         }
       }
 
-      worker.port.emit('sites', sites);
+      emit('sites', sites);
       storage.sites = sites;
       timeStamp("Sites Emitted");
     });
@@ -183,24 +183,25 @@ if (isFirefox) {
       });
     };
 
-    worker.port.emit('search', makeEngine(Services.search.defaultEngine),
-      Services.search.getVisibleEngines().map(function (engine) {
+    emit('search', {
+      'defaultEngine': makeEngine(Services.search.defaultEngine),
+      'engines': Services.search.getVisibleEngines().map(function (engine) {
         return makeEngine(engine);
       })
-    );
+    });
     timeStamp("Search Emitted");
 
     History.get(function (data) {
-      worker.port.emit('historylist', data);
+      emit('historylist', data);
       timeStamp("History Emitted");
     });
 
     SyncTabs.init(function (type, links) {
       if (type === 'tabs') {
-        worker.port.emit('tabs', links);
+        emit('tabs', links);
         storage.links = links;
       } else if (type === 'bookmarks') {
-        worker.port.emit('bookmarklist', links);
+        emit('bookmarklist', links);
         storage.bookmarklist = links;
 
         var readinglist = [];
@@ -209,7 +210,7 @@ if (isFirefox) {
             readinglist.push(record);
           }
         }
-        worker.port.emit('readinglist', readinglist);
+        emit('readinglist', readinglist);
         storage.readinglist = readinglist;
       }
       timeStamp("SyncTabs Emitted " + type);

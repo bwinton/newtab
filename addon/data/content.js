@@ -19,34 +19,6 @@ document.addEventListener('tpemit', function (e) {
 
 /* plugin --> document */
 self.port.on('emit', function (e) {
-  document.defaultView.postMessage({'type': e.type, 'data': e.data}, '*');
-});
-
-
-self.port.on('sites', function (sites) {
-  document.defaultView.postMessage({'type': 'sites', 'sites': sites}, '*');
-});
-
-self.port.on('tabs', function (tabs) {
-  document.defaultView.postMessage({'type': 'tabs', 'tabs': tabs}, '*');
-});
-
-self.port.on('readinglist', function (list) {
-  document.defaultView.postMessage({'type': 'readinglist', 'list': list}, '*');
-});
-
-self.port.on('bookmarklist', function (list) {
-  document.defaultView.postMessage({'type': 'bookmarklist', 'list': list}, '*');
-});
-
-self.port.on('historylist', function (list) {
-  document.defaultView.postMessage({'type': 'historylist', 'list': list}, '*');
-});
-
-self.port.on('geolocation', function (position) {
-  document.defaultView.postMessage({'type': 'geolocation', 'position': position}, '*');
-});
-
-self.port.on('search', function (defaultEngine, engines) {
-  document.defaultView.postMessage({'type': 'search', 'defaultEngine': defaultEngine, 'engines': engines}, '*');
+  document.defaultView.postMessage(e, '*');
+  return true;
 });
