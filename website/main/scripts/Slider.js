@@ -1,12 +1,24 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this file,
+* You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true,
+strict:true, undef:true, curly:true, browser:true, moz:true,
+indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
+globalstrict:true, nomen:false, newcap:true */
+
+/*global interesting:false, Panel:false */
+
+"use strict";
+
 /**
  * The object that controls the sliding frames
  */
 
-
-;(function(){
+;(function () {
 
   /* define the object */
-  var Slider = function(NewTab, apps_data){
+  var Slider = function (NewTab, apps_data) {
 
     /*
     DATA
@@ -34,37 +46,37 @@
     */
 
     /* window resize */
-    this.$els.window.resize(function(e) {
+    this.$els.window.resize(function (e) {
       this.remove_transition();
       this.fix_size();
     }.bind(this));
 
     /* click prev button */
-    this.$els.prev_button.click(function() {
+    this.$els.prev_button.click(function () {
       this.prev();
     }.bind(this));
 
     /* click next button */
-    this.$els.next_button.click(function() {
+    this.$els.next_button.click(function () {
       this.next();
     }.bind(this));
 
-    this.$els.window.on("keydown", function(e){
+    this.$els.window.on("keydown", function (e) {
       var keyCode = e.keyCode;
       /* only slide if not in search box */
-      switch(keyCode){
-        case 39: /* right */
-          if($(e.target).attr("id") !== "searchText"){
-            this.next();
-            e.preventDefault();
-          }
-          break;
-        case 37: /* left */
-          if($(e.target).attr("id") !== "searchText"){
-            this.prev();
-            e.preventDefault();
-          }
-          break;
+      switch (keyCode) {
+      case 39: /* right */
+        if ($(e.target).attr("id") !== "searchText") {
+          this.next();
+          e.preventDefault();
+        }
+        break;
+      case 37: /* left */
+        if ($(e.target).attr("id") !== "searchText") {
+          this.prev();
+          e.preventDefault();
+        }
+        break;
       }
     }.bind(this));
 
@@ -77,7 +89,7 @@
     Main functions
      */
 
-    init: function(){
+    init: function () {
       /* hide prev button */
       $("#prev_button").hide();
 
@@ -94,7 +106,9 @@
       this.create_panels(this.data.apps_data);
 
       /* hide next button if needed */
-      if(this.submods.panels.length < 2) $("#next_button").hide();
+      if (this.submods.panels.length < 2) {
+        $("#next_button").hide();
+      }
 
       /* init sizes */
       this.fix_size();
@@ -103,8 +117,8 @@
 
     /* create panel objects for each panel
     on the page */
-    create_panels: function(){
-      $.each(this.data.apps_data, function(i, panel_data){
+    create_panels: function () {
+      $.each(this.data.apps_data, function (i, panel_data) {
         /* creae div */
         var $panel_div = $("<div>").addClass('slider_panel')
         .append(
@@ -129,8 +143,10 @@
      */
 
     /* go to prev panel */
-    prev: function(){
-      if(this.data.current_panel<=0) return;
+    prev: function () {
+      if (this.data.current_panel <= 0) {
+        return;
+      }
       this.data.current_panel--;
 
       this.add_transition();
@@ -138,13 +154,17 @@
 
       /* manage buttons */
       this.$els.next_button.show();
-      if(this.data.current_panel === 0) this.$els.prev_button.hide();
+      if (this.data.current_panel === 0) {
+        this.$els.prev_button.hide();
+      }
     },
 
     /* go to next panel */
-    next: function(){
+    next: function () {
       // alert("next");
-      if(this.data.current_panel >= this.submods.panels.length - 1) return;
+      if (this.data.current_panel >= this.submods.panels.length - 1) {
+        return;
+      }
       this.data.current_panel++;
 
       this.add_transition();
@@ -152,21 +172,23 @@
 
       /* manage buttons */
       this.$els.prev_button.show();
-      if(this.data.current_panel === this.submods.panels.length - 1) this.$els.next_button.hide();
+      if (this.data.current_panel === this.submods.panels.length - 1) {
+        this.$els.next_button.hide();
+      }
     },
 
     /* looks at the current shift amount and updates
     the css to reflect this */
-    do_shift: function(is_resize){
+    do_shift: function (is_resize) {
       this.data.current_shift = this.data.current_panel * $(window).innerWidth();
       var transTime;
       this.$els.slider_div.css({
-        "transform": "translate3d(-"+this.data.current_shift+"px,0,0)"
+        "transform": "translate3d(-" + this.data.current_shift + "px,0,0)"
       });
     },
 
     // todo: delete this
-    fix_size: function(){
+    fix_size: function () {
       /* fix width for each panel */
       var width = $(window).innerWidth();
       this.$els.panel_divs.css("width", width);
@@ -180,20 +202,20 @@
     },
 
     /* removes the panel slide transition */
-    remove_transition: function(){
+    remove_transition: function () {
       // if(this.data.transition_on === false) return;
 
       this.data.transition_on = false;
-      this.$els.slider_div.css("transition","");
+      this.$els.slider_div.css("transition", "");
 
     },
 
     /* adds the panel slide transition */
-    add_transition: function(){
+    add_transition: function () {
       // if(this.data.transition_on === true) return;
 
       this.data.transition_on = true;
-      this.$els.slider_div.css("transition","transform 250ms ease-in-out");
+      this.$els.slider_div.css("transition", "transform 250ms ease-in-out");
     }
 
   };
@@ -202,16 +224,20 @@
   Helpers
    */
 
-  function move_container($c1, $c2){
+  function move_container($c1, $c2) {
     /* make sure theres a target */
-    if(!$c2) return;
+    if (!$c2) {
+      return;
+    }
 
     /* if target is after source */
 
-    if($c1.index() > $c2.index())
+    if ($c1.index() > $c2.index()) {
       $c2.before($c1.clone(true, true));
-    else
+    }
+    else {
       $c2.after($c1.clone(true, true));
+    }
 
     $c1.remove();
   }
