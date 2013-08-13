@@ -135,6 +135,8 @@ module.exports = function (grunt) {
           if (settings.profile) {
             str += " --profiledir=profile." + settings.profile;
           }
+          // Use our Addon-SDK in debug mode, so that we can pick up logging statements.
+          str += " --overload-modules";
           return str;
         },
         bg: true
