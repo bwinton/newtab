@@ -195,11 +195,11 @@ module.exports = function (grunt) {
   /* runs deploy task and exports the xpi file and uploads it */
   grunt.registerTask('export', ['sshexec:clean', 'sed:deploy', 'bgShell:mk_xpi', 'sftp:upload_xpi', 'sftp:push', 'sed:reset']);
 
-  grunt.registerTask('version', function () {
+  grunt.registerTask('version', 'Display the version of the add-on.', function () {
     grunt.log.writeln('version: ' + get_version());
   });
 
-  grunt.registerTask('run', function () {
+  grunt.registerTask('run', 'Start the server and a browser with the add-on installed', function () {
     process.on('SIGINT', function () {
       grunt.tasks(['shell'], {}, function () {
       });
@@ -208,7 +208,7 @@ module.exports = function (grunt) {
   });
 
   /* a multitask (kinda) for running the cfx tool */
-  grunt.registerTask('cfx', function () {
+  grunt.registerTask('cfx', 'Run the cfx tool in the proper directory.', function () {
     if (!arguments.length) {
       grunt.log.error('must specify arguments like "grunt cfx:run" for example');
       return false;
@@ -218,7 +218,7 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('release', function (type) {
+  grunt.registerTask('release', 'Update the version number and release the add-on.', function (type) {
 
     /* get the current version (always stored as a string) */
     var version = parseFloat(get_version());
