@@ -7,8 +7,6 @@ strict:true, undef:true, curly:true, browser:true, moz:true,
 indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
 globalstrict:true, nomen:false, newcap:true */
 
-/*global Services:false, NewTabUtils:false, PageThumbsStorage:false */
-
 "use strict";
 
 var start = Date.now();
@@ -17,7 +15,6 @@ var timeStamp = function timeStamp(message) {
 };
 timeStamp("Starting");
 
-var base64 = require('sdk/base64');
 var file = require('sdk/io/file');
 // var Geolocation = require('geolocation').Geolocation;
 var getMostRecentBrowserWindow = require('sdk/window/utils').getMostRecentBrowserWindow;
@@ -37,9 +34,8 @@ var query_app = require('./apps_loader').query_app;
 
 const PREF_TELEMETRY_ENABLED = "toolkit.telemetry.enabled";
 const {Cc, Ci, Cu} = require('chrome');
-Cu.import('resource://gre/modules/Services.jsm', this);
-Cu.import('resource://gre/modules/NewTabUtils.jsm', this);
-Cu.import('resource://gre/modules/PageThumbs.jsm', this);
+var {Services} = Cu.import('resource://gre/modules/Services.jsm');
+
 timeStamp("Imported");
 
 /* the location of the html content */
@@ -115,10 +111,12 @@ simpleprefs.prefs.version = 4;
 
 if (isFirefox) {
 
+  timeStamp("isFirefox");
   // Import the page-mod API
   var pageMod = require('sdk/page-mod');
 
   var pageInitted = function pageInitted(worker) {
+    timeStamp("Got Page Initted!");
     var emit = emitter_maker(worker);
     if (storage.links) {
       emit('tabs', storage.links);
@@ -149,23 +147,6 @@ if (isFirefox) {
     // });
     timeStamp("Saved Data Emitted");
 
-    NewTabUtils.links.populateCache(function () {
-      var sites = NewTabUtils.links.getLinks();
-      // We're only showing 9 tabs…
-      sites.length = 9;
-      for each (let site in sites) {
-        var path = PageThumbsStorage.getFilePathForURL(site.url);
-        if (file.exists(path)) {
-          var contents = 'data:image/png;base64,' + base64.encode(file.read(path, 'b'));
-          site.img = contents;
-        }
-      }
-
-      emit('sites', sites);
-      storage.sites = sites;
-      timeStamp("Sites Emitted");
-    });
-
     var makeEngine = function makeEngine(engine) {
       var getEngineImage = function getEngineImage(name) {
         return name.replace(/([a-zA-Z]*).*/, function (match, name) {
@@ -183,6 +164,7 @@ if (isFirefox) {
       });
     };
 
+    console.log(Services);
     emit('search', {
       'defaultEngine': makeEngine(Services.search.defaultEngine),
       'engines': Services.search.getVisibleEngines().map(function (engine) {
@@ -221,6 +203,7 @@ if (isFirefox) {
      of the apps on the newtab page and stores it as a js
      object using simplestorage */
   var set_layout = function (json) {
+    timeStamp("Setting layout!!!");
     var data = JSON.parse(json);
     storage.apps_layout = data;
   };
@@ -228,6 +211,7 @@ if (isFirefox) {
   /* this gets the data that is stored in simplestorage
      that describes how the newtab apps should be layed out */
   var get_layout = function () {
+    timeStamp("Getting layout!!!");
     return storage.apps_layout;
   };
 
@@ -289,18 +273,21 @@ if (isFirefox) {
   pageMod.PageMod({
     include: 'about:home',
     contentScriptWhen: 'ready',
+    attachTo: ["top", "existing"],
     contentScriptFile: data.url('content.js'),
     onAttach: workerFunction
   });
   pageMod.PageMod({
     include: 'about:newtab',
     contentScriptWhen: 'ready',
+    attachTo: ["top", "existing"],
     contentScriptFile: data.url('content.js'),
     onAttach: workerFunction
   });
   pageMod.PageMod({
     include: 'about:newtab-config',
     contentScriptWhen: 'ready',
+    attachTo: ["top", "existing"],
     contentScriptFile: data.url('content.js'),
     onAttach: configWorkerFunction
   });
