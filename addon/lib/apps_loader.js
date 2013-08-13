@@ -11,7 +11,8 @@ globalstrict:true, nomen:false, newcap:true */
 
 "use strict";
 
-const { sandbox, evaluate, load } = require("sdk/loader/sandbox");
+const { sandbox, evaluate, load } = require('sdk/loader/sandbox');
+const base64 = require('sdk/base64');
 const data = require('sdk/self').data;
 const defer = require('sdk/core/promise').defer;
 const file = require('sdk/io/file');
@@ -29,7 +30,7 @@ function query_app(id) {
   var code = data.url('apps/' + id + '/app.js');
   console.log(code);
   var scope = sandbox(null, {sandboxPrototype:
-    {chrome: chrome, console: console, defer: defer, require: require, exports: {}}
+    {chrome: chrome, console: console, defer: defer, file: file, base64: base64, exports: {}}
   });
 
   var result;
