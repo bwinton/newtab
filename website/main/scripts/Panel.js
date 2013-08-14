@@ -41,8 +41,6 @@ globalstrict:true, nomen:false, newcap:true */
      */
     launch_apps: function () {
       $.each(this.data.apps, function (i, app_data) {
-        console.log('app data');
-        console.log(app_data);
         if (!app_data.valid) {
           alert(app_data.id + ' failed!');
           return;
@@ -70,6 +68,9 @@ globalstrict:true, nomen:false, newcap:true */
           app_title: app_data.id,
           app_container: function (container) {
             $.each(app_data.contents, function (i, item) {
+              if (item === null) {
+                return;
+              }
               /* render each line */
               $(container).append(
                 $("#templates .app_line").render({
