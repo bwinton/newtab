@@ -11,10 +11,10 @@ globalstrict:true, nomen:false, newcap:true */
 
 "use strict";
 
-const { sandbox, evaluate, load } = require('sdk/loader/sandbox');
+const {evaluate, load, sandbox} = require('sdk/loader/sandbox');
 const base64 = require('sdk/base64');
 const data = require('sdk/self').data;
-const defer = require('sdk/core/promise').defer;
+const {defer, resolve} = require('sdk/core/promise');
 const file = require('sdk/io/file');
 const chrome = require('chrome');
 
@@ -25,10 +25,7 @@ const chrome = require('chrome');
  * of items the app wants to display
  */
 function query_app(id) {
-  console.log('query: ' + id);
-
   var code = data.url('apps/' + id + '/app.js');
-  console.log(code);
   var scope = sandbox(null, {sandboxPrototype:
     {chrome: chrome, console: console, defer: defer, file: file, base64: base64, exports: {}}
   });
@@ -38,6 +35,9 @@ function query_app(id) {
   try {
     load(scope, code);
     result = evaluate(scope, 'exports.run()');
+    if (!result.then) {
+      result = resolve(result);
+    }
   }
   catch (e) {
     console.error('error getting app data from ' + id);

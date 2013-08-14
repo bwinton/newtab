@@ -15,6 +15,7 @@ var timeStamp = function timeStamp(message) {
 };
 timeStamp("Starting");
 
+const {all, defer, resolve} = require('sdk/core/promise');
 var file = require('sdk/io/file');
 // var Geolocation = require('geolocation').Geolocation;
 var getMostRecentBrowserWindow = require('sdk/window/utils').getMostRecentBrowserWindow;
@@ -58,14 +59,22 @@ HELPERS
    then gets the data for each app anc combines
    the the two to be sent to the front end */
 function get_apps_data() {
+  var deferred = defer();
+  var promises = [];
   var layout = storage.apps_layout || [];
   layout.forEach(function (page) {
     page.forEach(function (app) {
-      console.log(JSON.stringify(app));
       [app.valid, app.contents] = query_app(app.id);
+      promises.push(app.contents);
+      app.contents.then(function (result) {
+        app.contents = result;
+      });
     });
   });
-  return layout;
+  all(promises).then(function (result) {
+    deferred.resolve(layout);
+  });
+  return deferred.promise;
 }
 
 /* gets the directory of the addon */
@@ -92,7 +101,6 @@ function get_available_apps() {
 function send_available_apps(worker) {
   let apps = get_available_apps();
   let emit = emitter_maker(worker);
-  console.log("Emitting " + apps.length + " app(s)");
   emit('available_apps', apps);
 }
 
@@ -134,9 +142,11 @@ if (isFirefox) {
       emit('historylist', storage.historylist);
     }
     /* emit newtab layout */
-    emit('apps', get_apps_data());
-    // emit("apps", storage.apps_layout || {});
-    timeStamp("apps_layout Data Emitted");
+    var apps_data = get_apps_data();
+    apps_data.then(function (result) {
+      emit('apps', result);
+      timeStamp("apps_layout Data Emitted");
+    });
 
 
     // emit('geolocation', {
@@ -164,7 +174,6 @@ if (isFirefox) {
       });
     };
 
-    console.log(Services);
     emit('search', {
       'defaultEngine': makeEngine(Services.search.defaultEngine),
       'engines': Services.search.getVisibleEngines().map(function (engine) {

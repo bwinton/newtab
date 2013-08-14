@@ -7,7 +7,7 @@ strict:true, undef:true, curly:true, browser:true, moz:true,
 indent:2, maxerr:50, devel:true, node:true, boss:true, white:true,
 globalstrict:true, nomen:false, newcap:true */
 
-/*global chrome:true */
+/*global chrome:false, file:false, base64:false, defer:false */
 
 "use strict";
 const {Cu, Cc, Ci} = chrome;
@@ -17,7 +17,7 @@ var {PageThumbsStorage} = Cu.import('resource://gre/modules/PageThumbs.jsm');
 
 /* queries the browser's history */
 function get() {
-  var sites = [];
+  var deferred = defer();
 
   NewTabUtils.links.populateCache(function () {
     var sites = NewTabUtils.links.getLinks();
@@ -30,10 +30,10 @@ function get() {
         site.img = contents;
       }
     }
-
+    deferred.resolve(sites);
   });
 
-  return sites;
+  return deferred.promise;
 }
 
 function run() {
