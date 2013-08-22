@@ -5,3 +5,132 @@
 	/*padding: 20px;*/
 	/*background-color: red;*/
 }
+
+.app_grid {
+}
+
+.app_grid .app_title {
+  position: absolute;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  padding: 0 8px;
+  line-height: 24px;
+  font: message-box;
+  background-color: rgba(248, 249, 251, 0.95);
+  color: rgb(31, 54, 76);
+}
+
+.app_row {
+  margin: 2vw 0;
+  height: 20vw;
+}
+
+.app_cell {
+  position: relative;
+  display: inline-block;
+  height: 18vw;
+  width: calc(30% - 20px);
+  vertical-align: bottom;
+
+  -moz-margin-end: 20px;
+  background-color: rgba(255,255,255,.2);
+  border: 1px solid;
+  border-color: rgba(8,22,37,.12) rgba(8,22,37,.14) rgba(8,22,37,.16);
+  border-radius: 1px;
+  transition: border-color 100ms ease-out;
+}
+
+.app_cell:hover {
+  box-shadow: 0px 0px 10px rgba(8, 22, 37, 0.3);
+}
+
+.app_cell:last-child {
+  -moz-margin-end: 0;
+}
+
+.app_site {
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.app_link {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.app_thumbnail {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.app_title {
+}
+
+.app_control.app_control_pin {
+}
+
+.app_control.app_control_block {
+
+}
+
+
+
+/* CONTROLS */
+.app_control {
+  width: 24px;
+  height: 24px;
+  padding: 1px 2px 3px;
+  border: none;
+  background: transparent url(chrome://browser/skin/newtab/controls.png);
+}
+
+@media (min-resolution: 2dppx) {
+  .app_control {
+    background-image: url(chrome://browser/skin/newtab/controls@2x.png);
+    background-size: 248px;
+  }
+}
+
+.app_control_pin:hover {
+  background-position: -24px 0;
+}
+
+.app_control_pin:active {
+  background-position: -48px 0;
+}
+
+.app_control_pin[pinned] {
+  background-position: -72px 0;
+}
+
+.app_control_pin[pinned]:hover {
+  background-position: -96px 0;
+}
+
+.app_control_pin[pinned]:active {
+  background-position: -120px 0;
+}
+
+.app_control_block {
+  background-position: -144px 0;
+}
+
+.app_control_block:hover {
+  background-position: -168px 0;
+}
+
+.app_control_block:active {
+  background-position: -192px 0;
+}

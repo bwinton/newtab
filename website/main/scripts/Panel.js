@@ -63,32 +63,76 @@ globalstrict:true, nomen:false, newcap:true */
           max_text_len = 75;
           break;
         }
-        /* create div for app */
-        $("#templates .app_wrapper").render({
-          app_title: app_data.id,
-          app_container: function (container) {
-            $.each(app_data.contents, function (i, item) {
-              if (item === null) {
-                return;
-              }
-              /* render each line */
-              $(container).append(
-                $("#templates .app_line").render({
-                  line_bigtext: truncate_text(item.title, max_text_len),
-                  line_smalltext: item.subtitle,
-                  line_img: function () {
-                    $(this).attr('src', item.image);
+        var $el;
+        if (app_data.id === 'tiles') {
+          var $row = $("#templates .app_row").render({});
+          var emptyItem = {
+            title: "",
+            url: "",
+            img: ""
+          };
+
+          $el = $("#templates .app_grid").render({
+            app_container: function (container) {
+              $.each(app_data.contents, function (i, item) {
+                console.log("Got item " + (i % 3), item);
+
+                // Use the empty item for empty items.  ;)
+                if (item === null) {
+                  item = emptyItem;
+                }
+
+                /* render each cell into the current row. */
+                $row.append($("#templates .app_cell").render({
+                  app_link: function () {
+                    $(this).attr('title', item.title);
+                    $(this).attr('href', item.url);
                   },
-                  line_link: function () {
-                    $(this).attr('href', item.link);
-                  }
-                })
-              );
-            });
-          }
-        })
-        .addClass("app_" + app_data.size)
-        .appendTo(this.$els.app_group);
+                  app_thumbnail: function () {
+                    $(this).attr('style', 'background-image: url(&quot;' + item.img + '&quot;);');
+                  },
+                  app_title: item.title
+                }));
+
+                // If we've got three cells, append the current row, and start a new one.
+                if (i % 3 === 2) {
+                  $(container).append($row);
+                  $row = $("#templates .app_row").render({});
+                }
+
+              });
+            }
+          });
+        }
+        else {
+          /* create div for app */
+          $el = $("#templates .app_wrapper").render({
+            app_title: app_data.id,
+            app_container: function (container) {
+              $.each(app_data.contents, function (i, item) {
+                if (item === null) {
+                  return;
+                }
+                /* render each line */
+                $(container).append(
+                  $("#templates .app_line").render({
+                    line_bigtext: truncate_text(item.title, max_text_len),
+                    line_smalltext: item.subtitle,
+                    line_img: function () {
+                      $(this).attr('src', item.image);
+                    },
+                    line_link: function () {
+                      $(this).attr('href', item.link);
+                    }
+                  })
+                );
+              });
+            }
+          });
+        }
+
+        $el.addClass("app_" + app_data.size)
+          .appendTo(this.$els.app_group);
         /* get data to load into the app */
       }.bind(this));
 
