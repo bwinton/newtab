@@ -42,8 +42,7 @@ globalstrict:true, nomen:false, newcap:true */
     /* listen for the apps_layout event */
     window.addEventListener('message', function (event) {
       var data = event.data;
-      console.log('data: ');
-      console.log(data);
+      console.log('BW - data: ', data);
       if (data.type === 'apps') {
         this.submods.slider = new Slider(this, data.data);
       }

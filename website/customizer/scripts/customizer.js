@@ -20,16 +20,16 @@
     /* scroll left or right */
 
     $(document).on('keydown',function(e){
-      $div = $("#slider_container");
+      var $div = $("#slider_container");
       switch(e.keyCode){
-        case(39): /* right */
-          $div.scrollTo("+=480px", "easeOutElastic");
-          console.log("right");
-          break;
-        case(37): /* left */
-          console.log("left");
-          $div.scrollTo("-=480px", "easeOutElastic");
-          break;
+      case(39): /* right */
+        $div.scrollTo("+=480px", "easeOutElastic");
+        console.log("right");
+        break;
+      case(37): /* left */
+        console.log("left");
+        $div.scrollTo("-=480px", "easeOutElastic");
+        break;
       }
     }.bind(this));
 
@@ -102,7 +102,8 @@
   Customizer.prototype = {
     init: function(apps_data){
       /* populate apps list */
-      $.each(apps_data, function(i, app_data){
+      $.each(apps_data, function(id, app_data){
+        app_data.id = id;
         this.create_app(app_data);
       }.bind(this));
 
@@ -147,10 +148,7 @@
       this.remove_app_from_active_apps(app);
       this.optimize_array();
       this.render_panels();
-      if(keep_size){
-        
-      }
-      else{
+      if(!keep_size){
         app.set_not_active();
         app.show_banner();
       }
@@ -222,9 +220,6 @@
 
         $app_group.append($app_container);
 
-        if(app.active){
-        }
-
         /* tell the app if its on the edge of the panel */
         app.on_left_side_of_panel = (i === 0);
         app.on_right_side_of_panel = (i === args.length-1);
@@ -256,31 +251,28 @@
           }.bind(this))
           .on('dragstart', function(e){
             console.log("dragstart");
-             app.set_active();
+            app.set_active();
 
-             e.originalEvent.dataTransfer.setData('Text', app.id);
-             $app_container.addClass('app_being_dragged');
-             this.data.dragging_app = app;
-          }.bind(this))
-          .on('dragend', function(e){
-             console.log("dragend");
+            e.originalEvent.dataTransfer.setData('Text', app.id);
+            $app_container.addClass('app_being_dragged');
+            this.data.dragging_app = app;
+          }.bind(this)).on('dragend', function(e){
+            console.log("dragend");
 
-             $app_container.removeClass('app_being_dragged');
-             $(e.target).removeClass('drag_over');
+            $app_container.removeClass('app_being_dragged');
+            $(e.target).removeClass('drag_over');
 
-             delete this.data.dragging_app;
-          }.bind(this))
-          .on('dragover', function(e){
+            delete this.data.dragging_app;
+          }.bind(this)).on('dragover', function(e){
             e.preventDefault();
             console.log("dragover");
 
             return false;
-          }.bind(this))
-          .on('dragenter', function(e){
+          }.bind(this)).on('dragenter', function(e){
             console.log("dragenter");
             
             /* make sure that we are dragging a panel (not something like a drag handle) */
-            if(e.originalEvent.dataTransfer.getData('Text').indexOf('file://') > -1) return;;
+            if(e.originalEvent.dataTransfer.getData('Text').indexOf('file://') > -1) return;
 
             /* make sure that we're dragging ono a different panel */
             if(e.target === this.data.dragging_app.$app_container.get(0)) return false;
@@ -289,24 +281,22 @@
             $(e.target).closest('.app_container').addClass('drag_over');
 
             return false;
-          }.bind(this))
-          .on('dragleave', function(e){
+          }.bind(this)).on('dragleave', function(e){
             console.log("dragleave");
 
             $(e.target).closest('.app_container').removeClass('drag_over');
 
             return false;
-          }.bind(this))
-          .on('drop', function(e){
+          }.bind(this)).on('drop', function(e){
             e.preventDefault();
             
             var source_app = this.data.dragging_app;
             if(!source_app) return;
 
 
-            $target = $(e.target);
+            var $target = $(e.target);
 
-            $(e.target).closest('.app_container').removeClass('drag_over');
+            $target.closest('.app_container').removeClass('drag_over');
             
             var destination_app_id = $target.closest('.app_container').data('app_id');
             var destination_app;
@@ -370,7 +360,7 @@
         });
         $.each(panel.apps, function(i, app){
           if(app.fixed_size) return;
-          var amount_to_add = Math.ceil(extra_room/flexable_apps)
+          var amount_to_add = Math.ceil(extra_room/flexable_apps);
           app.size += amount_to_add;
           extra_room -= amount_to_add;
         });
@@ -598,45 +588,45 @@
 
       var resize_buttons = $active_app_content.find('.resize_buttons button');
       resize_buttons.on('click',function(e){
-          var $target = $(e.target);
-          var size;
-          switch(true){
-            case($target.hasClass('resize_small')):
-              size = 2;
-              break;
-            case($target.hasClass('resize_medium')):
-              size = 3;
-              break;
-            case($target.hasClass('resize_large')):
-              size = 4;
-              break;
-            case($target.hasClass('resize_extra_large')):
-              size = 6;
-              break;
-            case($target.hasClass('resize_fluid')):
-              size = -1;
-              break;
-          }
-          this.parent.resize_app(this, size);
-        }.bind(this));
+        var $target = $(e.target);
+        var size;
+        switch(true){
+        case($target.hasClass('resize_small')):
+          size = 2;
+          break;
+        case($target.hasClass('resize_medium')):
+          size = 3;
+          break;
+        case($target.hasClass('resize_large')):
+          size = 4;
+          break;
+        case($target.hasClass('resize_extra_large')):
+          size = 6;
+          break;
+        case($target.hasClass('resize_fluid')):
+          size = -1;
+          break;
+        }
+        this.parent.resize_app(this, size);
+      }.bind(this));
 
-      function set_correct_size_to_active(){
+      function set_correct_size_to_active() {
         var button;
         if(!this.fixed_size) button = $active_app_content.find('.resize_fluid');
         else{
           switch(this.size){
-            case(2):
-              button = $active_app_content.find('.resize_small');
-              break;
-            case(3):
-              button = $active_app_content.find('.resize_medium');
-              break;
-            case(4):
-              button = $active_app_content.find('.resize_large');
-              break;
-            case(6):
-              button = $active_app_content.find('.resize_extra_large');
-              break;
+          case(2):
+            button = $active_app_content.find('.resize_small');
+            break;
+          case(3):
+            button = $active_app_content.find('.resize_medium');
+            break;
+          case(4):
+            button = $active_app_content.find('.resize_large');
+            break;
+          case(6):
+            button = $active_app_content.find('.resize_extra_large');
+            break;
           }
         }
         button.addClass('active');
@@ -671,12 +661,12 @@
     resize: function(delta_x){
       // alert("delta: "+delta_x);
       switch(true){
-        case(delta_x>0):
-          this.parent.resize_app(this, 6);
-          break;
-        case(delta_x<0):
-          this.parent.resize_app(this, 2);
-          break;
+      case(delta_x>0):
+        this.parent.resize_app(this, 6);
+        break;
+      case(delta_x<0):
+        this.parent.resize_app(this, 2);
+        break;
       }
     },
 
@@ -723,23 +713,20 @@
     document.dispatchEvent(event);
   }
 
-  var available_apps =
-  [
-    {id: "recently_closed", name: "Recently Closed", desc: "A list of tabs that you've recently closed.", icon: "../4/newtab_apps/Recently_Closed/logo.png" },
-    {id: "recently_bookmarked", name: "Bookmarks", desc: "Web pages you've recently bookmarked.", icon: "../4/newtab_apps/Recently_Bookmarked/logo.png" },
-    // {id: "read_it_later", name: "Read It Later", desc: "Pages that you've saved for later review.", icon: "" },
-    {id: "downloads", name: "Downloads", min_size: 4, desc: "Files that you've recently downloaded from the web.", icon: "../4/newtab_apps/Downloads/logo.png" },
-    {id: "top_sites", name: "Top Sites", min_size: 6, desc: "The sites that you are most likely to want to return to.", icon: "../4/newtab_apps/TopSites/logo.png" }
-  ];
-
-
+  var available_apps = {
+    "recently_closed": {name: "Recently Closed", desc: "A list of tabs that you've recently closed.", icon: "../4/newtab_apps/Recently_Closed/logo.png" },
+    "recently_bookmarked": {name: "Bookmarks", desc: "Web pages you've recently bookmarked.", icon: "../4/newtab_apps/Recently_Bookmarked/logo.png" },
+    // "read_it_later": {name: "Read It Later", desc: "Pages that you've saved for later review.", icon: "" },
+    "downloads": {name: "Downloads", min_size: 4, desc: "Files that you've recently downloaded from the web.", icon: "../4/newtab_apps/Downloads/logo.png" },
+    "top_sites": {name: "Top Sites", min_size: 6, desc: "The sites that you are most likely to want to return to.", icon: "../4/newtab_apps/TopSites/logo.png" }
+  };
 
   /* run */
   $(function(){
     window.addEventListener('message', function(event){
       var data = event.data;
       if (data.type === 'available_apps') {
-        new Customizer(data.data);    
+        new Customizer(data.data);
       }
     });
     
