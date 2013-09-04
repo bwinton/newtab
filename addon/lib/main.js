@@ -55,27 +55,6 @@ var emitter_maker = function (worker) {
 /*
 HELPERS
  */
-/* gets the apps layout data from storage
-   then gets the data for each app anc combines
-   the the two to be sent to the front end */
-function get_apps_data() {
-  var deferred = defer();
-  var promises = [];
-  var layout = storage.apps_layout || [];
-  layout.forEach(function (page) {
-    page.forEach(function (app) {
-      [app.valid, app.contents] = query_app(app.id);
-      promises.push(app.contents);
-      app.contents.then(function (result) {
-        app.contents = result;
-      });
-    });
-  });
-  all(promises).then(function (result) {
-    deferred.resolve(layout);
-  });
-  return deferred.promise;
-}
 
 /* gets the directory of the addon */
 function pwd() {
@@ -88,12 +67,12 @@ function pwd() {
 /* returns a lits of all available apps for use
 in the customizer */
 function get_available_apps() {
-  let apps = [];
+  let apps = {};
   let apps_dir = pwd() + '/data/apps';
   file.list(apps_dir).forEach(function (app_id) {
     let json_path = file.join(apps_dir, app_id, 'settings.json');
     let app = JSON.parse(file.read(json_path));
-    apps.push(app);
+    apps[app_id] = app;
   });
   return apps;
 }
@@ -102,6 +81,60 @@ function send_available_apps(worker) {
   let apps = get_available_apps();
   let emit = emitter_maker(worker);
   emit('available_apps', apps);
+}
+
+/* this takes in a JSON object representing the layout
+   of the apps on the newtab page and stores it as a js
+   object using simplestorage */
+var set_layout = function (json) {
+  timeStamp("Setting layout!!!");
+  var data = JSON.parse(json);
+  let apps = get_available_apps();
+  var layout = [];
+  data.forEach(function (data_page) {
+    var page = [];
+    data_page.forEach(function (data_app) {
+      page.push({
+        'id': data_app.id,
+        'size': data_app.size
+      });
+    });
+    layout.push(page);
+  });
+  storage.apps_layout = layout;
+};
+
+/* this gets the data that is stored in simplestorage
+   that describes how the newtab apps should be layed out */
+var get_layout = function () {
+  var layout = storage.apps_layout || [];
+  layout = JSON.parse(JSON.stringify(layout));
+  return layout;
+};
+
+/* gets the apps layout data from storage
+   then gets the data for each app anc combines
+   the the two to be sent to the front end */
+function get_apps_data() {
+  var deferred = defer();
+  var promises = [];
+  var layout = get_layout();
+  var available_apps = get_available_apps();
+  layout.forEach(function (page) {
+    page.forEach(function (app) {
+      var app_data = available_apps[app.id];
+      for (var attrname in app_data) { app[attrname] = app_data[attrname]; }
+      [app.valid, app.contents] = query_app(app.id);
+      promises.push(app.contents);
+      app.contents.then(function (result) {
+        app.contents = result;
+      });
+    });
+  });
+  all(promises).then(function (result) {
+    deferred.resolve(layout);
+  });
+  return deferred.promise;
 }
 
 /* determines if this is being run with
@@ -206,22 +239,6 @@ if (isFirefox) {
       }
       timeStamp("SyncTabs Emitted " + type);
     });
-  };
-
-  /* this takes in a JSON object representing the layout
-     of the apps on the newtab page and stores it as a js
-     object using simplestorage */
-  var set_layout = function (json) {
-    timeStamp("Setting layout!!!");
-    var data = JSON.parse(json);
-    storage.apps_layout = data;
-  };
-
-  /* this gets the data that is stored in simplestorage
-     that describes how the newtab apps should be layed out */
-  var get_layout = function () {
-    timeStamp("Getting layout!!!");
-    return storage.apps_layout;
   };
 
   var workerFunction = function (worker) {
