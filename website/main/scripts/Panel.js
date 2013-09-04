@@ -64,7 +64,7 @@ globalstrict:true, nomen:false, newcap:true */
           break;
         }
         var $el;
-        if (app_data.id === 'tiles') {
+        if (app_data.type === 'thumbnail') {
           var $row = $("#templates .app_row").render({});
           var emptyItem = {
             title: "",
@@ -89,7 +89,7 @@ globalstrict:true, nomen:false, newcap:true */
                     $(this).attr('href', item.url);
                   },
                   app_thumbnail: function () {
-                    $(this).attr('style', 'background-image: url(&quot;' + item.img + '&quot;);');
+                    $(this).attr('style', 'background-image: url("' + item.img + '");');
                   },
                   app_title: item.title
                 }));
