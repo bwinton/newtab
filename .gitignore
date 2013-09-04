@@ -5,3 +5,4 @@ newtab.update.rdf
 profile.*
 grunt-settings.json
 id_rsa
+www-built/*
